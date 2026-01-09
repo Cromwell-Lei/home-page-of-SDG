@@ -1001,7 +1001,7 @@
       </nav>
 
       <div class="nav-cta">
-        <a class="btn btn-ghost" href="#" data-i18n="navSignIn">Sign in</a>
+        <a class="btn btn-ghost" href="login.html" id="nav-signin-btn" data-i18n="navSignIn">Sign in</a>
         <!-- Mobile menu button -->
         <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobilePanel" data-i18n="navMenu">
           ☰ Menu
@@ -1022,7 +1022,7 @@
       <a href="#use-cases" data-i18n="navUseCases">Use Cases</a>
       <a href="#how" data-i18n="navHowItWorks">Principle</a>
       <a href="about-us.html" target="_blank" data-i18n="navAboutUs">About us</a>
-      <a href="#" data-i18n="navSignIn">Sign in</a>
+      <a href="login.html" id="mobile-signin-btn" data-i18n="navSignIn">Sign in</a>
       <a href="#demo" data-i18n="navRequestDemo">Request a Demo</a>
     </div>
   </header>
@@ -2506,6 +2506,72 @@
       observer.observe(el);
     });
   </script>
+  <!-- Login State Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Check LocalStorage (Fast UI Update)
+      const userUi = localStorage.getItem('user_ui');
+      if (userUi) {
+        try {
+          const u = JSON.parse(userUi);
+          updateNavAuth(u.username);
+        } catch (e) { console.error('Error parsing local user', e); }
+      }
+
+      // 2. Check Backend (Security & Consistency)
+      try {
+        const res = await fetch('http://localhost:8080/api/auth/me', {
+          credentials: 'include'
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.username) {
+            updateNavAuth(data.username);
+            // Sync local
+            localStorage.setItem('user_ui', JSON.stringify({ username: data.username }));
+          }
+        } else {
+          // If backend says not logged in, clear local (unless on file:// where cookie fails?)
+          // Actually, if Cookie fails on file://, we rely on the localStorage set during login.
+          // So DO NOT clear localStorage here automatically if fetch fails, 
+          // unless we are sure it's a real logout. 
+          // But for now, let's keep it persistent.
+        }
+      } catch (e) {
+        console.error('Error checking auth status', e);
+      }
+
+      function updateNavAuth(username) {
+        const desktopBtn = document.getElementById('nav-signin-btn');
+        const mobileBtn = document.getElementById('mobile-signin-btn');
+
+        const setupLogout = (btn) => {
+          btn.textContent = username;
+          btn.href = '#';
+          btn.classList.remove('btn-ghost');
+          btn.classList.add('btn-primary');
+
+          // Logout Handler
+          btn.onclick = async (e) => {
+            e.preventDefault();
+            if (confirm("Log out?")) {
+              // Clear Local
+              localStorage.removeItem('user_ui');
+              // Clear Cookie
+              try {
+                await fetch('http://localhost:8080/api/auth/logout', { method: 'POST', credentials: 'include' });
+              } catch (err) { console.error(err); }
+              window.location.reload();
+            }
+          };
+        };
+
+        if (desktopBtn) setupLogout(desktopBtn);
+        if (mobileBtn) setupLogout(mobileBtn);
+      }
+    });
+  </script>
 </body>
 
-</html>
+```

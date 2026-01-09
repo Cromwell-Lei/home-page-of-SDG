@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title data-i18n="loginTitle">SDG - Sign In</title>
+
+    <link rel="icon" href="images/favicon.png" />
+
+    <!-- JSEncrypt for RSA encryption -->
+    <script src="js/jsencrypt.min.js"></script>
+
+    <!-- Reusing styles from index.html -->
+    <style>
+        /* -------------------------
+      0) CSS Reset (minimal)
+      ------------------------- */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            color: #0b1220;
+            background: #ffffff;
+            height: 100%;
+            display: flex;
+        }
+
+        /* -------------------------
+       Tokens (Copied from index.html)
+       ------------------------- */
+        :root {
+            --bg: #ffffff;
+            --surface: #f7f8fb;
+            --surface-2: #eef1f7;
+            --text: #0b1220;
+            --muted: #5b6477;
+            --border: rgba(13, 20, 33, 0.10);
+
+            --primary: #2a5cff;
+            --primary-2: #2dd4bf;
+            --danger: #ff3b30;
+
+            --shadow: 0 10px 30px rgba(16, 24, 40, 0.10);
+            --radius: 18px;
+            --pad: 24px;
+        }
+
+        /* -------------------------
+       Layout: Split Screen
+       ------------------------- */
+        .split-layout {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(42, 92, 255, 0.05) 0%, rgba(45, 212, 191, 0.08) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-panel-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(600px 600px at 0% 0%, rgba(42, 92, 255, 0.1), transparent 60%),
+                radial-gradient(500px 500px at 100% 100%, rgba(45, 212, 191, 0.1), transparent 50%);
+            pointer-events: none;
+        }
+
+        .brand-large {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: radial-gradient(circle at 30% 20%, var(--primary-2), var(--primary));
+            box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08);
+        }
+
+        .left-panel p {
+            color: var(--muted);
+            font-size: 18px;
+            max-width: 400px;
+            text-align: center;
+            line-height: 1.6;
+            z-index: 10;
+        }
+
+        .right-panel {
+            flex: 1;
+            /* Slightly wider */
+            max-width: 600px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .left-panel {
+                display: none;
+            }
+
+            .right-panel {
+                max-width: 100%;
+            }
+        }
+
+        /* -------------------------
+       Auth Card & Form
+       ------------------------- */
+        .auth-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--surface-2);
+        }
+
+        .tab {
+            padding-bottom: 12px;
+            font-weight: 700;
+            color: var(--muted);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--muted);
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s;
+            background: var(--surface);
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(42, 92, 255, 0.08);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            border-radius: 999px;
+            border: none;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(42, 92, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(42, 92, 255, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .link {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: none;
+            background: rgba(255, 59, 48, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="split-layout">
+        <!-- Left Panel: Brand -->
+        <div class="left-panel">
+            <div class="left-panel-bg"></div>
+            <div class="brand-large">
+                <div class="logo"></div>
+                <span>ChuChiang Data</span>
+            </div>
+            <p>Enterprise-grade synthetic data solutions for privacy-safe analytics and AI.</p>
+        </div>
+
+        <!-- Right Panel: Form -->
+        <div class="right-panel">
+            <div class="auth-container">
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('signin')">Sign In</div>
+                    <div class="tab" onclick="switchTab('signup')">Sign Up</div>
+                </div>
+
+                <!-- Login Form -->
+                <div id="login-form">
+                    <h1>Welcome Back</h1>
+                    <p class="subtitle">Enter your credentials to access your account.</p>
+
+                    <div class="error-msg" id="login-error"></div>
+
+                    <form onsubmit="handleLogin(event)" novalidate>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="login-email" required placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="login-password" required placeholder="Enter password">
+                        </div>
+                        <button type="submit" class="btn-primary" id="login-btn">Sign In</button>
+                    </form>
+                </div>
+
+                <!-- Register Flow -->
+                <div id="register-flow" class="hidden">
+
+                    <!-- Step 1: Email -->
+                    <div id="reg-step-1">
+                        <h1>Get Started</h1>
+                        <p class="subtitle">Enter your email to verify your identity.</p>
+
+                        <div class="error-msg" id="reg-error-1"></div>
+
+                        <form onsubmit="handleRegisterStep1(event)" novalidate>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="reg-email" required placeholder="name@company.com">
+                            </div>
+                            <button type="submit" class="btn-primary" id="reg-btn-1">Send Code</button>
+                        </form>
+                    </div>
+
+                    <!-- Step 2: Verify Code -->
+                    <div id="reg-step-2" class="hidden">
+                        <h1>Verify Email</h1>
+                        <p class="subtitle">
+                            Enter the 6-digit code sent to <strong id="verify-email-display"></strong>.
+                        </p>
+
+                        <div class="error-msg" id="reg-error-2"></div>
+
+                        <form onsubmit="handleRegisterStep2(event)">
+                            <div class="form-group">
+                                <label>Verification Code</label>
+                                <input type="text" id="reg-code" required placeholder="" maxlength="6"
+                                    style="letter-spacing: 4px; font-size: 18px; text-align: center;">
+                            </div>
+                            <button type="submit" class="btn-primary" id="reg-btn-2">Verify Code</button>
+                            <div style="text-align: center; margin-top: 16px;">
+                                <span class="link" onclick="backToStep1()">Change Email</span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Step 3: Account Details -->
+                    <div id="reg-step-3" class="hidden">
+                        <h1>Finalize Account</h1>
+                        <p class="subtitle">Set up your username and password.</p>
+
+                        <div class="error-msg" id="reg-error-3"></div>
+
+                        <form onsubmit="handleRegisterStep3(event)">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" id="reg-username" required placeholder="Choose a username">
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" id="reg-password" required
+                                    placeholder="Create a strong password">
+                            </div>
+                            <button type="submit" class="btn-primary" id="reg-btn-3">Create Account</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api/auth';
+        let publicKey = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const res = await fetch(`${API_BASE}/public-key`);
+                if (res.ok) {
+                    const data = await res.json();
+                    publicKey = data.publicKey;
+                    localStorage.setItem('rsa_public_key', publicKey);
+                    console.log('Public Key loaded');
+                } else {
+                    console.error('Failed to load public key');
+                }
+            } catch (e) {
+                console.error('API not reachable', e);
+            }
+        });
+
+        // Encrypt Helper
+        function encrypt(text) {
+            if (!publicKey) publicKey = localStorage.getItem('rsa_public_key');
+            if (!publicKey) {
+                alert("Security Error: Public Key not missing. Is backend running?");
+                return null;
+            }
+            const encryptor = new JSEncrypt();
+            encryptor.setPublicKey(publicKey);
+            return encryptor.encrypt(text);
+        }
+
+        // UI Switching
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            if (tab === 'signin') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('login-form').classList.remove('hidden');
+                document.getElementById('register-flow').classList.add('hidden');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('register-flow').classList.remove('hidden');
+                backToStep1(); // Reset reg flow
+            }
+            clearErrors();
+        }
+
+        function backToStep1() {
+            document.getElementById('reg-step-1').classList.remove('hidden');
+            document.getElementById('reg-step-2').classList.add('hidden');
+            document.getElementById('reg-step-3').classList.add('hidden');
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.error-msg').forEach(el => {
+                el.style.display = 'none';
+                el.innerText = '';
+            });
+        }
+
+        function showError(elementId, msg) {
+            const el = document.getElementById(elementId);
+            el.innerText = msg;
+            el.style.display = 'block';
+        }
+
+        // Handlers
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('login-btn');
+            const email = document.getElementById('login-email').value;
+            const passwordPlain = document.getElementById('login-password').value;
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError('login-error', 'Please enter a correct email address');
+                return;
+            }
+
+            const passwordEncrypted = encrypt(passwordPlain);
+            if (!passwordEncrypted) return;
+
+            setLoading(btn, true);
+
+            try {
+                const res = await fetch(`${API_BASE}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password: passwordEncrypted }),
+                    credentials: 'include' // Important for Cookies
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    // Login Success (Cookie set by backend)
+                    // Hybrid: Store username in localStorage for instant UI feedback on file://
+                    if (data.username) {
+                        localStorage.setItem('user_ui', JSON.stringify({ username: data.username }));
+                    }
+                    window.location.href = 'index.html';
+                } else {
+                    const msg = await getErrorMsg(res);
+                    showError('login-error', msg);
+                }
+            } catch (err) {
+                showError('login-error', 'Network error. Please ensure backend is running.');
+            } finally {
+                setLoading(btn, false);
+            }
+        }
+
+        // State for Registration
+        let regEmail = '';
+        let regCodePlain = ''; // Temporarily store for final submission, or re-verify? 
+        // Actually best to re-encrypt and send in Step 3? Yes.
+
+        // Step 1: Send Code
+        async function handleRegisterStep1(e) {
+            e.preventDefault();
+            const btn = document.getElementById('reg-btn-1');
+            const email = document.getElementById('reg-email').value;
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError('reg-error-1', 'Please enter a correct email address');
+                return;
+            }
+
+            setLoading(btn, true);
+
+            try {
+                // Modified DTO: { email: "..." }
+                const res = await fetch(`${API_BASE}/send-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                if (res.ok) {
+                    regEmail = email;
+                    document.getElementById('verify-email-display').innerText = email;
+
+                    document.getElementById('reg-step-1').classList.add('hidden');
+                    document.getElementById('reg-step-2').classList.remove('hidden');
+                } else {
+                    const msg = await getErrorMsg(res);
+                    showError('reg-error-1', msg);
+                }
+            } catch (err) {
+                showError('reg-error-1', 'Network error. Please try again.');
+            } finally {
+                setLoading(btn, false);
+            }
+        }
+
+        // Step 2: Validate Code
+        async function handleRegisterStep2(e) {
+            e.preventDefault();
+            const btn = document.getElementById('reg-btn-2');
+            const code = document.getElementById('reg-code').value;
+
+            const codeEncrypted = encrypt(code);
+            if (!codeEncrypted) return;
+
+            setLoading(btn, true);
+
+            try {
+                // New Endpoint: /validate-code
+                const res = await fetch(`${API_BASE}/validate-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: regEmail, code: codeEncrypted })
+                });
+
+                if (res.ok) {
+                    regCodePlain = code; // Store for Step 3
+                    document.getElementById('reg-step-2').classList.add('hidden');
+                    document.getElementById('reg-step-3').classList.remove('hidden');
+                } else {
+                    const msg = await getErrorMsg(res);
+                    showError('reg-error-2', msg);
+                }
+            } catch (err) {
+                showError('reg-error-2', 'Network error');
+            } finally {
+                setLoading(btn, false);
+            }
+        }
+
+        // Step 3: Final Register
+        async function handleRegisterStep3(e) {
+            e.preventDefault();
+            const btn = document.getElementById('reg-btn-3');
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
+
+            // Encrypt sensitive data
+            const codeEncrypted = encrypt(regCodePlain);
+            const passwordEncrypted = encrypt(password);
+
+            if (!codeEncrypted || !passwordEncrypted) return;
+
+            setLoading(btn, true);
+
+            try {
+                // Endpoint: /register (previously /verify-register, modified payload)
+                const res = await fetch(`${API_BASE}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: regEmail,
+                        code: codeEncrypted,
+                        username: username,
+                        password: passwordEncrypted
+                    })
+                });
+
+                if (res.ok) {
+                    alert('Registration successful! Please sign in.');
+                    window.location.reload(); // Refresh to reset state and show login
+                } else {
+                    const msg = await getErrorMsg(res);
+                    showError('reg-error-3', msg);
+                }
+            } catch (err) {
+                showError('reg-error-3', 'Network error');
+            } finally {
+                setLoading(btn, false);
+            }
+        }
+
+        async function getErrorMsg(res) {
+            try {
+                const text = await res.text();
+                // Try parsing JSON if it looks like one
+                if (text.startsWith('{')) {
+                    const json = JSON.parse(text);
+                    return json.message || text;
+                }
+                return text;
+            } catch (e) {
+                return "Request failed";
+            }
+        }
+
+        function setLoading(btn, isLoading) {
+            if (isLoading) {
+                btn.dataset.originalText = btn.innerText;
+                btn.innerText = 'Processing...';
+                btn.disabled = true;
+            } else {
+                btn.innerText = btn.dataset.originalText;
+                btn.disabled = false;
+            }
+        }
+
+    </script>
+</body>
+
+</html>
