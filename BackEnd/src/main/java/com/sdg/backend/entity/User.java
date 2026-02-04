@@ -64,6 +64,17 @@ public class User {
     @Column(nullable = false)
     private boolean enabled = false;
 
+    @Column(nullable = false)
+    private String role = "ROLE_USER";
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }

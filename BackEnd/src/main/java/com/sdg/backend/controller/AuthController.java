@@ -15,10 +15,12 @@ public class AuthController {
 
     private final UserService userService;
     private final RsaKeyService rsaKeyService;
+    private final com.sdg.backend.util.JwtUtil jwtUtil;
 
-    public AuthController(UserService userService, RsaKeyService rsaKeyService) {
+    public AuthController(UserService userService, RsaKeyService rsaKeyService, com.sdg.backend.util.JwtUtil jwtUtil) {
         this.userService = userService;
         this.rsaKeyService = rsaKeyService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/public-key")
@@ -62,10 +64,15 @@ public class AuthController {
         try {
             User user = userService.login(request);
 
-            // Set Cookie
-            jakarta.servlet.http.Cookie cookie = new jakarta.servlet.http.Cookie("user", user.getUsername());
+            // Generate JWT
+            String token = jwtUtil.generateToken(user.getUsername());
+
+            // Set HttpOnly Cookie with JWT
+            jakarta.servlet.http.Cookie cookie = new jakarta.servlet.http.Cookie("token", token);
+            cookie.setHttpOnly(true);
             cookie.setPath("/");
             cookie.setMaxAge(24 * 60 * 60); // 1 day
+            // cookie.setSecure(true); // Should be true in production with HTTPS
             response.addCookie(cookie);
 
             return ResponseEntity.ok(Map.of("message", "Login successful", "username", user.getUsername()));
@@ -76,16 +83,29 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(jakarta.servlet.http.HttpServletResponse response) {
-        jakarta.servlet.http.Cookie cookie = new jakarta.servlet.http.Cookie("user", null);
+        jakarta.servlet.http.Cookie cookie = new jakarta.servlet.http.Cookie("token", null);
         cookie.setPath("/");
+        cookie.setHttpOnly(true);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
         return ResponseEntity.ok("Logged out");
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> me(@CookieValue(value = "user", required = false) String username) {
-        if (username != null && !username.isEmpty()) {
+    public ResponseEntity<?> me() {
+        org.springframework.security.core.Authentication authentication = org.springframework.security.core.context.SecurityContextHolder
+                .getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()
+                && !("anonymousUser".equals(authentication.getPrincipal()))) {
+            // Principal is likely UserDetails or username string depending on how it was
+            // set
+            Object principal = authentication.getPrincipal();
+            String username;
+            if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
+                username = ((org.springframework.security.core.userdetails.UserDetails) principal).getUsername();
+            } else {
+                username = principal.toString();
+            }
             return ResponseEntity.ok(Map.of("username", username));
         }
         return ResponseEntity.status(401).body("Not logged in");

@@ -13,6 +13,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -23,10 +29,14 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) // For development simplicity
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
+                .sessionManagement(session -> session.sessionCreationPolicy(
+                        org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // Allow auth endpoints
                         .anyRequest().authenticated() // Secure other endpoints
-                );
+                )
+                .addFilterBefore(jwtAuthenticationFilter,
+                        org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
