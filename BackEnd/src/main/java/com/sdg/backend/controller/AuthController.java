@@ -72,10 +72,38 @@ public class AuthController {
             cookie.setHttpOnly(true);
             cookie.setPath("/");
             cookie.setMaxAge(24 * 60 * 60); // 1 day
+            cookie.setAttribute("SameSite", "Lax");
             // cookie.setSecure(true); // Should be true in production with HTTPS
             response.addCookie(cookie);
 
             return ResponseEntity.ok(Map.of("message", "Login successful", "username", user.getUsername()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(401).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/admin-login")
+    public ResponseEntity<?> adminLogin(@RequestBody AuthDtos.LoginRequest request,
+            jakarta.servlet.http.HttpServletResponse response) {
+        try {
+            User user = userService.adminLogin(request);
+
+            // Generate JWT
+            String token = jwtUtil.generateToken(user.getUsername());
+
+            // Set HttpOnly Cookie with JWT
+            jakarta.servlet.http.Cookie cookie = new jakarta.servlet.http.Cookie("token", token);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(24 * 60 * 60); // 1 day
+            cookie.setAttribute("SameSite", "Lax");
+            // cookie.setSecure(true); // Should be true in production with HTTPS
+            response.addCookie(cookie);
+
+            return ResponseEntity.ok(Map.of(
+                    "message", "Admin Login successful",
+                    "username", user.getUsername(),
+                    "token", token));
         } catch (RuntimeException e) {
             return ResponseEntity.status(401).body(e.getMessage());
         }

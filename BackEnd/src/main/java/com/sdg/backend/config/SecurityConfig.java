@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -33,6 +34,7 @@ public class SecurityConfig {
                         org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // Allow auth endpoints
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // Require ADMIN role for admin endpoints
                         .anyRequest().authenticated() // Secure other endpoints
                 )
                 .addFilterBefore(jwtAuthenticationFilter,
