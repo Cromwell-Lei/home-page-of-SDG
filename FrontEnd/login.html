@@ -8,6 +8,9 @@
 
     <link rel="icon" href="images/favicon.png" />
 
+    <!-- Config file -->
+    <script src="config.js"></script>
+
     <!-- JSEncrypt for RSA encryption -->
     <script src="js/jsencrypt.min.js"></script>
 
@@ -377,7 +380,7 @@
     </div>
 
     <script>
-        const API_BASE = 'http://localhost:8080/api/auth';
+        const API_BASE = window.AppConfig.API_AUTH_BASE;
         let publicKey = null;
 
         // Initialize

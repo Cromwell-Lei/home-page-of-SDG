@@ -16,6 +16,9 @@
   <meta name="description" content="Enterprise-grade synthetic data solutions for privacy-safe analytics and AI."
     data-i18n="pageDescription" />
 
+  <!-- Config file -->
+  <script src="config.js"></script>
+
   <!--
     ===========================================================
     STYLE SECTION
@@ -2520,7 +2523,7 @@
 
       // 2. Check Backend (Security & Consistency)
       try {
-        const res = await fetch('http://localhost:8080/api/auth/me', {
+        const res = await fetch(`${window.AppConfig.API_AUTH_BASE}/me`, {
           credentials: 'include'
         });
 
@@ -2560,7 +2563,7 @@
               localStorage.removeItem('user_ui');
               // Clear Cookie
               try {
-                await fetch('http://localhost:8080/api/auth/logout', { method: 'POST', credentials: 'include' });
+                await fetch(`${window.AppConfig.API_AUTH_BASE}/logout`, { method: 'POST', credentials: 'include' });
               } catch (err) { console.error(err); }
               window.location.reload();
             }
