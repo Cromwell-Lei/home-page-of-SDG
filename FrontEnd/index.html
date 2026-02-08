@@ -979,6 +979,65 @@
         height: 4px;
       }
     }
+
+    /* -------------------------
+       13) Cleanup Logo Wall (Partners)
+       ------------------------- */
+    .logo-wall.logo-wall-clean {
+      display: flex;
+      /* 覆盖 grid */
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      padding: 0 10%;
+      /* 增加左右内边距，让整体更聚拢 */
+      gap: 40px 5%;
+      /* 上下间距40px，左右间距5% */
+    }
+
+    .logo-wall.logo-wall-clean .logo-tile {
+      /* 关键修改: flex: 0 0 28% 确保一行放不下4个，只能放3个 */
+      flex: 0 0 28%;
+
+      border: none;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      /* 增加高级感：默认半透明+灰度，悬停全彩 */
+      opacity: 0.5;
+      filter: grayscale(100%);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+      /* 确保内容居中 */
+      display: flex;
+      justify-content: center;
+    }
+
+    .logo-wall.logo-wall-clean .logo-tile:hover {
+      opacity: 1;
+      filter: grayscale(0%);
+      transform: translateY(-4px);
+      /* 轻微上浮 */
+    }
+
+    /* 保证图片清晰 */
+    .logo-wall.logo-wall-clean .logo-tile img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* 响应式适配 */
+    @media (max-width: 768px) {
+      .logo-wall.logo-wall-clean {
+        padding: 0;
+      }
+
+      .logo-wall.logo-wall-clean .logo-tile {
+        flex: 0 0 45%;
+        /* 一行2个 */
+      }
+    }
   </style>
 </head>
 
@@ -1013,8 +1072,8 @@
         <a class="btn btn-primary" href="#demo" data-i18n="navRequestDemo">Request a Demo</a>
         <!-- Language switcher -->
         <div class="language-switcher">
-          <button id="langEn" class="btn btn-ghost active" data-lang="en">EN</button>
-          <button id="langZh" class="btn btn-ghost" data-lang="zh">中文</button>
+          <button id="langEn" class="btn btn-ghost " data-lang="en">EN</button>
+          <button id="langZh" class="btn btn-ghost active" data-lang="zh">中文</button>
         </div>
       </div>
     </div>
@@ -1145,12 +1204,8 @@
         </div>
       </div>
 
-      <div class="logo-wall">
+      <div class="logo-wall logo-wall-clean">
         <!-- Partner Logo Placeholders - Replace src with actual logo paths -->
-        <div class="logo-tile">
-          <img src="./images/partners-logo/logo-ANU-black.svg" alt="Australia natinal university"
-            data-i18n="partner1Alt">
-        </div>
         <div class="logo-tile">
           <img src="./images/partners-logo/logo-ANU-black.svg" alt="US Agricultural Department" data-i18n="partner2Alt">
         </div>
@@ -1192,7 +1247,6 @@
       <div class="grid cards-3">
         <!-- Card 1 -->
         <div class="card">
-          <div class="icon" aria-hidden="true">🔐</div>
           <h3 style="margin-top: 12px;" data-i18n="valueCard1Title">Privacy & Compliance</h3>
           <p class="muted" style="margin-top: 8px;" data-i18n="valueCard1Desc">
             Reduce exposure to sensitive records and enable safer collaboration across teams and partners.
@@ -1206,7 +1260,6 @@
 
         <!-- Card 2 -->
         <div class="card">
-          <div class="icon" aria-hidden="true">📊</div>
           <h3 style="margin-top: 12px;" data-i18n="valueCard2Title">High Utility</h3>
           <p class="muted" style="margin-top: 8px;" data-i18n="valueCard2Desc">
             Preserve statistical properties and relationships needed for analytics and ML.
@@ -1220,7 +1273,6 @@
 
         <!-- Card 3 -->
         <div class="card">
-          <div class="icon" aria-hidden="true">⚡</div>
           <h3 style="margin-top: 12px;" data-i18n="valueCard3Title">Speed at Scale</h3>
           <p class="muted" style="margin-top: 8px;" data-i18n="valueCard3Desc">
             Shorten approval cycles and generate data faster than traditional access workflows.
@@ -1257,7 +1309,7 @@
       <div class="grid cards-4">
         <!-- 1) Generation -->
         <div class="card">
-          <div class="icon" aria-hidden="true">🧬</div>
+
           <h3 style="margin-top: 12px;" data-i18n="capabilityCard1Title">Synthetic Data Generation</h3>
           <p class="muted" style="margin-top: 8px;" data-i18n="capabilityCard1Desc">
             Produce synthetic datasets that mirror structure and statistics of your source data while avoiding direct
@@ -1271,7 +1323,7 @@
 
         <!-- 2) Privacy -->
         <div class="card">
-          <div class="icon" aria-hidden="true">🛡️</div>
+
           <h3 style="margin-top: 12px;" data-i18n="capabilityCard2Title">Privacy Risk Assessment</h3>
           <p class="muted" style="margin-top: 8px;" data-i18n="capabilityCard2Desc">
             Measure re-identification risk using practical attack simulations and distance-based leakage checks.
@@ -1284,7 +1336,7 @@
 
         <!-- 3) Utility -->
         <div class="card">
-          <div class="icon" aria-hidden="true">📈</div>
+
           <h3 style="margin-top: 12px;" data-i18n="capabilityCard3Title">Utility Validation</h3>
           <p class="muted" style="margin-top: 8px;" data-i18n="capabilityCard3Desc">
             Quantify whether synthetic data supports downstream tasks (reports, forecasting, classification, etc.).
@@ -1297,7 +1349,7 @@
 
         <!-- 4) Integration -->
         <div class="card">
-          <div class="icon" aria-hidden="true">🔧</div>
+
           <h3 style="margin-top: 12px;" data-i18n="capabilityCard4Title">Custom Pipelines & Integration</h3>
           <p class="muted" style="margin-top: 8px;" data-i18n="capabilityCard4Desc">
             Build repeatable workflows for your domain—data schema, constraints, formats, and governance.
@@ -1474,63 +1526,14 @@
     </div>
   </section>
 
-  <!-- =========================================================
-    TRUST SECTION
-    - Purpose: credibility without overclaiming
-    - How to use: replace placeholders with real logos/case numbers later
-  ========================================================== -->
-  <section id="trust" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div>
-          <div class="kicker" data-i18n="trustKicker">Trust</div>
-          <h2 style="margin-top: 8px;" data-i18n="trustHeadline">Built for serious stakeholders.</h2>
-          <p class="muted" style="margin-top: 10px; max-width: 72ch;" data-i18n="trustSubhead">
-            Enterprise buyers care about evidence, governance, and clarity. We package technical results into
-            decision-friendly artifacts.
-          </p>
-        </div>
-      </div>
 
-      <!-- Logo wall placeholders -->
-      <div class="logo-wall" aria-label="Customer/partner logos (placeholders)">
-        <div class="logo-tile" data-i18n="trustLogo1">Client A</div>
-        <div class="logo-tile" data-i18n="trustLogo2">Client B</div>
-        <div class="logo-tile" data-i18n="trustLogo3">Client C</div>
-        <div class="logo-tile" data-i18n="trustLogo4">Partner D</div>
-        <div class="logo-tile" data-i18n="trustLogo5">Lab E</div>
-        <div class="logo-tile" data-i18n="trustLogo6">Org F</div>
-      </div>
-
-      <div class="grid cards-3" style="margin-top: 18px;">
-        <div class="card soft">
-          <h3 data-i18n="trustCard1Title">Evidence over hype</h3>
-          <p class="muted" style="margin-top: 8px;" data-i18n="trustCard1Desc">
-            We report both strengths and limitations of synthetic data for your specific downstream tasks.
-          </p>
-        </div>
-        <div class="card soft">
-          <h3 data-i18n="trustCard2Title">Governance-ready</h3>
-          <p class="muted" style="margin-top: 8px;" data-i18n="trustCard2Desc">
-            Outputs include recommended usage guidance and risk summaries aligned to your governance needs.
-          </p>
-        </div>
-        <div class="card soft">
-          <h3 data-i18n="trustCard3Title">Repeatable delivery</h3>
-          <p class="muted" style="margin-top: 8px;" data-i18n="trustCard3Desc">
-            Turn one-off work into a repeatable pipeline so synthetic data becomes a capability, not a one-time file.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- =========================================================
     FAQ SECTION
     - Purpose: remove common objections
     - How to use: replace questions with your real sales objections
   ========================================================== -->
-  <section id="faq" class="section" style="background: var(--surface);">
+  <section id="faq" class="section">
     <div class="container">
       <div class="section-header">
         <div>
@@ -2378,7 +2381,7 @@
     // -------------------------
     // 5) Language switching
     // -------------------------
-    let currentLang = 'en';
+    let currentLang = 'zh';
 
     // Function to translate the entire page
     function translatePage(lang) {
