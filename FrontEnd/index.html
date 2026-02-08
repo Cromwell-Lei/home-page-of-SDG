@@ -39,6 +39,7 @@
 
     html {
       scroll-behavior: smooth;
+      overflow-x: hidden;
     }
 
     body {
@@ -46,6 +47,8 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       color: #0b1220;
       background: #ffffff;
+      overflow-x: hidden;
+      width: 100%;
     }
 
     a {
@@ -1038,6 +1041,21 @@
         /* 一行2个 */
       }
     }
+
+    /* -------------------------
+       14) Contact Section Responsive
+       ------------------------- */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
@@ -1676,7 +1694,7 @@
         </div>
       </div>
 
-      <div class="grid" style="grid-template-columns: 1.1fr 0.9fr; gap: 18px;">
+      <div class="grid contact-grid">
         <!-- Left: form -->
         <form class="card" id="demoForm" novalidate>
           <!--
