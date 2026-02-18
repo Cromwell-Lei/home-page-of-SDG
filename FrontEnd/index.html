@@ -382,7 +382,10 @@
       border-radius: 12px;
       border: 1px solid var(--border);
       background: var(--bg);
-      padding: 10px 12px;
+      padding: 5px 10px;
+      /* Adjust menu text size here */
+      font-size: 15px;
+      font-weight: 600;
     }
 
     .mobile-panel {
@@ -720,6 +723,18 @@
     /* -------------------------
       12) Responsive
       ------------------------- */
+    /* -------------------------
+      12) Responsive
+      ------------------------- */
+    @media (max-width: 899px) {
+
+      /* Hide all CTA buttons in nav on mobile (Sign in, Begin serve, Request Demo) */
+      /* Keeps Menu button and Language switcher visible */
+      .nav-cta>a.btn {
+        display: none !important;
+      }
+    }
+
     @media (min-width: 900px) {
       .nav-links {
         display: flex;
@@ -1102,8 +1117,9 @@
       <a href="#use-cases" data-i18n="navUseCases">Use Cases</a>
       <a href="#how" data-i18n="navHowItWorks">Principle</a>
       <a href="about-us.html" target="_blank" data-i18n="navAboutUs">About us</a>
-      <a href="login.html" id="mobile-signin-btn" data-i18n="navSignIn">Sign in</a>
+      <a href="#contact" data-i18n="navTalkToExpert">Begin serve now</a>
       <a href="#demo" data-i18n="navRequestDemo">Request a Demo</a>
+      <a href="login.html" id="mobile-signin-btn" data-i18n="navSignIn">Sign in</a>
     </div>
   </header>
 
@@ -2338,6 +2354,7 @@
     // -------------------------
     const menuBtn = document.getElementById('menuBtn');
     const mobilePanel = document.getElementById('mobilePanel');
+    const API_BASE = window.AppConfig.API_BASE;
 
     if (menuBtn) {
       menuBtn.addEventListener('click', () => {
@@ -2356,30 +2373,73 @@
     });
 
     // -------------------------
-    // 2) Demo form submit (fake)
-    // - In production: POST to your API/CRM endpoint
+    // 2) Contact form submit - 连接到后端 API
     // -------------------------
     const demoForm = document.getElementById('demoForm');
     const formNote = document.getElementById('formNote');
+    const submitBtn = demoForm?.querySelector('button[type="submit"]');
 
-    demoForm?.addEventListener('submit', (e) => {
+    demoForm?.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Simple validation (front-end only)
+      // 获取表单数据
       const name = document.getElementById('name')?.value?.trim();
       const email = document.getElementById('email')?.value?.trim();
+      const organization = document.getElementById('org')?.value?.trim();
       const need = document.getElementById('need')?.value?.trim();
 
+      // 前端验证
       if (!name || !email || !need) {
-        formNote.textContent = translations[currentLang]?.formError || 'Please complete the required fields (Name, Email, Need).';
+        formNote.textContent = translations[currentLang]?.formError || '请完成必填字段(姓名、邮箱、需求)。';
         formNote.style.color = 'var(--danger)';
         return;
       }
 
-      // Pretend successful
-      formNote.textContent = translations[currentLang]?.formSuccess || 'Thanks! Your request has been recorded (demo). Connect this to your backend to make it real.';
-      formNote.style.color = 'var(--muted)';
-      demoForm.reset();
+      // 设置加载状态
+      const originalButtonText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = currentLang === 'zh' ? '发送中...' : 'Sending...';
+      formNote.textContent = '';
+
+      try {
+        // 发送到后端 API
+        const response = await fetch(`${API_BASE}/contact/submit`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            organization: organization || '',
+            requirements: need
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          // 成功
+          formNote.textContent = data.message || (translations[currentLang]?.formSuccess || '感谢您的咨询!我们已收到您的信息,将在 1-3 个工作日内回复您。');
+          formNote.style.color = '#2e7d32'; // 绿色
+          demoForm.reset();
+        } else {
+          // 服务器返回错误
+          formNote.textContent = data.message || (currentLang === 'zh' ? '提交失败,请稍后重试。' : 'Submission failed. Please try again later.');
+          formNote.style.color = 'var(--danger)';
+        }
+      } catch (error) {
+        // 网络错误
+        console.error('提交表单失败:', error);
+        formNote.textContent = currentLang === 'zh'
+          ? '网络错误,请检查您的连接后重试。'
+          : 'Network error. Please check your connection and try again.';
+        formNote.style.color = 'var(--danger)';
+      } finally {
+        // 恢复按钮状态
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalButtonText;
+      }
     });
 
     // -------------------------
@@ -2399,11 +2459,13 @@
     // -------------------------
     // 5) Language switching
     // -------------------------
-    let currentLang = 'zh';
+    // Default to stored lang or 'zh'
+    let currentLang = localStorage.getItem('app_lang') || 'zh';
 
     // Function to translate the entire page
     function translatePage(lang) {
       currentLang = lang;
+      localStorage.setItem('app_lang', lang); // Persist
 
       // Update all elements with data-i18n attribute
       document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -2431,7 +2493,7 @@
     document.getElementById('langEn')?.addEventListener('click', () => translatePage('en'));
     document.getElementById('langZh')?.addEventListener('click', () => translatePage('zh'));
 
-    // Initialize page with default language
+    // Initialize page with stored language
     translatePage(currentLang);
 
     // -------------------------  
@@ -2531,70 +2593,10 @@
     });
   </script>
   <!-- Login State Script -->
+  <!-- Login State Script Removed as per request -->
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      // 1. Check LocalStorage (Fast UI Update)
-      const userUi = localStorage.getItem('user_ui');
-      if (userUi) {
-        try {
-          const u = JSON.parse(userUi);
-          updateNavAuth(u.username);
-        } catch (e) { console.error('Error parsing local user', e); }
-      }
-
-      // 2. Check Backend (Security & Consistency)
-      try {
-        const res = await fetch(`${window.AppConfig.API_AUTH_BASE}/me`, {
-          credentials: 'include'
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (data.username) {
-            updateNavAuth(data.username);
-            // Sync local
-            localStorage.setItem('user_ui', JSON.stringify({ username: data.username }));
-          }
-        } else {
-          // If backend says not logged in, clear local (unless on file:// where cookie fails?)
-          // Actually, if Cookie fails on file://, we rely on the localStorage set during login.
-          // So DO NOT clear localStorage here automatically if fetch fails, 
-          // unless we are sure it's a real logout. 
-          // But for now, let's keep it persistent.
-        }
-      } catch (e) {
-        console.error('Error checking auth status', e);
-      }
-
-      function updateNavAuth(username) {
-        const desktopBtn = document.getElementById('nav-signin-btn');
-        const mobileBtn = document.getElementById('mobile-signin-btn');
-
-        const setupLogout = (btn) => {
-          btn.textContent = username;
-          btn.href = '#';
-          btn.classList.remove('btn-ghost');
-          btn.classList.add('btn-primary');
-
-          // Logout Handler
-          btn.onclick = async (e) => {
-            e.preventDefault();
-            if (confirm("Log out?")) {
-              // Clear Local
-              localStorage.removeItem('user_ui');
-              // Clear Cookie
-              try {
-                await fetch(`${window.AppConfig.API_AUTH_BASE}/logout`, { method: 'POST', credentials: 'include' });
-              } catch (err) { console.error(err); }
-              window.location.reload();
-            }
-          };
-        };
-
-        if (desktopBtn) setupLogout(desktopBtn);
-        if (mobileBtn) setupLogout(mobileBtn);
-      }
-    });
+    // Login state check and navigation update logic has been removed.
+    // User panel will be implemented separately in the future.
   </script>
 </body>
 

@@ -124,6 +124,26 @@
             align-items: flex-start;
             justify-content: center;
             padding: 140px 40px 40px 40px;
+            position: relative;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s;
+            z-index: 20;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
         }
 
         @media (max-width: 900px) {
@@ -266,6 +286,93 @@
             padding: 10px;
             border-radius: 8px;
         }
+
+        /* Toast Notification Styles */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: #fff;
+            color: var(--text);
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-left: 4px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateX(20px);
+            animation: slideIn 0.3s forwards;
+            pointer-events: auto;
+            min-width: 300px;
+        }
+
+        .toast.success {
+            border-left-color: var(--primary-2);
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            to {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+        }
+
+        /* Language switcher */
+        .language-switcher {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            display: inline-flex;
+            gap: 6px;
+            z-index: 20;
+        }
+
+        .language-switcher .btn {
+            padding: 6px 10px;
+            font-size: 12px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            background: rgba(42, 92, 255, 0.08);
+            border-color: rgba(42, 92, 255, 0.18);
+            color: var(--primary);
+            transition: all 0.2s;
+        }
+
+        .language-switcher .btn:hover {
+            background: rgba(42, 92, 255, 0.15);
+            border-color: rgba(42, 92, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .language-switcher .btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
     </style>
 </head>
 
@@ -279,36 +386,52 @@
                 <div class="logo"></div>
                 <span>ChuChiang Data</span>
             </div>
-            <p>Enterprise-grade synthetic data solutions for privacy-safe analytics and AI.</p>
+            <p data-i18n="tagline">Enterprise-grade synthetic data solutions for privacy-safe analytics and AI.</p>
         </div>
 
         <!-- Right Panel: Form -->
         <div class="right-panel">
+            <a href="index.html" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                Back to Home
+            </a>
+            <!-- Language switcher -->
+            <div class="language-switcher">
+                <button id="langEn" class="btn" data-lang="en">EN</button>
+                <button id="langZh" class="btn active" data-lang="zh">中文</button>
+            </div>
+
             <div class="auth-container">
 
                 <!-- Tabs -->
                 <div class="tabs">
-                    <div class="tab active" onclick="switchTab('signin')">Sign In</div>
-                    <div class="tab" onclick="switchTab('signup')">Sign Up</div>
+                    <div class="tab active" onclick="switchTab('signin')" data-i18n="tabSignIn">Sign In</div>
+                    <div class="tab" onclick="switchTab('signup')" data-i18n="tabSignUp">Sign Up</div>
                 </div>
 
                 <!-- Login Form -->
                 <div id="login-form">
-                    <h1>Welcome Back</h1>
-                    <p class="subtitle">Enter your credentials to access your account.</p>
+                    <h1 data-i18n="loginHeader">Welcome Back</h1>
+                    <p class="subtitle" data-i18n="loginSubtitle">Enter your credentials to access your account.</p>
 
                     <div class="error-msg" id="login-error"></div>
 
                     <form onsubmit="handleLogin(event)" novalidate>
                         <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" id="login-email" required placeholder="Enter email">
+                            <label data-i18n="labelEmail">Email</label>
+                            <input type="email" id="login-email" required placeholder="Enter email" data-i18n="phEmail">
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" id="login-password" required placeholder="Enter password">
+                            <label data-i18n="labelPassword">Password</label>
+                            <input type="password" id="login-password" required placeholder="Enter password"
+                                data-i18n="phPassword">
                         </div>
-                        <button type="submit" class="btn-primary" id="login-btn">Sign In</button>
+                        <button type="submit" class="btn-primary" id="login-btn" data-i18n="btnLogin">Sign In</button>
                     </form>
                 </div>
 
@@ -317,60 +440,67 @@
 
                     <!-- Step 1: Email -->
                     <div id="reg-step-1">
-                        <h1>Get Started</h1>
-                        <p class="subtitle">Enter your email to verify your identity.</p>
+                        <h1 data-i18n="regStep1Header">Get Started</h1>
+                        <p class="subtitle" data-i18n="regStep1Subtitle">Enter your email to verify your identity.</p>
 
                         <div class="error-msg" id="reg-error-1"></div>
 
                         <form onsubmit="handleRegisterStep1(event)" novalidate>
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" id="reg-email" required placeholder="name@company.com">
+                                <label data-i18n="labelEmail">Email</label>
+                                <input type="email" id="reg-email" required placeholder="name@company.com"
+                                    data-i18n="phEmailEx">
                             </div>
-                            <button type="submit" class="btn-primary" id="reg-btn-1">Send Code</button>
+                            <button type="submit" class="btn-primary" id="reg-btn-1" data-i18n="btnSendCode">Send
+                                Code</button>
                         </form>
                     </div>
 
                     <!-- Step 2: Verify Code -->
                     <div id="reg-step-2" class="hidden">
-                        <h1>Verify Email</h1>
+                        <h1 data-i18n="regStep2Header">Verify Email</h1>
                         <p class="subtitle">
-                            Enter the 6-digit code sent to <strong id="verify-email-display"></strong>.
+                            <span data-i18n="regStep2Subtitle">Enter the 6-digit code sent to</span> <strong
+                                id="verify-email-display"></strong>.
                         </p>
 
                         <div class="error-msg" id="reg-error-2"></div>
 
-                        <form onsubmit="handleRegisterStep2(event)">
+                        <form onsubmit="handleRegisterStep2(event)" novalidate>
                             <div class="form-group">
-                                <label>Verification Code</label>
+                                <label data-i18n="labelVerifyCode">Verification Code</label>
                                 <input type="text" id="reg-code" required placeholder="" maxlength="6"
                                     style="letter-spacing: 4px; font-size: 18px; text-align: center;">
                             </div>
-                            <button type="submit" class="btn-primary" id="reg-btn-2">Verify Code</button>
+                            <button type="submit" class="btn-primary" id="reg-btn-2" data-i18n="btnVerifyCode">Verify
+                                Code</button>
                             <div style="text-align: center; margin-top: 16px;">
-                                <span class="link" onclick="backToStep1()">Change Email</span>
+                                <span class="link" onclick="backToStep1()" data-i18n="linkChangeEmail">Change
+                                    Email</span>
                             </div>
                         </form>
                     </div>
 
                     <!-- Step 3: Account Details -->
                     <div id="reg-step-3" class="hidden">
-                        <h1>Finalize Account</h1>
-                        <p class="subtitle">Set up your username and password.</p>
+                        <h1 data-i18n="regStep3Header">Finalize Account</h1>
+                        <p class="subtitle" data-i18n="regStep3Subtitle">Set up your username and password.</p>
 
                         <div class="error-msg" id="reg-error-3"></div>
 
-                        <form onsubmit="handleRegisterStep3(event)">
+                        <form onsubmit="handleRegisterStep3(event)" novalidate>
                             <div class="form-group">
-                                <label>Username</label>
-                                <input type="text" id="reg-username" required placeholder="Choose a username">
+                                <label data-i18n="labelUsername">Username</label>
+                                <input type="text" id="reg-username" required placeholder="Choose a username"
+                                    data-i18n="phUsername">
                             </div>
                             <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" id="reg-password" required
-                                    placeholder="Create a strong password">
+                                <label data-i18n="labelPassword">Password</label>
+                                <input type="password" id="reg-password" required placeholder="Create a strong password"
+                                    data-i18n="phCreatePassword">
                             </div>
-                            <button type="submit" class="btn-primary" id="reg-btn-3">Create Account</button>
+                            <button type="submit" class="btn-primary" id="reg-btn-3" data-i18n="btnCreateAccount">Create
+                                Account</button>
                         </form>
                     </div>
                 </div>
@@ -379,14 +509,17 @@
         </div>
     </div>
 
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
     <script>
-        const API_BASE = window.AppConfig.API_AUTH_BASE;
+        const API_AUTH_BASE = window.AppConfig.API_AUTH_BASE;
         let publicKey = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                const res = await fetch(`${API_BASE}/public-key`);
+                const res = await fetch(`${API_AUTH_BASE}/public-key`);
                 if (res.ok) {
                     const data = await res.json();
                     publicKey = data.publicKey;
@@ -432,6 +565,8 @@
             document.getElementById('reg-step-1').classList.remove('hidden');
             document.getElementById('reg-step-2').classList.add('hidden');
             document.getElementById('reg-step-3').classList.add('hidden');
+            // Clear verification code when going back
+            document.getElementById('reg-code').value = '';
         }
 
         function clearErrors() {
@@ -466,7 +601,7 @@
             setLoading(btn, true);
 
             try {
-                const res = await fetch(`${API_BASE}/login`, {
+                const res = await fetch(`${API_AUTH_BASE}/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password: passwordEncrypted }),
@@ -480,7 +615,8 @@
                     if (data.username) {
                         localStorage.setItem('user_ui', JSON.stringify({ username: data.username }));
                     }
-                    window.location.href = 'index.html';
+                    // window.location.href = 'index.html'; // Jump removed as per request
+                    showToast('Login Successful!', 'success');
                 } else {
                     const msg = await getErrorMsg(res);
                     showError('login-error', msg);
@@ -513,7 +649,7 @@
 
             try {
                 // Modified DTO: { email: "..." }
-                const res = await fetch(`${API_BASE}/send-code`, {
+                const res = await fetch(`${API_AUTH_BASE}/send-code`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email })
@@ -549,7 +685,7 @@
 
             try {
                 // New Endpoint: /validate-code
-                const res = await fetch(`${API_BASE}/validate-code`, {
+                const res = await fetch(`${API_AUTH_BASE}/validate-code`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email: regEmail, code: codeEncrypted })
@@ -587,7 +723,7 @@
 
             try {
                 // Endpoint: /register (previously /verify-register, modified payload)
-                const res = await fetch(`${API_BASE}/register`, {
+                const res = await fetch(`${API_AUTH_BASE}/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -599,8 +735,10 @@
                 });
 
                 if (res.ok) {
-                    alert('Registration successful! Please sign in.');
-                    window.location.reload(); // Refresh to reset state and show login
+                    showToast('Registration successful! Please sign in.', 'success');
+                    setTimeout(() => {
+                        window.location.reload(); // Refresh to reset state and show login
+                    }, 2000); // Delay refresh to let toast show
                 } else {
                     const msg = await getErrorMsg(res);
                     showError('reg-error-3', msg);
@@ -634,6 +772,429 @@
             } else {
                 btn.innerText = btn.dataset.originalText;
                 btn.disabled = false;
+            }
+        }
+
+        // Custom Toast Function
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            // Icon based on type (optional, simple text for now)
+            let icon = type === 'success' ? '✓' : 'ℹ';
+
+            toast.innerHTML = `
+                <span style="font-size: 18px; color: ${type === 'success' ? 'var(--primary-2)' : 'var(--primary)'}">${icon}</span>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s forwards';
+                toast.addEventListener('animationend', () => {
+                    toast.remove();
+                });
+            }, 3000);
+        }
+
+        // -------------------------
+        // I18n Logic
+        // -------------------------
+        const translations = {
+            en: {
+                loginTitle: 'SDG - Sign In',
+                tagline: 'Enterprise-grade synthetic data solutions for privacy-safe analytics and AI.',
+                backToHome: 'Back to Home',
+                tabSignIn: 'Sign In',
+                tabSignUp: 'Sign Up',
+
+                // Login
+                loginHeader: 'Welcome Back',
+                loginSubtitle: 'Enter your credentials to access your account.',
+                labelEmail: 'Email',
+                labelPassword: 'Password',
+                phEmail: 'Enter email',
+                phPassword: 'Enter password',
+                btnLogin: 'Sign In',
+                msgProcessing: 'Processing...',
+
+                // Reg Step 1
+                regStep1Header: 'Get Started',
+                regStep1Subtitle: 'Enter your email to verify your identity.',
+                phEmailEx: 'name@company.com',
+                btnSendCode: 'Send Code',
+
+                // Reg Step 2
+                regStep2Header: 'Verify Email',
+                regStep2Subtitle: 'Enter the 6-digit code sent to',
+                labelVerifyCode: 'Verification Code',
+                btnVerifyCode: 'Verify Code',
+                linkChangeEmail: 'Change Email',
+
+                // Reg Step 3
+                regStep3Header: 'Finalize Account',
+                regStep3Subtitle: 'Set up your username and password.',
+                labelUsername: 'Username',
+                phUsername: 'Choose a username',
+                phCreatePassword: 'Create a strong password',
+                btnCreateAccount: 'Create Account',
+
+                // Messages
+                errMsgEmail: 'Please enter a correct email address',
+                errMsgCodeRequired: 'Please enter verification code',
+                errMsgUsernameRequired: 'Please enter username',
+                errMsgPasswordRequired: 'Please enter password',
+                errMsgInvalidCredentials: 'Password or account error',
+                errMsgInvalidCode: 'Invalid or expired verification code',
+                errMsgNetwork: 'Network error',
+                msgRegSuccess: 'Registration successful! Please sign in.'
+            },
+            zh: {
+                loginTitle: 'SDG - 登录',
+                tagline: '企业级合成数据解决方案，用于隐私安全的分析和人工智能。',
+                backToHome: '返回首页',
+                tabSignIn: '登录',
+                tabSignUp: '注册',
+
+                // Login
+                loginHeader: '欢迎回来',
+                loginSubtitle: '输入邮箱和密码以访问您的帐户。',
+                labelEmail: '邮箱',
+                labelPassword: '密码',
+                phEmail: '输入邮箱',
+                phPassword: '输入密码',
+                btnLogin: '登录',
+                msgProcessing: '处理中...',
+
+                // Reg Step 1
+                regStep1Header: '开始使用',
+                regStep1Subtitle: '输入您的邮箱以验证身份。',
+                phEmailEx: 'name@company.com',
+                btnSendCode: '发送验证码',
+
+                // Reg Step 2
+                regStep2Header: '验证邮箱',
+                regStep2Subtitle: '输入发送至以下邮箱的6位验证码',
+                labelVerifyCode: '验证码',
+                btnVerifyCode: '验证代码',
+                linkChangeEmail: '更改邮箱',
+
+                // Reg Step 3
+                regStep3Header: '完成账户',
+                regStep3Subtitle: '设置您的用户名和密码。',
+                labelUsername: '用户名',
+                phUsername: '选择一个用户名',
+                phCreatePassword: '创建一个强密码',
+                btnCreateAccount: '创建账户',
+
+                // Messages
+                errMsgEmail: '请输入正确的邮箱地址',
+                errMsgCodeRequired: '请输入验证码',
+                errMsgUsernameRequired: '请输入用户名',
+                errMsgPasswordRequired: '请输入密码',
+                errMsgInvalidCredentials: '密码或账号错误',
+                errMsgInvalidCode: '验证码无效或已过期',
+                errMsgNetwork: '网络错误',
+                msgRegSuccess: '注册成功！请登录。'
+            }
+        };
+
+        // Language switching
+        // Default to stored lang or 'zh'
+        let currentLang = localStorage.getItem('app_lang') || 'zh';
+
+        function translatePage(lang) {
+            currentLang = lang;
+            localStorage.setItem('app_lang', lang);
+
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = translations[lang][key];
+                    } else {
+                        // Check if we need to preserve children (like the svg in back link)?
+                        // For the back link, it has text node child. 
+                        // Actually, the back link has <a> <svg> ... </svg> Text </a>
+                        // Only the text part needs translation. 
+                        // Simple approach: wrap text in span or just replace content if it's pure text.
+                        // Let's check back-link structure.
+                        // It is: <a ...> <svg>...</svg> Back to Home </a>
+                        // So innerHTML replacement destroys SVG.
+
+                        // Special handling for elements with children we want to keep?
+                        // Start simple. If it identifies as 'backToHome', we might need to handle it carefully.
+                        // Or just put specific span for text?
+                        // Let's verify structure. The back-link structure I added earlier was:
+                        // <a ... class="back-link"> <svg...>...</svg> Back to Home </a>
+                        // To allow easy translation, I should wrap the text in a span or use nodes.
+
+                        // For now, let's assume I'll update the HTML to wrap text or handle it here.
+                        // Actually, I can fix the HTML above to be <span data-i18n="...">Text</span> inside the 'a'.
+                    }
+                }
+            });
+
+            // Special handling for back-link text which has an SVG sibling
+            const backLink = document.querySelector('.back-link');
+            if (backLink) {
+                // Find the text node or create a span
+                // Let's just update the text content node
+                const textNode = Array.from(backLink.childNodes).find(n => n.nodeType === 3 && n.textContent.trim().length > 0);
+                if (textNode && translations[lang]['backToHome']) {
+                    textNode.textContent = " " + translations[lang]['backToHome'];
+                }
+            }
+
+            // Specific elements without data-i18n that might need it? 
+            // All above added data-i18n.
+
+            // General updater
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    if (el.tagName === 'INPUT') {
+                        el.placeholder = translations[lang][key];
+                    } else {
+                        el.innerText = translations[lang][key];
+                    }
+                }
+            });
+
+
+            // Update language switcher active state
+            document.querySelectorAll('#langEn, #langZh').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+        }
+
+        // Initialize language switcher
+        document.getElementById('langEn')?.addEventListener('click', () => translatePage('en'));
+        document.getElementById('langZh')?.addEventListener('click', () => translatePage('zh'));
+
+        // Init
+        translatePage(currentLang);
+
+        // Update setLoading to use translated text? 
+        // We defined msgProcessing in translations.
+        function setLoading(btn, isLoading) {
+            if (isLoading) {
+                btn.dataset.originalText = btn.innerText;
+                btn.innerText = translations[currentLang].msgProcessing;
+                btn.disabled = true;
+            } else {
+                btn.innerText = btn.dataset.originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // Custom Toast Function - use translated messages if passed key?
+        // The callers pass hardcoded strings currently. 
+        // We should update callers to use translation keys or pass translated text.
+        // For simplicity, let's update callers to use translations[currentLang].key
+
+        // ... (rest of toast)
+
+        // Error handling helper
+        function showTranslatedError(elementId, key) {
+            const el = document.getElementById(elementId);
+            el.innerText = translations[currentLang][key] || key;
+            el.style.display = 'block';
+        }
+
+        // Handlers
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('login-btn');
+            const email = document.getElementById('login-email').value;
+            const passwordPlain = document.getElementById('login-password').value;
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showTranslatedError('login-error', 'errMsgEmail');
+                return;
+            }
+
+            if (!passwordPlain) {
+                showTranslatedError('login-error', 'errMsgPasswordRequired');
+                return;
+            }
+
+            const passwordEncrypted = encrypt(passwordPlain);
+            if (!passwordEncrypted) return;
+
+            setLoading(btn, true);
+
+            try {
+                const res = await fetch(`${API_AUTH_BASE}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password: passwordEncrypted }),
+                    credentials: 'include' // Important for Cookies
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.username) {
+                        localStorage.setItem('user_ui', JSON.stringify({ username: data.username }));
+                    }
+                    window.location.href = 'index.html';
+                } else {
+                    const msg = await getErrorMsg(res);
+                    if (msg === 'User not found' || msg === 'Invalid password') {
+                        showTranslatedError('login-error', 'errMsgInvalidCredentials');
+                    } else {
+                        showError('login-error', msg);
+                    }
+                }
+            } catch (err) {
+                showTranslatedError('login-error', 'errMsgNetwork');
+            } finally {
+                setLoading(btn, false);
+            }
+        }
+
+        // ... (Registration handlers updated similarly)
+
+        // Step 1: Send Code
+        async function handleRegisterStep1(e) {
+            e.preventDefault();
+            const btn = document.getElementById('reg-btn-1');
+            const email = document.getElementById('reg-email').value;
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showTranslatedError('reg-error-1', 'errMsgEmail');
+                return;
+            }
+
+            setLoading(btn, true);
+
+            try {
+                const res = await fetch(`${API_AUTH_BASE}/send-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                if (res.ok) {
+                    regEmail = email;
+                    document.getElementById('verify-email-display').innerText = email;
+                    document.getElementById('reg-step-1').classList.add('hidden');
+                    document.getElementById('reg-step-2').classList.remove('hidden');
+                } else {
+                    const msg = await getErrorMsg(res);
+                    showError('reg-error-1', msg);
+                }
+            } catch (err) {
+                showTranslatedError('reg-error-1', 'errMsgNetwork');
+            } finally {
+                setLoading(btn, false);
+            }
+        }
+
+        // Step 2 & 3 generally rely on backend errors or simple flow, 
+        // network errors should use i18n.
+
+        async function handleRegisterStep2(e) {
+            e.preventDefault();
+            const btn = document.getElementById('reg-btn-2');
+            const code = document.getElementById('reg-code').value;
+
+            if (!code) {
+                showTranslatedError('reg-error-2', 'errMsgCodeRequired');
+                return;
+            }
+
+            const codeEncrypted = encrypt(code);
+            if (!codeEncrypted) return;
+
+            setLoading(btn, true);
+
+            try {
+                const res = await fetch(`${API_AUTH_BASE}/validate-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: regEmail, code: codeEncrypted })
+                });
+
+                if (res.ok) {
+                    regCodePlain = code;
+                    document.getElementById('reg-step-2').classList.add('hidden');
+                    document.getElementById('reg-step-3').classList.remove('hidden');
+                } else {
+                    const msg = await getErrorMsg(res);
+                    if (msg === 'Invalid or expired verification code') {
+                        showTranslatedError('reg-error-2', 'errMsgInvalidCode');
+                    } else {
+                        showError('reg-error-2', msg);
+                    }
+                }
+            } catch (err) {
+                showTranslatedError('reg-error-2', 'errMsgNetwork');
+            } finally {
+                setLoading(btn, false);
+            }
+        }
+
+        async function handleRegisterStep3(e) {
+            e.preventDefault();
+            const btn = document.getElementById('reg-btn-3');
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
+
+            if (!username) {
+                showTranslatedError('reg-error-3', 'errMsgUsernameRequired');
+                return;
+            }
+            if (!password) {
+                showTranslatedError('reg-error-3', 'errMsgPasswordRequired');
+                return;
+            }
+
+            const codeEncrypted = encrypt(regCodePlain);
+            const passwordEncrypted = encrypt(password);
+
+            if (!codeEncrypted || !passwordEncrypted) return;
+
+            setLoading(btn, true);
+
+            try {
+                const res = await fetch(`${API_AUTH_BASE}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: regEmail,
+                        code: codeEncrypted,
+                        username: username,
+                        password: passwordEncrypted
+                    })
+                });
+
+                if (res.ok) {
+                    showToast(translations[currentLang].msgRegSuccess, 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
+                } else {
+                    const msg = await getErrorMsg(res);
+                    if (msg === 'Invalid or expired verification code') {
+                        showTranslatedError('reg-error-3', 'errMsgInvalidCode');
+                    } else {
+                        showError('reg-error-3', msg);
+                    }
+                }
+            } catch (err) {
+                showTranslatedError('reg-error-3', 'errMsgNetwork');
+            } finally {
+                setLoading(btn, false);
             }
         }
 
