@@ -1841,8 +1841,7 @@
     <div class="container footer-grid">
       <div>
         <div class="brand">
-          <span class="logo" aria-hidden="true"></span>
-          <span data-i18n="footerBrand">ChuChiang Data</span>
+          <img src="./images/company-logo/logo_main.png" alt="ChuChiang Data Logo" style="height: 100px; width: auto;">
         </div>
         <p class="muted" style="margin-top: 10px; max-width: 70ch;" data-i18n="footerDesc">
           Synthetic data solutions for privacy-safe analytics and AI training. Built for enterprise governance.
@@ -2519,11 +2518,15 @@
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[lang] && translations[lang][key]) {
+          let translatedText = translations[lang][key];
+          if (typeof translatedText === 'string') {
+            translatedText = translatedText.replace('{{year}}', new Date().getFullYear());
+          }
           // Handle HTML content (like heroHeadline)
           if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-            el.placeholder = translations[lang][key];
+            el.placeholder = translatedText;
           } else {
-            el.innerHTML = translations[lang][key];
+            el.innerHTML = translatedText;
           }
         }
       });
@@ -2687,5 +2690,3 @@
     // User panel will be implemented separately in the future.
   </script>
 </body>
-
-```
