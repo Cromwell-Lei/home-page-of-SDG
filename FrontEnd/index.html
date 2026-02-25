@@ -17,6 +17,7 @@
     data-i18n="pageDescription" />
 
   <!-- Config file -->
+  <!-- <script src="config-server.js"></script> -->
   <script src="config.js"></script>
 
   <!--
@@ -834,12 +835,16 @@
       z-index: 1;
     }
 
-    .demo-slider {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
+    .demo-slider-viewport {
       overflow: hidden;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
+      width: 100%;
+    }
+
+    .demo-slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
     }
 
     .demo-slide {
@@ -850,19 +855,25 @@
     .demo-image-placeholder {
       width: 100%;
       height: 500px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
       font-size: 24px;
       font-weight: 800;
+      transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+      cursor: zoom-in;
+    }
+
+    .demo-image-placeholder:hover {
+      transform: scale(1.02);
     }
 
     .demo-image-placeholder img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     .demo-controls {
@@ -1071,6 +1082,44 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* -------------------------
+       15) Image Lightbox (Zoom Feature)
+       ------------------------- */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      /* Dark semi-transparent background */
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-modal img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      cursor: zoom-out;
+    }
+
+    .lightbox-modal.active img {
+      transform: scale(1);
+      /* Shrink a bit and then grow to size */
+    }
   </style>
 </head>
 
@@ -1083,8 +1132,7 @@
   <header class="nav">
     <div class="container nav-inner">
       <a class="brand" href="#top" aria-label="Go to top">
-        <span class="logo" aria-hidden="true"></span>
-        <span>ChuChiang Data</span>
+        <img src="./images/company-logo/logo_main.png" alt="ChuChiang Data Logo" style="height: 125px; width: auto;">
       </a>
 
       <!-- Desktop nav links -->
@@ -1096,7 +1144,6 @@
       </nav>
 
       <div class="nav-cta">
-        <a class="btn btn-ghost" href="login.html" id="nav-signin-btn" data-i18n="navSignIn">Sign in</a>
         <!-- Mobile menu button -->
         <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobilePanel" data-i18n="navMenu">
           ☰ Menu
@@ -1119,7 +1166,6 @@
       <a href="about-us.html" target="_blank" data-i18n="navAboutUs">About us</a>
       <a href="#contact" data-i18n="navTalkToExpert">Begin serve now</a>
       <a href="#demo" data-i18n="navRequestDemo">Request a Demo</a>
-      <a href="login.html" id="mobile-signin-btn" data-i18n="navSignIn">Sign in</a>
     </div>
   </header>
 
@@ -1649,25 +1695,27 @@
 
       <!-- Demo slider container -->
       <div class="demo-slider-container">
-        <div class="demo-slider">
-          <div class="demo-slide active" data-slide="0">
-            <div class="demo-image-placeholder">
-              <img src="#" alt="Demo page 1" data-i18n="demoImage1Alt">
+        <div class="demo-slider-viewport">
+          <div class="demo-slider">
+            <div class="demo-slide active" data-slide="0">
+              <div class="demo-image-placeholder">
+                <img src="./images/demo/workflow.jpg" alt="Demo page 1" data-i18n="demoImage1Alt">
+              </div>
             </div>
-          </div>
-          <div class="demo-slide" data-slide="1">
-            <div class="demo-image-placeholder">
-              <img src="#" alt="Demo page 2" data-i18n="demoImage2Alt">
+            <div class="demo-slide" data-slide="1">
+              <div class="demo-image-placeholder">
+                <img src="./images/demo/case-1.jpg" alt="Demo page 2" data-i18n="demoImage2Alt">
+              </div>
             </div>
-          </div>
-          <div class="demo-slide" data-slide="2">
-            <div class="demo-image-placeholder">
-              <img src="#" alt="Demo page 3" data-i18n="demoImage3Alt">
+            <div class="demo-slide" data-slide="2">
+              <div class="demo-image-placeholder">
+                <img src="./images/demo/case-2.jpg" alt="Demo page 3" data-i18n="demoImage3Alt">
+              </div>
             </div>
-          </div>
-          <div class="demo-slide" data-slide="3">
-            <div class="demo-image-placeholder">
-              <img src="#" alt="Demo page 4" data-i18n="demoImage4Alt">
+            <div class="demo-slide" data-slide="3">
+              <div class="demo-image-placeholder">
+                <img src="./images/demo/case-3.jpg" alt="Demo page 4" data-i18n="demoImage4Alt">
+              </div>
             </div>
           </div>
         </div>
@@ -2592,6 +2640,46 @@
       observer.observe(el);
     });
   </script>
+  <!-- Image Lightbox Modal -->
+  <div id="imageLightbox" class="lightbox-modal" aria-hidden="true" role="dialog">
+    <img id="lightboxImg" src="" alt="Enlarged view">
+  </div>
+
+  <script>
+    // -------------------------
+    // 9) Image Lightbox (Zoom)
+    // -------------------------
+    const lightbox = document.getElementById('imageLightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const demoWrappers = document.querySelectorAll('.demo-image-placeholder');
+
+    if (lightbox && lightboxImg && demoWrappers) {
+      demoWrappers.forEach(wrapper => {
+        wrapper.addEventListener('click', () => {
+          const img = wrapper.querySelector('img');
+          if (img) {
+            lightboxImg.src = img.src;
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+            lightbox.style.display = 'flex';
+            // Trigger reflow to play animation
+            void lightbox.offsetWidth;
+            lightbox.classList.add('active');
+          }
+        });
+      });
+
+      lightbox.addEventListener('click', () => {
+        lightbox.classList.remove('active');
+        // Restore body scroll
+        document.body.style.overflow = '';
+        setTimeout(() => {
+          lightbox.style.display = 'none';
+        }, 300); // Wait for transition
+      });
+    }
+  </script>
+
   <!-- Login State Script -->
   <!-- Login State Script Removed as per request -->
   <script>
