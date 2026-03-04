@@ -1,0 +1,3338 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!--
+    ===========================================================
+    SDG (Synthetic Data Generation) Landing Page Template
+    - Gretel-like structure (NOT copying their content)
+    - Single-file HTML/CSS/JS
+    - Replace text/links with your brand and services
+    ===========================================================
+  -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title data-i18n="pageTitle">ChuChiang Data — Synthetic Data Solutions</title>
+  <meta name="description" content="Enterprise-grade synthetic data solutions for privacy-safe analytics and AI."
+    data-i18n="pageDescription" />
+
+  <!-- Favicon - Browser Tab Icon -->
+  <link rel="icon" type="image/svg+xml" href="./images/company-logo/logo2.jpg">
+  <link rel="apple-touch-icon" sizes="180x180" href="./images/company-logo/logo2.jpg">
+
+  <!-- Config file -->
+  <!-- <script src="config-server.js"></script> -->
+  <script src="config.js"></script>
+
+  <!--
+    ===========================================================
+    STYLE SECTION
+    - Pure CSS, no frameworks
+    - Designed for clean, modern, enterprise feel
+    - Tip: If you later use Tailwind/Next.js, map these sections
+    ===========================================================
+  -->
+  <style>
+    /* -------------------------
+      0) CSS Reset (minimal)
+      ------------------------- */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: #0b1220;
+      background: #ffffff;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    /* -------------------------
+      1) Design Tokens
+      - Keep this section as your "theme control panel"
+      ------------------------- */
+    :root {
+      --bg: #ffffff;
+      --surface: #f7f8fb;
+      --surface-2: #eef1f7;
+      --text: #0b1220;
+      --muted: #5b6477;
+      --border: rgba(13, 20, 33, 0.10);
+
+      --primary: #2a5cff;
+      /* brand main */
+      --primary-2: #2dd4bf;
+      /* accent */
+      --danger: #ff3b30;
+
+      --shadow: 0 10px 30px rgba(16, 24, 40, 0.10);
+      --shadow-2: 0 8px 20px rgba(16, 24, 40, 0.08);
+
+      --radius: 18px;
+      --radius-sm: 12px;
+
+      --container: 1120px;
+      --pad: 24px;
+    }
+
+    /* -------------------------
+      2) Layout helpers
+      ------------------------- */
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 20px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+      white-space: nowrap;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(42, 92, 255, 0.3), 0 8px 20px rgba(42, 92, 255, 0.2);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+      box-shadow: 0 8px 20px rgba(42, 92, 255, 0.4), 0 12px 30px rgba(42, 92, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: rgba(42, 92, 255, 0.08);
+      border-color: rgba(42, 92, 255, 0.18);
+      color: var(--primary);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(42, 92, 255, 0.15);
+      border-color: rgba(42, 92, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-light-green {
+      background: rgba(76, 175, 80, 0.15);
+      border-color: rgba(76, 175, 80, 0.3);
+      color: #2e7d32;
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15), 0 8px 20px rgba(76, 175, 80, 0.1);
+    }
+
+    .btn-light-green:hover {
+      background: rgba(76, 175, 80, 0.25);
+      border-color: rgba(76, 175, 80, 0.4);
+      box-shadow: 0 8px 20px rgba(76, 175, 80, 0.2), 0 12px 30px rgba(76, 175, 80, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .btn-light-green::before {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(45, 212, 191, 0.14);
+      border: 1px solid rgba(45, 212, 191, 0.28);
+      color: #0b5a52;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(16, 24, 40, 0.06), 0 8px 20px rgba(16, 24, 40, 0.04);
+      padding: 18px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 28px rgba(16, 24, 40, 0.12), 0 20px 40px rgba(16, 24, 40, 0.08);
+      transform: translateY(-4px);
+      border-color: rgba(42, 92, 255, 0.2);
+    }
+
+    .card.soft {
+      background: var(--surface);
+      box-shadow: none;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .kicker {
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-weight: 800;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: clamp(24px, 3.2vw, 34px);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    h3 {
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    h1:hover,
+    h2:hover,
+    h3:hover {
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      transform: translateY(-1px);
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .section {
+      padding: 72px 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0;
+    }
+
+    /* -------------------------
+      3) Top navigation
+      ------------------------- */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .nav:hover {
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .brand img.nav-logo {
+      height: 125px;
+      width: auto;
+      max-width: 100%;
+    }
+
+    .logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 30% 20%, var(--primary-2), var(--primary));
+      box-shadow: var(--shadow-2);
+    }
+
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: 16px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+
+    .nav-links a:hover {
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Language switcher */
+    .language-switcher {
+      display: inline-flex;
+      gap: 6px;
+    }
+
+    .language-switcher .btn {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    .language-switcher .btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Mobile menu */
+    .menu-btn {
+      display: inline-flex;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      padding: 5px 10px;
+      /* Adjust menu text size here */
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .mobile-panel {
+      display: none;
+      border-top: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+    }
+
+    .mobile-panel a {
+      display: block;
+      padding: 14px var(--pad);
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .mobile-panel a:hover {
+      color: var(--text);
+      background: var(--surface);
+    }
+
+    /* -------------------------
+      4) Hero section
+      - Gretel-like: clear headline + value + CTA + trust chips
+      ------------------------- */
+    .hero {
+      padding: 54px 0 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: -200px -200px auto -200px;
+      height: 520px;
+      background:
+        radial-gradient(600px 280px at 12% 40%, rgba(42, 92, 255, 0.20), transparent 60%),
+        radial-gradient(520px 260px at 60% 0%, rgba(45, 212, 191, 0.18), transparent 55%),
+        radial-gradient(520px 260px at 92% 35%, rgba(42, 92, 255, 0.15), transparent 55%);
+      pointer-events: none;
+      filter: blur(0px);
+    }
+
+    .hero-about-wrapper {
+      position: relative;
+      background: linear-gradient(180deg, #ffffff 0%, #f8faff 30%, #eef2ff 60%, #f0f9ff 100%);
+      overflow: hidden;
+    }
+
+    .hero-about-wrapper::before,
+    .hero-about-wrapper::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      right: -50%;
+      bottom: -50%;
+      pointer-events: none;
+    }
+
+    .hero-about-wrapper::before {
+      background:
+        radial-gradient(ellipse 60% 40% at 30% 30%, rgba(42, 92, 255, 0.18), transparent 50%),
+        radial-gradient(ellipse 50% 35% at 70% 20%, rgba(45, 212, 191, 0.15), transparent 45%);
+      animation: blobMove1 20s linear infinite;
+    }
+
+    .hero-about-wrapper::after {
+      background:
+        radial-gradient(ellipse 55% 38% at 60% 70%, rgba(42, 92, 255, 0.15), transparent 48%),
+        radial-gradient(ellipse 45% 32% at 25% 65%, rgba(45, 212, 191, 0.12), transparent 42%);
+      animation: blobMove2 25s linear infinite;
+    }
+
+    @keyframes blobMove1 {
+      0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+      }
+      25% {
+        transform: translate(5%, 3%) rotate(90deg) scale(1.05);
+      }
+      50% {
+        transform: translate(0, 6%) rotate(180deg) scale(1);
+      }
+      75% {
+        transform: translate(-5%, 3%) rotate(270deg) scale(0.95);
+      }
+      100% {
+        transform: translate(0, 0) rotate(360deg) scale(1);
+      }
+    }
+
+    @keyframes blobMove2 {
+      0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+      }
+      33% {
+        transform: translate(-4%, 5%) rotate(-120deg) scale(1.08);
+      }
+      66% {
+        transform: translate(3%, -3%) rotate(-240deg) scale(0.92);
+      }
+      100% {
+        transform: translate(0, 0) rotate(-360deg) scale(1);
+      }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .hero-copy {
+      padding: 48px 0;
+    }
+
+    .hero-copy h1 {
+      margin-bottom: 0;
+      line-height: 1.3;
+    }
+
+    .hero-copy h1 br {
+      display: block;
+      content: "";
+      margin-bottom: 45px;
+    }
+
+    .hero-copy .muted {
+      font-size: 20px;
+      font-weight: 500;
+      max-width: 62ch;
+      margin-top: 48px;
+      margin-bottom: 48px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 0;
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .hero-panel {
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--surface), #ffffff);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 750;
+      background: rgba(42, 92, 255, 0.10);
+      border: 1px solid rgba(42, 92, 255, 0.20);
+      color: var(--primary);
+    }
+
+    .mini-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    /* -------------------------
+      5) Sections: value, capabilities, use cases
+      ------------------------- */
+    .cards-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cards-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    /* -------------------------
+      6) How it works (steps)
+      ------------------------- */
+    .steps {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .step {
+      position: relative;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+
+    .step .num {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: rgba(45, 212, 191, 0.16);
+      border: 1px solid rgba(45, 212, 191, 0.30);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #0b5a52;
+      margin-bottom: 10px;
+    }
+
+    /* -------------------------
+      7) Trust section
+      ------------------------- */
+    .logo-wall {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+
+    .logo-tile {
+      border: 1px dashed rgba(13, 20, 33, 0.22);
+      border-radius: 14px;
+      padding: 14px 10px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 750;
+      background: #fff;
+    }
+
+    .logo-tile img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+
+    /* -------------------------
+      8) FAQ accordion
+      ------------------------- */
+    .faq {
+      display: grid;
+      gap: 10px;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 14px 16px;
+      box-shadow: var(--shadow-2);
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 800;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .chev {
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      transition: transform .2s ease;
+    }
+
+    details[open] .chev {
+      transform: rotate(180deg);
+    }
+
+    details p {
+      margin-top: 10px;
+      color: var(--muted);
+    }
+
+    /* -------------------------
+      9) Contact / demo form
+      - Keep form simple: it increases conversion
+      ------------------------- */
+    .form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 750;
+      color: var(--muted);
+    }
+
+    input,
+    textarea {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 12px;
+      outline: none;
+      background: #fff;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(42, 92, 255, 0.40);
+      box-shadow: 0 0 0 4px rgba(42, 92, 255, 0.10);
+    }
+
+    .form-note {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* -------------------------
+      10) Footer
+      ------------------------- */
+    footer {
+      padding: 34px 0;
+      border-top: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      font-weight: 650;
+    }
+
+    .footer-links a {
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+    }
+
+    .footer-links a:hover {
+      border-color: var(--border);
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    /* -------------------------
+      11) Floating back-to-top button
+      ------------------------- */
+    .to-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      display: none;
+      z-index: 60;
+    }
+
+    /* -------------------------
+      12) Responsive
+      ------------------------- */
+    /* -------------------------
+      12) Responsive
+      ------------------------- */
+    @media (max-width: 899px) {
+      .brand img.nav-logo {
+        height: 100px;
+      }
+
+      /* Hide all CTA buttons in nav on mobile (Sign in, Begin serve, Request Demo) */
+      /* Keeps Menu button and Language switcher visible */
+      .nav-cta>a.btn {
+        display: none !important;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .nav-links {
+        display: flex;
+      }
+
+      .menu-btn {
+        display: none;
+      }
+
+      .mobile-panel {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cards-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .logo-wall {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .cards-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .cards-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .logo-wall {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* -------------------------
+      10) Demo Section
+      - Purpose: Showcase product demo with slider functionality
+      ------------------------- */
+    .demo-section {
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+      padding: 90px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(180deg, var(--bg) 0%, transparent 100%);
+    }
+
+    .demo-section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(0deg, var(--bg) 0%, transparent 100%);
+    }
+
+    .demo-header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .demo-image-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .demo-image-placeholder {
+      width: 100%;
+      height: 500px;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+      cursor: zoom-in;
+    }
+
+    .demo-image-placeholder:hover {
+      transform: scale(1.02);
+    }
+
+    .demo-image-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* 增强Demo分区的视觉效果 */
+    .demo-section {
+      padding: 90px 0;
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 渐变蓝色文本 */
+    .gradient-text {
+      background: linear-gradient(90deg, #1a73e8, #0d47a1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 600;
+    }
+
+    /* 确保带text-center的section-header真正居中 */
+    .section-header.text-center {
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* 放大"demo"一词 */
+    .demo-highlight {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .demo-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-2) 100%);
+      border-radius: 3px;
+    }
+
+    /* Responsive demo section */
+    @media (max-width: 768px) {
+      .demo-image-placeholder {
+        height: 350px;
+      }
+
+      .demo-section {
+        padding: 70px 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .demo-image-placeholder {
+        height: 250px;
+      }
+
+      .demo-section {
+        padding: 60px 0;
+      }
+
+      .demo-section::before {
+        width: 80px;
+        height: 4px;
+      }
+    }
+
+    /* -------------------------
+       13) Cleanup Logo Wall (Partners)
+       ------------------------- */
+    .logo-wall.logo-wall-clean {
+      display: flex;
+      /* 覆盖 grid */
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      padding: 0 10%;
+      /* 增加左右内边距，让整体更聚拢 */
+      gap: 40px 5%;
+      /* 上下间距40px，左右间距5% */
+    }
+
+    .logo-wall.logo-wall-clean .logo-tile {
+      /* 关键修改: flex: 0 0 28% 确保一行放不下4个，只能放3个 */
+      flex: 0 0 28%;
+
+      border: none;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      /* 增加高级感：默认半透明+灰度，悬停全彩 */
+      opacity: 0.5;
+      filter: grayscale(100%);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+      /* 确保内容居中 */
+      display: flex;
+      justify-content: center;
+    }
+
+    .logo-wall.logo-wall-clean .logo-tile:hover {
+      opacity: 1;
+      filter: grayscale(0%);
+      transform: translateY(-4px);
+      /* 轻微上浮 */
+    }
+
+    /* 保证图片清晰 */
+    .logo-wall.logo-wall-clean .logo-tile img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* 响应式适配 */
+    @media (max-width: 768px) {
+      .logo-wall.logo-wall-clean {
+        padding: 0;
+      }
+
+      .logo-wall.logo-wall-clean .logo-tile {
+        flex: 0 0 45%;
+        /* 一行2个 */
+      }
+    }
+
+    /* -------------------------
+       14) Contact Section Responsive
+       ------------------------- */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* -------------------------
+       15) Image Lightbox (Zoom Feature)
+       ------------------------- */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      /* Dark semi-transparent background */
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-modal img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      cursor: zoom-out;
+    }
+
+    .lightbox-modal.active img {
+      transform: scale(1);
+    }
+
+    /* -------------------------
+       16) About Us Section
+       ------------------------- */
+    .about-section {
+      padding: 60px 0 100px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-title {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, var(--primary) 0%, #1e40af 50%, var(--primary-2) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 0.05em;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .about-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-2));
+      margin: 20px auto 0;
+      border-radius: 2px;
+    }
+
+    .about-content {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 18px;
+      line-height: 2;
+      color: #374151;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-content p {
+      margin: 0;
+    }
+
+    .about-highlight {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* -------------------------
+       17) Featured Cases Section
+       ------------------------- */
+    .cases-section {
+      position: relative;
+      padding: 80px 0;
+      overflow: hidden;
+    }
+
+    .cases-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('./images/shanghaiskyline.png');
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+    }
+
+    .cases-bg::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .cases-container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .cases-card {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 16px;
+      padding: 48px 56px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    .cases-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .cases-title {
+      font-size: 28px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 32px;
+      line-height: 1.4;
+    }
+
+    .cases-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+      margin: 0 auto 32px;
+      max-width: 90%;
+    }
+
+    .cases-subheader {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .cases-subtitle {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+    
+
+    /* -------------------------
+       18) 响应式：小于 768px 时 featured cases 卡片内边距调整
+       ------------------------- */
+    @media (max-width: 768px) {
+      .cases-card {
+        padding: 32px 24px;
+      }
+    }
+
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .case-item {
+      text-align: center;
+      padding: 24px 16px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .case-item:hover {
+      background: rgba(42, 92, 255, 0.05);
+      transform: translateY(-4px);
+    }
+
+    .case-category {
+      font-size: 13px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .case-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a2e;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .case-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      color: #666;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .case-item:hover .case-arrow {
+      background: var(--primary);
+      color: white;
+      transform: translateX(4px);
+    }
+
+    @media (max-width: 768px) {
+      .cases-card {
+        padding: 32px 24px;
+      }
+
+      .cases-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .cases-subheader {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+    }
+  
+
+/* ===== Value System Section Styles ===== */
+
+    /* ===== CSS Reset & Base ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #3B82F6;
+      --primary-light: #60A5FA;
+      --primary-lighter: #93C5FD;
+      --bg-tint: #F5FAFF;
+      --bg-white: #FFFFFF;
+      --text-primary: #1E293B;
+      --text-secondary: #64748B;
+      --text-muted: #94A3B8;
+      --border-light: #E2E8F0;
+      --shadow-soft: 0 4px 20px rgba(59, 130, 246, 0.08);
+      --shadow-medium: 0 8px 30px rgba(59, 130, 246, 0.12);
+      --radius-xl: 20px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-white);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== Value System Section ===== */
+    .value-system {
+      position: relative;
+      min-height: 100vh;
+      padding: 80px 24px;
+      background: linear-gradient(180deg, var(--bg-white) 0%, var(--bg-tint) 100%);
+      overflow: hidden;
+    }
+
+    /* Background Grid & Noise */
+    .value-system::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0;
+      animation: fadeInGrid 900ms ease-out forwards;
+      pointer-events: none;
+    }
+
+    .value-system::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.015;
+      pointer-events: none;
+    }
+
+    @keyframes fadeInGrid {
+      to { opacity: 1; }
+    }
+
+    /* Container */
+    .value-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 600ms ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Header */
+    .value-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .value-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .value-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    /* Main Layout */
+    .value-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* Left: Visualization Area */
+    .value-visual {
+      position: relative;
+      height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* SVG Container */
+    .orbit-svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .orbit-line {
+      fill: none;
+      stroke: rgba(59, 130, 246, 0.15);
+      stroke-width: 1;
+    }
+
+    .orbit-ring {
+      fill: none;
+      stroke: rgba(59, 130, 246, 0.1);
+      stroke-width: 1;
+      transform-origin: center;
+    }
+
+    .orbit-ring-1 {
+      animation: rotateSlow 60s linear infinite;
+    }
+
+    .orbit-ring-2 {
+      animation: rotateSlow 80s linear infinite reverse;
+    }
+
+    @keyframes rotateSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .connection-line {
+      fill: none;
+      stroke: rgba(59, 130, 246, 0.2);
+      stroke-width: 1;
+      transition: all 0.3s ease;
+    }
+
+    .connection-line.active {
+      stroke: url(#lineGradient);
+      stroke-width: 2;
+      animation: flowLight 1.5s ease-out;
+    }
+
+    @keyframes flowLight {
+      0% { stroke-dashoffset: 100; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    /* Core Engine */
+    .engine-core {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px);
+      border-radius: 50%;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      box-shadow: 
+        0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+        var(--shadow-medium);
+      z-index: 10;
+      transition: transform 0.3s ease;
+    }
+
+    .engine-core.pulse {
+      animation: corePulse 300ms ease-out;
+    }
+
+    @keyframes corePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .engine-label-cn {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .engine-label-en {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Nodes */
+    .node-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .node {
+      position: absolute;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      border-radius: 100px;
+      box-shadow: var(--shadow-soft);
+      cursor: pointer;
+      pointer-events: auto;
+      transition: all 0.3s ease;
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .node:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary-light);
+      box-shadow: 
+        0 4px 20px rgba(59, 130, 246, 0.15),
+        0 0 0 4px rgba(59, 130, 246, 0.05);
+    }
+
+    .node.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    .node.active .node-en {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .node-cn {
+      font-size: 14px;
+      font-weight: 600;
+      color: inherit;
+      margin-bottom: 2px;
+    }
+
+    .node-en {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Node Positions (Circular Layout) */
+    .node:nth-child(1) { top: 10%; left: 50%; transform: translateX(-50%); }
+    .node:nth-child(2) { top: 25%; right: 8%; }
+    .node:nth-child(3) { bottom: 25%; right: 8%; }
+    .node:nth-child(4) { bottom: 10%; left: 50%; transform: translateX(-50%); }
+    .node:nth-child(5) { bottom: 25%; left: 8%; }
+    .node:nth-child(6) { top: 25%; left: 8%; }
+
+    /* Right: Details Panel */
+    .details-panel {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(59, 130, 246, 0.1);
+      padding: 32px;
+      box-shadow: var(--shadow-soft);
+      min-height: 500px;
+    }
+
+    .panel-content {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+      transition: all 0.4s ease;
+    }
+
+    .panel-content.switching {
+      opacity: 0;
+      transform: translateY(-6px);
+      filter: blur(4px);
+    }
+
+    .panel-header {
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .panel-title-cn {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .panel-title-en {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .panel-tagline {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 16px;
+      padding-left: 12px;
+      border-left: 3px solid var(--primary-light);
+    }
+
+    .panel-description {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .panel-output {
+      background: rgba(59, 130, 246, 0.05);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .output-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .output-value {
+      font-size: 14px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* Mobile Layout */
+    @media (max-width: 1023px) {
+      .value-system {
+        padding: 48px 20px;
+      }
+
+      .value-title {
+        font-size: 28px;
+      }
+
+      .value-subtitle {
+        font-size: 15px;
+      }
+
+      .value-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .value-visual {
+        height: auto;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .engine-core {
+        width: 160px;
+        height: 160px;
+        order: -1;
+      }
+
+      .orbit-svg {
+        display: none;
+      }
+
+      .node-container {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 8px 4px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+
+      .node-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .node {
+        position: relative;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        flex-shrink: 0;
+        min-width: auto;
+        padding: 10px 16px;
+      }
+
+      .details-panel {
+        padding: 24px;
+        min-height: auto;
+      }
+
+      .panel-title-cn {
+        font-size: 20px;
+      }
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  
+</style>
+</head>
+
+<body>
+  <!-- =========================================================
+    TOP NAV
+    - Purpose: fast access to sections + conversion CTA
+    - How to use: replace Brand name, links, CTA action
+  ========================================================== -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Go to top">
+        <img src="./images/company-logo/logo_main.png" alt="ChuChiang Data Logo" class="nav-logo">
+      </a>
+
+      <!-- Desktop nav links -->
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#capabilities" data-i18n="navCapabilities">Capabilities</a>
+        <a href="#use-cases" data-i18n="navUseCases">Use Cases</a>
+        <a href="#how" data-i18n="navHowItWorks">Principle</a>
+        <a href="about-us.html" target="_blank" data-i18n="navAboutUs">About us</a>
+      </nav>
+
+      <div class="nav-cta">
+        <!-- Mobile menu button -->
+        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobilePanel" data-i18n="navMenu">
+          ☰ Menu
+        </button>
+        <a class="btn btn-light-green" href="#contact" data-i18n="navTalkToExpert">Begin serve now</a>
+        <a class="btn btn-primary" href="#demo" data-i18n="navRequestDemo">Request a Demo</a>
+        <!-- Language switcher -->
+        <div class="language-switcher">
+          <button id="langEn" class="btn btn-ghost " data-lang="en">EN</button>
+          <button id="langZh" class="btn btn-ghost active" data-lang="zh">中文</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu panel -->
+    <div class="mobile-panel" id="mobilePanel" role="region" aria-label="Mobile menu">
+      <a href="#capabilities" data-i18n="navCapabilities">Capabilities</a>
+      <a href="#use-cases" data-i18n="navUseCases">Use Cases</a>
+      <a href="#how" data-i18n="navHowItWorks">Principle</a>
+      <a href="about-us.html" target="_blank" data-i18n="navAboutUs">About us</a>
+      <a href="#contact" data-i18n="navTalkToExpert">Begin serve now</a>
+      <a href="#demo" data-i18n="navRequestDemo">Request a Demo</a>
+    </div>
+  </header>
+
+  <!-- =========================================================
+    HERO SECTION (Main first screen)
+    - Purpose: 10 seconds to understand
+      1) What you do
+      2) Why it matters (privacy + utility)
+      3) Next action (demo)
+    - How to use: replace headline/subheadline to your exact positioning
+  ========================================================== -->
+  <div class="hero-about-wrapper">
+    <main id="top" class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+
+      <div class="container hero-grid">
+        <!-- Left: copy -->
+        <section class="hero-copy" aria-label="Hero">
+          <h1 data-i18n="heroHeadline">
+            Enterprise-grade synthetic data solutions for
+            <span style="color: var(--primary);">privacy-safe analytics</span> and AI.
+          </h1>
+
+          <p class="muted" data-i18n="heroSubhead">
+            Replace sensitive datasets with high-utility synthetic data—designed to preserve statistical
+            characteristics while reducing re-identification risk and accelerating delivery.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#demo" data-i18n="heroCta1">Request a Demo →</a>
+            <a class="btn btn-ghost" href="#capabilities" data-i18n="heroCta2">Explore Capabilities</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- =========================================================
+      ABOUT US
+      - Purpose: Highlight company introduction
+      - Key section for brand positioning
+    ========================================================== -->
+    <section id="about" class="about-section">
+      <div class="container">
+        <h2 class="about-title" data-i18n="aboutTitle">关于我们</h2>
+        <div class="about-content">
+          <p data-i18n="aboutContent">
+            <span class="about-highlight">珠江数据</span>是上海珠水江科数据科技有限公司旗下的合成数据及其解决方案供应商。我们的团队致力于使用合成数据技术，为各个专业领域提供稳定、精确、一致的合成数据和专业全面的解决方案，降低数据的收集成本和使用门槛。
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- =========================================================
+    PARTNERS
+    - Purpose: Showcase trusted partners and build credibility
+    - How to use: Replace placeholder logos with your actual partner logos
+  ========================================================== -->
+  <section class="section" style="background: var(--surface);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker" data-i18n="partnersKicker">Trusted By</div>
+          <h2 style="margin-top: 8px;" data-i18n="partnersHeadline">Our Partners</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 70ch;" data-i18n="partnersSubhead">
+            We collaborate with leading organizations to deliver synthetic data solutions that drive innovation and
+            privacy.
+          </p>
+        </div>
+      </div>
+
+      <div class="logo-wall logo-wall-clean">
+        <!-- Partner Logo Placeholders - Replace src with actual logo paths -->
+        <div class="logo-tile">
+          <img src="./images/partners-logo/logo-ANU-black.svg" alt="US Agricultural Department" data-i18n="partner2Alt">
+        </div>
+        <div class="logo-tile">
+          <img src="./images/partners-logo/western-securities.png" alt="western securities" data-i18n="partner3Alt">
+        </div>
+        <div class="logo-tile">
+          <img src="./images/partners-logo/Melbourne-uni.svg" alt="The University of Melbourne" data-i18n="partner4Alt">
+        </div>
+        <div class="logo-tile">
+          <img src="./images/partners-logo/osu-horiz-gray.svg" alt="Ohio state university" data-i18n="partner5Alt">
+        </div>
+        <div class="logo-tile">
+          <img src="./images/partners-logo/00.-ASTAR-HQ-Corporate-Website.png" alt="astar" data-i18n="partner6Alt">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- =========================================================
+    CAPABILITIES (main "what we do" section)
+    - Purpose: show the complete solution, not just a service list
+    - How to use: 4 cards is a sweet spot; add links later to detail pages
+  ========================================================== -->
+  <section id="capabilities" class="section" style="background: var(--surface);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker" data-i18n="capabilitiesKicker">Capabilities</div>
+          <h2 style="margin-top: 8px;" data-i18n="capabilitiesHeadline">From generation to evaluation to delivery.</h2>
+        </div>
+        <a class="btn btn-ghost" href="#contact" data-i18n="capabilitiesCta">Ask for a technical walkthrough</a>
+      </div>
+
+      <div class="grid cards-4">
+        <!-- 1) Generation -->
+        <div class="card">
+
+          <h3 style="margin-top: 12px;" data-i18n="capabilityCard1Title">Synthetic Data Generation</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="capabilityCard1Desc">
+            Produce synthetic datasets that mirror structure and statistics of your source data while avoiding direct
+            record copying.
+          </p>
+        </div>
+
+        <!-- 2) Privacy -->
+        <div class="card">
+
+          <h3 style="margin-top: 12px;" data-i18n="capabilityCard2Title">Privacy Risk Assessment</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="capabilityCard2Desc">
+            Measure re-identification risk using practical attack simulations and distance-based leakage checks.
+          </p>
+        </div>
+
+        <!-- 3) Utility -->
+        <div class="card">
+
+          <h3 style="margin-top: 12px;" data-i18n="capabilityCard3Title">Utility Validation</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="capabilityCard3Desc">
+            Quantify whether synthetic data supports downstream tasks (reports, forecasting, classification, etc.).
+          </p>
+        </div>
+
+        <!-- 4) Integration -->
+        <div class="card">
+
+          <h3 style="margin-top: 12px;" data-i18n="capabilityCard4Title">Custom Pipelines & Integration</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="capabilityCard4Desc">
+            Build repeatable workflows for your domain—data schema, constraints, formats, and governance.
+          </p>
+        </div>
+      </div>
+
+      <!-- Optional: "feature list" - useful for enterprise buyers -->
+      <div class="card" style="margin-top: 18px;">
+        <div class="kicker" data-i18n="capabilitiesOpKicker">Operational details</div>
+        <h3 style="margin-top: 8px;" data-i18n="capabilitiesOpTitle">Delivery artifacts you can expect</h3>
+        <div class="grid" style="grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 12px;">
+          <div class="card soft">
+            <h3 data-i18n="capabilitiesOpDatasetTitle">Datasets</h3>
+            <p class="muted" style="margin-top: 6px; font-size: 14px;" data-i18n="capabilitiesOpDatasetDesc">
+              CSV/Parquet + schema + constraints (optional) + versioned outputs.
+            </p>
+          </div>
+          <div class="card soft">
+            <h3 data-i18n="capabilitiesOpReportTitle">Evaluation Report</h3>
+            <p class="muted" style="margin-top: 6px; font-size: 14px;" data-i18n="capabilitiesOpReportDesc">
+              Utility metrics, distribution checks, correlation analysis, and task-based benchmarks.
+            </p>
+          </div>
+          <div class="card soft">
+            <h3 data-i18n="capabilitiesOpRiskTitle">Risk & Guidance</h3>
+            <p class="muted" style="margin-top: 6px; font-size: 14px;" data-i18n="capabilitiesOpRiskDesc">
+              Privacy risk summary + recommended usage policy and sharing rules.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    FEATURED CASES
+    - Purpose: showcase real-world case studies with background image
+    - Design: inspired by reference image with glassmorphism card
+  ========================================================== -->
+  <section id="featured-cases" class="cases-section">
+    <div class="cases-bg"></div>
+    <div class="cases-container">
+      <div class="cases-card">
+        <div class="cases-header">
+          <h2 class="cases-title" data-i18n="casesHeadline">Gartner estimates that by 2030 synthetic data will overshadow real data in AI/ML training</h2>
+        </div>
+        <div class="cases-divider"></div>
+        <div class="cases-subheader">
+          <h3 class="cases-subtitle" data-i18n="casesSubtitle">Featured Use Cases</h3>
+        </div>
+        <div class="cases-grid">
+          <a href="./images/demo/case-1.jpg" target="_blank" class="case-item">
+            <div class="case-category" data-i18n="case1Category">Cold Storage</div>
+            <div class="case-title" data-i18n="case1Title">Temperature Control & Energy Optimization</div>
+            <div class="case-arrow">→</div>
+          </a>
+          <a href="./images/demo/case-2.jpg" target="_blank" class="case-item">
+            <div class="case-category" data-i18n="case2Category">Aviation</div>
+            <div class="case-title" data-i18n="case2Title">Aero-engine Bearing Health Monitoring</div>
+            <div class="case-arrow">→</div>
+          </a>
+          <a href="./images/demo/case-3.jpg" target="_blank" class="case-item">
+            <div class="case-category" data-i18n="case3Category">Finance</div>
+            <div class="case-title" data-i18n="case3Title">Banking Transaction Data Privacy</div>
+            <div class="case-arrow">→</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+<section class="value-system">
+    <div class="value-container">
+      <!-- Header -->
+      <header class="value-header">
+        <h2 class="value-title" data-i18n="valueSystemTitle">合成数据的行业价值体系</h2>
+        <p class="value-subtitle" data-i18n="valueSystemSubtitle">构建可扩展的数据生产能力，而不是简单的数据增强工具。</p>
+      </header>
+
+      <!-- Main Layout -->
+      <div class="value-layout">
+        <!-- Left: Visualization -->
+        <div class="value-visual">
+          <!-- SVG for Orbits and Connections -->
+          <svg class="orbit-svg" viewBox="0 0 600 600">
+            <defs>
+              <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:0.5" />
+                <stop offset="100%" style="stop-color:#60A5FA;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            
+            <!-- Orbit Rings -->
+            <circle class="orbit-ring orbit-ring-1" cx="300" cy="300" r="180" />
+            <circle class="orbit-ring orbit-ring-2" cx="300" cy="300" r="240" />
+            
+            <!-- Connection Lines (will be updated by JS) -->
+            <line id="conn-0" class="connection-line" x1="300" y1="300" x2="300" y2="60" />
+            <line id="conn-1" class="connection-line" x1="300" y1="300" x2="552" y2="150" />
+            <line id="conn-2" class="connection-line" x1="300" y1="300" x2="552" y2="450" />
+            <line id="conn-3" class="connection-line" x1="300" y1="300" x2="300" y2="540" />
+            <line id="conn-4" class="connection-line" x1="300" y1="300" x2="48" y2="450" />
+            <line id="conn-5" class="connection-line" x1="300" y1="300" x2="48" y2="150" />
+          </svg>
+
+          <!-- Engine Core -->
+          <div class="engine-core" id="engineCore">
+            <span class="engine-label-cn" data-i18n="valueSystemEngineCn">合成数据生产引擎</span>
+            <span class="engine-label-en" data-i18n="valueSystemEngineEn">Synthetic Data Engine</span>
+          </div>
+
+          <!-- Nodes -->
+          <div class="node-container" id="nodeContainer">
+            <div class="node active" data-index="0">
+              <div class="node-cn">金融</div>
+              <div class="node-en">Financial Systems</div>
+            </div>
+            <div class="node" data-index="1">
+              <div class="node-cn">工程</div>
+              <div class="node-en">Engineering Systems</div>
+            </div>
+            <div class="node" data-index="2">
+              <div class="node-cn">医疗</div>
+              <div class="node-en">Healthcare</div>
+            </div>
+            <div class="node" data-index="3">
+              <div class="node-cn">研发</div>
+              <div class="node-en">Research & Collaboration</div>
+            </div>
+            <div class="node" data-index="4">
+              <div class="node-cn">开发与 QA</div>
+              <div class="node-en">Development & Testing</div>
+            </div>
+            <div class="node" data-index="5">
+              <div class="node-cn">罕见数据</div>
+              <div class="node-en">Rare Data Generation</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Details Panel -->
+        <div class="details-panel">
+          <div class="panel-content" id="panelContent">
+            <div class="panel-header">
+              <h3 class="panel-title-cn" id="panelTitleCn">金融</h3>
+              <span class="panel-title-en" id="panelTitleEn">Financial Systems</span>
+            </div>
+            
+            <div class="panel-tagline" id="panelTagline">
+              在合规框架下扩展风险建模能力。
+            </div>
+            
+            <p class="panel-description" id="panelDescription">
+              通过对交易结构、风险标签与时间分布的联合建模，生成可控的替代数据环境，用于压力测试、欺诈识别与极端场景推演，而不触碰真实客户数据。
+            </p>
+            
+            <div class="panel-output">
+              <div class="output-label">典型输出物</div>
+              <div class="output-value" id="panelOutput">
+                可用于模型训练与鲁棒性验证的合成交易数据集。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Data for all sectors with translations
+    const sectorsData = [
+      {
+        cn: '金融',
+        en: 'Financial Systems',
+        tagline: {
+          zh: '在合规框架下扩展风险建模能力。',
+          en: 'Extend risk modeling capabilities within compliance frameworks.'
+        },
+        description: {
+          zh: '通过对交易结构、风险标签与时间分布的联合建模，生成可控的替代数据环境，用于压力测试、欺诈识别与极端场景推演，而不触碰真实客户数据。',
+          en: 'Generate controlled alternative data environments for stress testing, fraud detection, and extreme scenario simulation through joint modeling of transaction structures, risk labels, and temporal distributions, without touching real customer data.'
+        },
+        output: {
+          zh: '可用于模型训练与鲁棒性验证的合成交易数据集。',
+          en: 'Synthetic transaction datasets for model training and robustness validation.'
+        },
+        scales: { privacy: 90, fidelity: 85, control: 95 }
+      },
+      {
+        cn: '工程',
+        en: 'Engineering Systems',
+        tagline: {
+          zh: '在不可重复的工况中生成可验证数据。',
+          en: 'Generate verifiable data in non-repeatable operating conditions.'
+        },
+        description: {
+          zh: '针对设备异常、极端负载与稀缺故障场景，重建传感器信号分布与结构关系，使模型在现实无法高频采集的环境下完成训练与校准。',
+          en: 'Reconstruct sensor signal distributions and structural relationships for equipment anomalies, extreme loads, and rare failure scenarios, enabling model training and calibration in environments where real-world high-frequency data collection is impossible.'
+        },
+        output: {
+          zh: '覆盖异常区间的工业时序数据集。',
+          en: 'Industrial time-series datasets covering anomaly intervals.'
+        },
+        scales: { privacy: 70, fidelity: 95, control: 88 }
+      },
+      {
+        cn: '医疗',
+        en: 'Healthcare',
+        tagline: {
+          zh: '在隐私保护下保留结构分布。',
+          en: 'Preserve structural distributions under privacy protection.'
+        },
+        description: {
+          zh: '通过对病例特征、诊疗路径与标签分布的结构建模，生成统计一致而不包含真实身份信息的数据副本，用于模型训练、验证与跨机构协作研究。',
+          en: 'Generate statistically consistent data copies without real identity information through structural modeling of case features, treatment paths, and label distributions, for model training, validation, and cross-institutional collaborative research.'
+        },
+        output: {
+          zh: '可用于算法验证的去标识化临床数据替代集。',
+          en: 'De-identified clinical data alternatives for algorithm validation.'
+        },
+        scales: { privacy: 98, fidelity: 82, control: 75 }
+      },
+      {
+        cn: '研发',
+        en: 'Research & Collaboration',
+        tagline: {
+          zh: '构建可审计的数据实验环境。',
+          en: 'Build auditable data experimentation environments.'
+        },
+        description: {
+          zh: '在明确参数控制与分布约束下生成可复现数据样本，使研究过程具备可验证性与共享可能，同时降低真实数据暴露风险。',
+          en: 'Generate reproducible data samples under explicit parameter controls and distribution constraints, enabling verifiable and shareable research processes while reducing real data exposure risks.'
+        },
+        output: {
+          zh: '用于论文验证与合作研究的可控实验数据集。',
+          en: 'Controlled experimental datasets for paper validation and collaborative research.'
+        },
+        scales: { privacy: 85, fidelity: 80, control: 92 }
+      },
+      {
+        cn: '开发与 QA',
+        en: 'Development & Testing',
+        tagline: {
+          zh: '为测试环境构造真实结构的数据副本。',
+          en: 'Construct structurally realistic data copies for test environments.'
+        },
+        description: {
+          zh: '通过模拟边界条件与异常路径，生成具备业务逻辑一致性的测试数据，用于系统验证与自动化测试流程，加速迭代而不依赖生产数据库。',
+          en: 'Generate test data with business logic consistency by simulating boundary conditions and exceptional paths, for system validation and automated testing processes, accelerating iterations without relying on production databases.'
+        },
+        output: {
+          zh: '完整覆盖测试场景的沙箱数据环境。',
+          en: 'Sandbox data environments with complete test scenario coverage.'
+        },
+        scales: { privacy: 75, fidelity: 88, control: 90 }
+      },
+      {
+        cn: '罕见数据',
+        en: 'Rare Data Generation',
+        tagline: {
+          zh: '让低频事件具备可训练价值。',
+          en: 'Enable trainable value for low-frequency events.'
+        },
+        description: {
+          zh: '通过对长尾分布与小样本类别进行扩展建模，使罕见事件在统计空间中获得充分表达，从而修正类别不平衡并提升模型泛化能力。',
+          en: 'Enable full expression of rare events in statistical space through extended modeling of long-tail distributions and small sample categories, thereby correcting class imbalance and improving model generalization.'
+        },
+        output: {
+          zh: '经分布校准的高质量扩展样本集。',
+          en: 'Distribution-calibrated high-quality extended sample sets.'
+        },
+        scales: { privacy: 72, fidelity: 92, control: 85 }
+      }
+    ];
+
+    // DOM Elements
+    const nodes = document.querySelectorAll('.node');
+    const panelContent = document.getElementById('panelContent');
+    const panelTitleCn = document.getElementById('panelTitleCn');
+    const panelTitleEn = document.getElementById('panelTitleEn');
+    const panelTagline = document.getElementById('panelTagline');
+    const panelDescription = document.getElementById('panelDescription');
+    const panelOutput = document.getElementById('panelOutput');
+    const engineCore = document.getElementById('engineCore');
+    const connectionLines = document.querySelectorAll('.connection-line');
+
+    let currentIndex = 0;
+
+    // Update panel content
+    function updatePanel(index) {
+      const data = sectorsData[index];
+      const lang = currentLang || 'zh';
+      
+      // Add switching animation
+      panelContent.classList.add('switching');
+      
+      setTimeout(() => {
+        panelTitleCn.textContent = data.cn;
+        panelTitleEn.textContent = data.en;
+        panelTagline.textContent = data.tagline[lang] || data.tagline.zh;
+        panelDescription.textContent = data.description[lang] || data.description.zh;
+        panelOutput.textContent = data.output[lang] || data.output.zh;
+        
+        panelContent.classList.remove('switching');
+      }, 200);
+    }
+
+    // Handle node click
+    function handleNodeClick(index) {
+      if (index === currentIndex) return;
+      
+      // Update active states
+      nodes[currentIndex].classList.remove('active');
+      connectionLines[currentIndex].classList.remove('active');
+      
+      currentIndex = index;
+      
+      nodes[currentIndex].classList.add('active');
+      connectionLines[currentIndex].classList.add('active');
+      
+      // Trigger core pulse
+      engineCore.classList.add('pulse');
+      setTimeout(() => engineCore.classList.remove('pulse'), 300);
+      
+      // Update panel
+      updatePanel(currentIndex);
+    }
+
+    // Add click listeners to nodes
+    nodes.forEach((node, index) => {
+      node.addEventListener('click', () => handleNodeClick(index));
+    });
+
+    // Initialize first connection line as active
+    connectionLines[0].classList.add('active');
+  </script>
+
+
+  <!-- =========================================================
+    FAQ SECTION
+    - Purpose: remove common objections
+    - How to use: replace questions with your real sales objections
+  ========================================================== -->
+  <section id="faq" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker" data-i18n="faqKicker">FAQ</div>
+          <h2 style="margin-top: 8px;" data-i18n="faqHeadline">Common questions about synthetic data.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;" data-i18n="faqSubhead">
+            Keep your answers short and confident. Offer a demo or a sample report for deeper details.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary data-i18n="faqItem1Question">
+            Is synthetic data the same as anonymized data?
+            <span class="chev">⌄</span>
+          </summary>
+          <p data-i18n="faqItem1Answer">
+            Not exactly. Anonymization typically modifies real records, while synthetic data generates new records from
+            learned patterns.
+            In practice, you still need evaluation to quantify privacy risk and utility.
+          </p>
+        </details>
+
+        <details>
+          <summary data-i18n="faqItem2Question">
+            Can synthetic data be used for machine learning training?
+            <span class="chev">⌄</span>
+          </summary>
+          <p data-i18n="faqItem2Answer">
+            Often yes—especially for augmentation, class imbalance mitigation, and sharing data for validation.
+            We recommend task-based utility tests to confirm performance for your specific model and target.
+          </p>
+        </details>
+
+        <details>
+          <summary data-i18n="faqItem3Question">
+            How do you measure privacy risk?
+            <span class="chev">⌄</span>
+          </summary>
+          <p data-i18n="faqItem3Answer">
+            We use practical risk checks such as nearest-neighbor similarity, leakage signals, and scenario-based tests
+            (aligned to your threat model). The output is summarized in a decision-friendly report.
+          </p>
+        </details>
+
+        <details>
+          <summary data-i18n="faqItem4Question">
+            What data types do you support?
+            <span class="chev">⌄</span>
+          </summary>
+          <p data-i18n="faqItem4Answer">
+            We typically start with tabular data (most common in enterprises). Time-series and text can be supported
+            depending on
+            constraints, data size, and intended usage.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    DEMO SECTION
+    - Purpose: showcase product demo
+    - How to use: insert demo images in the placeholders
+  ========================================================== -->
+  <section id="demo" class="section demo-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="demo-header">
+          <div class="kicker" data-i18n="demoKicker"><span class="demo-highlight">Demo</span></div>
+          <h2 class="gradient-text" style="margin-top: 8px;" data-i18n="demoHeadline">See Our Solution in Action</h2>
+          <p class="muted gradient-text"
+            style="margin-top: 10px; max-width: 72ch; margin-left: auto; margin-right: auto;" data-i18n="demoSubhead">
+            Explore our interactive demo to see how our synthetic data solution works.
+          </p>
+        </div>
+      </div>
+
+      <!-- Demo image display -->
+      <div class="demo-image-container">
+        <div class="demo-image-placeholder">
+          <img src="./images/demo/workflow.jpg" alt="Demo workflow" data-i18n="demoImage1Alt">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    CONTACT / DEMO SECTION
+    - Purpose: conversion
+    - How to use: replace form action with your backend/CRM later
+      For now it just “pretends to submit” with JS
+  ========================================================== -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker" data-i18n="contactKicker">Contact</div>
+          <h2 style="margin-top: 8px;" data-i18n="contactHeadline">Let us begin serve for you now.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;" data-i18n="contactSubhead">
+            Tell us your data type and intended usage. We’ll reply with a recommended approach and what artifacts you’ll
+            receive.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid contact-grid">
+        <!-- Left: form -->
+        <form class="card" id="demoForm" novalidate>
+          <!--
+            IMPORTANT:
+            - In real production, connect this form to:
+              1) your email service (SendGrid/Mailgun)
+              2) your CRM (HubSpot)
+              3) or serverless function (Vercel)
+          -->
+          <div class="form">
+            <div class="field">
+              <label for="name" data-i18n="formNameLabel">Name</label>
+              <input id="name" name="name" placeholder="Your name" required data-i18n="formNamePlaceholder" />
+            </div>
+
+            <div class="field">
+              <label for="email" data-i18n="formEmailLabel">Work email</label>
+              <input id="email" name="email" type="email" placeholder="name@company.com" required
+                data-i18n="formEmailPlaceholder" />
+            </div>
+
+            <div class="field">
+              <label for="org" data-i18n="formOrgLabel">Organization</label>
+              <input id="org" name="org" placeholder="Company / Lab / Team" data-i18n="formOrgPlaceholder" />
+            </div>
+
+            <div class="field">
+              <label for="need" data-i18n="formNeedLabel">Share your data requirements with us, and we’ll tailor
+                solutions for you.</label>
+              <textarea id="need" name="need" rows="4"
+                placeholder="e.g., safer sharing with vendors; model training; QA testing; research release..." required
+                data-i18n="formNeedPlaceholder"></textarea>
+            </div>
+
+            <button class="btn btn-primary" type="submit" data-i18n="formSubmitButton">Submit Request</button>
+            <p class="form-note" id="formNote" data-i18n="formNote">
+              By submitting, you agree we may contact you about this request. <a href="privacy-statement.html"
+                target="_blank">Privacy Statement</a>
+            </p>
+          </div>
+        </form>
+
+        <!-- Right: “What you’ll get” box -->
+        <aside class="card soft">
+          <h3 data-i18n="contactSidebarTitle">What you’ll receive</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="contactSidebarDesc">
+            We usually respond with a Preliminary serve plan , a suggested evaluation approach and provide a quotation
+            within 1-3 business days.
+          </p>
+          <div class="divider"></div>
+
+          <ul class="mini-list">
+            <li data-i18n="contactSidebarBullet1"><strong>Recommended approach:</strong> data type, constraints, and
+              generation options.</li>
+            <li data-i18n="contactSidebarBullet2"><strong>Evaluation plan:</strong> utility metrics and task-based
+              benchmarks.</li>
+            <li data-i18n="contactSidebarBullet3"><strong>After-Sales Support:</strong> Our dedicated technical team
+              provides long-term support for all products, and you can obtain assistance through any channel of your
+              choice.</li>
+            <li data-i18n="contactSidebarBullet4"><strong>Delivery artifacts:</strong> datasets + report + usage
+              guidance.</li>
+          </ul>
+
+          <div class="divider"></div>
+
+          <p class="muted" style="font-size: 14px;" data-i18n="contactSidebarTip">
+            Tip: If you don’t have a dataset ready, we can start with a schema and sample.
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    FOOTER
+    - Purpose: basic credibility + simple navigation
+    - How to use: add your actual legal links and contact info
+  ========================================================== -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <div class="brand">
+          <img src="./images/company-logo/logo_main.png" alt="ChuChiang Data Logo" style="height: 100px; width: auto;">
+        </div>
+        <p class="muted" style="margin-top: 10px; max-width: 70ch;" data-i18n="footerDesc">
+          Synthetic data solutions for privacy-safe analytics and AI training. Built for enterprise governance.
+        </p>
+        <p class="muted" style="margin-top: 12px; font-size: 13px;" data-i18n="footerCopyright">
+          © <span id="year"></span> ChuChiang Data. All rights reserved.
+        </p>
+      </div>
+
+      <div class="footer-links" aria-label="Footer links">
+        <a href="#capabilities" data-i18n="navCapabilities">Capabilities</a>
+        <a href="#use-cases" data-i18n="navUseCases">Use Cases</a>
+        <a href="#how" data-i18n="navHowItWorks">How It Works</a>
+        <a href="#faq" data-i18n="navFaq">FAQ</a>
+        <a href="#contact" data-i18n="navRequestDemo">Request a Demo</a>
+        <a href="#top" data-i18n="footerBackToTop">Back to Top</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back-to-top floating button -->
+  <div class="to-top" id="toTop">
+    <a class="btn btn-primary" href="#top" aria-label="Back to top" data-i18n="backToTop">↑ Top</a>
+  </div>
+
+  <!-- =========================================================
+    SCRIPT SECTION
+    - Purpose:
+      1) Mobile menu toggle
+      2) Form "fake submit" (demo)
+      3) Back-to-top visibility
+      4) Footer year
+    - How to use:
+      - Replace fake submit with real backend later
+  ========================================================== -->
+  <script>
+    // -------------------------
+    // 0) Internationalization
+    // -------------------------
+    const translations = {
+      en: {
+        // Page metadata
+        pageTitle: 'ChuChiang Data — Synthetic Data Solutions',
+        pageDescription: 'Zhujiang Data, a professional and stable synthetic data and solution provider. Industrial-grade highly realistic synthetic data, revolutionarily saving your production and R&D costs.',
+
+        // Navigation
+        navCapabilities: 'Capabilities',
+        navUseCases: 'Use Cases',
+        navHowItWorks: 'How It Works',
+        navTrust: 'Trust',
+        navAboutUs: 'About us',
+        navSignIn: 'Sign in',
+        navTalkToExpert: 'Begin serve now',
+        navRequestDemo: 'Check the Demo',
+        navMenu: '☰ Menu',
+
+        // Hero section
+        heroPill: 'Synthetic Data • Privacy • Utility',
+        heroHeadline: 'Industrial-grade highly realistic synthetic data<br>Revolutionarily saving your production and R&D costs',
+        heroSubhead: 'Zhujiang Data, a professional and stable synthetic data and solution provider.',
+        heroCta1: 'Check Demo →',
+        heroCta2: 'Explore Capabilities',
+        heroBadge1: 'Privacy risk assessment',
+        heroBadge2: 'Utility validation',
+        heroBadge3: 'Custom pipelines',
+        heroBadge4: 'Enterprise-ready delivery',
+        heroBullet1: '<strong>For teams</strong> who need to share data safely with vendors, researchers, or internal units.',
+        heroBullet2: '<strong>For AI builders</strong> who need scalable training data without exposing real individuals.',
+        heroBullet3: '<strong>For compliance</strong> who need measurable privacy and audit-friendly documentation.',
+
+        // Hero panel
+        heroPanelKicker: 'Demo Snapshot',
+        heroPanelTitle: 'Synthetic Data Workflow',
+        heroPanelTag: 'v1.0',
+        heroPanelPrivacyKicker: 'privacy',
+        heroPanelPrivacyTitle: 'Low leakage',
+        heroPanelPrivacyDesc: 'Quantify risk with membership & nearest-neighbor checks.',
+        heroPanelUtilityKicker: 'utility',
+        heroPanelUtilityTitle: 'High fidelity',
+        heroPanelUtilityDesc: 'Preserve distributions, correlations, and downstream performance.',
+        heroPanelDelivery: 'Typical delivery: tabular / time-series synthetic datasets + evaluation report + recommended usage.',
+        heroPanelCta: 'Get a sample report',
+
+        // About Us section
+        aboutTitle: 'About Us',
+        aboutContent: '<span class="about-highlight">Zhujiang Data</span> is a synthetic data and solution provider under Shanghai Zhushuijiangke Data Technology Co., Ltd. Our team is dedicated to using synthetic data technology to provide stable, precise, and consistent synthetic data and comprehensive professional solutions for various professional fields, reducing data collection costs and lowering barriers to entry.',
+
+        // Value System section
+        valueSystemTitle: 'Industry Value System of Synthetic Data',
+        valueSystemSubtitle: 'Building scalable data production capabilities, not just simple data augmentation tools.',
+        valueSystemEngineCn: 'Synthetic Data Engine',
+        valueSystemEngineEn: 'Synthetic Data Engine',
+        
+        // Featured Cases section
+        casesHeadline: 'Our practice across various fields, covering various industries and technologies',
+        casesSubtitle: 'Featured Use Cases',
+        casesMoreBtn: 'Read More →',
+        case1Category: 'Cold Storage',
+        case1Title: 'Temperature Control & Energy Optimization',
+        case2Category: 'Aviation',
+        case2Title: 'Aero-engine Bearing Health Monitoring',
+        case3Category: 'Finance',
+        case3Title: 'Banking Transaction Data Privacy',
+
+        // Partners section
+        partnersKicker: 'Trusted By',
+        partnersHeadline: 'Our Partners',
+        partnersSubhead: 'We collaborate with leading organizations to deliver synthetic data solutions that drive innovation and privacy.',
+        partner1: 'Partner 1',
+        partner2: 'Partner 2',
+        partner3: 'Partner 3',
+        partner4: 'Partner 4',
+        partner5: 'Partner 5',
+        partner6: 'Partner 6',
+        partner1Alt: 'Partner 1 Logo',
+        partner2Alt: 'Partner 2 Logo',
+        partner3Alt: 'Partner 3 Logo',
+        partner4Alt: 'Partner 4 Logo',
+        partner5Alt: 'Partner 5 Logo',
+        partner6Alt: 'Partner 6 Logo',
+
+        // Value section
+        valueKicker: 'Value',
+        valueHeadline: 'Make data usable, shareable, and compliant.',
+        valueSubhead: 'Synthetic data should reduce privacy risk <em>and</em> remain useful for analytics, modeling, and decision support. We focus on measurable results instead of vague promises.',
+
+        // Value cards
+        valueCard1Title: 'Privacy & Compliance',
+        valueCard1Desc: 'Reduce exposure to sensitive records and enable safer collaboration across teams and partners.',
+        valueCard1Bullet1: 'Risk scoring & leakage checks',
+        valueCard1Bullet2: 'Audit-friendly documentation',
+        valueCard1Bullet3: 'Policy-aligned usage recommendations',
+
+        valueCard2Title: 'High Utility',
+        valueCard2Desc: 'Preserve statistical properties and relationships needed for analytics and ML.',
+        valueCard2Bullet1: 'Distribution & correlation matching',
+        valueCard2Bullet2: 'Downstream model evaluation',
+        valueCard2Bullet3: 'Bias / imbalance diagnostics',
+
+        valueCard3Title: 'Speed at Scale',
+        valueCard3Desc: 'Shorten approval cycles and generate data faster than traditional access workflows.',
+        valueCard3Bullet1: 'Repeatable pipelines',
+        valueCard3Bullet2: 'Batch generation for large datasets',
+        valueCard3Bullet3: 'Integration-ready formats',
+
+        // Capabilities section
+        capabilitiesKicker: 'Full-Process Usability Assurance',
+        capabilitiesHeadline: 'From solution design to generation, evaluation, and usage—we take responsibility for the usability of synthetic data',
+        capabilitiesSubhead: '',
+        capabilitiesCta: 'Request Demo',
+
+        // Capability cards
+        capabilityCard1Title: 'Professional Solutions',
+        capabilityCard1Desc: 'Through preliminary communication and investigation, our professional team provides professional and stable data synthesis solutions for your project.',
+        capabilityCard1Usage: '',
+
+        capabilityCard2Title: 'Synthetic Data Generation',
+        capabilityCard2Desc: 'Enhance, augment, de-privatize source data, or generate specified data as required.',
+        capabilityCard2Usage: '',
+
+        capabilityCard3Title: '',
+        capabilityCard3Desc: 'Rigorously quantify and evaluate the effectiveness of synthetic data, whether it supports downstream tasks, ensuring absolute usability of synthetic data.',
+        capabilityCard3Usage: '<strong>How it’s used:</strong> Ensure synthetic data is actually usable, not “pretty but useless.”',
+
+        capabilityCard4Title: 'Data Usability Responsibility & After-Sales Technical Support',
+        capabilityCard4Desc: 'By issuing a legally binding "Synthetic Data Usability Statement," we provide detailed technical usage instructions and usability guarantees for synthetic data products. We also provide long-term, round-the-clock consulting services to ensure the success of your projects.',
+        capabilityCard4Usage: '<strong>How it’s used:</strong> Turn one successful project into a scalable internal capability.',
+
+        // Capabilities operational details
+        capabilitiesOpKicker: 'Operational details',
+        capabilitiesOpTitle: 'Delivery artifacts you can expect',
+        capabilitiesOpDatasetTitle: 'Datasets',
+        capabilitiesOpDatasetDesc: 'CSV/Parquet + schema + constraints (optional) + versioned outputs.',
+        capabilitiesOpReportTitle: 'Evaluation Report',
+        capabilitiesOpReportDesc: 'Utility metrics, distribution checks, correlation analysis, and task-based benchmarks.',
+        capabilitiesOpRiskTitle: 'Risk & Guidance',
+        capabilitiesOpRiskDesc: 'Privacy risk summary + recommended usage policy and sharing rules.',
+
+
+
+        // How It Works section
+        howItWorksKicker: 'Method',
+        howItWorksHeadline: 'A defensible workflow, not just a dataset.',
+        howItWorksSubhead: 'Our standard engagement is structured to be explainable to technical and compliance stakeholders.',
+
+        // How It Works steps
+        howStep1Title: 'Understand & Scope',
+        howStep1Desc: 'Define your dataset schema, sensitive fields, usage goals, and constraints (e.g., ranges, relationships).',
+
+        howStep2Title: 'Generate',
+        howStep2Desc: 'Train/select generation methods and create synthetic data with configurable controls and constraints.',
+
+        howStep3Title: 'Validate Utility',
+        howStep3Desc: 'Run statistical checks and task-based benchmarks to ensure the synthetic data supports your use case.',
+
+        howStep4Title: 'Assess Risk & Deliver',
+        howStep4Desc: 'Evaluate privacy leakage and provide a report with recommended usage and sharing guidance.',
+
+        // How It Works callout
+        howCalloutTitle: 'Does synthetic data copy real records?',
+        howCalloutDesc: 'Proper synthetic generation aims to learn statistical patterns and sample new records. We additionally evaluate nearest-neighbor similarity and leakage signals to reduce the chance of reproducing sensitive individuals.',
+
+        // Trust section
+        trustKicker: 'Trust',
+        trustHeadline: 'Built for serious stakeholders.',
+        trustSubhead: 'Enterprise buyers care about evidence, governance, and clarity. We package technical results into decision-friendly artifacts.',
+
+        // Trust logos (placeholders)
+        trustLogo1: 'Client A',
+        trustLogo2: 'Client B',
+        trustLogo3: 'Client C',
+        trustLogo4: 'Partner D',
+        trustLogo5: 'Lab E',
+        trustLogo6: 'Org F',
+
+        // Trust cards
+        trustCard1Title: 'Evidence over hype',
+        trustCard1Desc: 'We report both strengths and limitations of synthetic data for your specific downstream tasks.',
+
+        trustCard2Title: 'Governance-ready',
+        trustCard2Desc: 'Outputs include recommended usage guidance and risk summaries aligned to your governance needs.',
+
+        trustCard3Title: 'Repeatable delivery',
+        trustCard3Desc: 'Turn one-off work into a repeatable pipeline so synthetic data becomes a capability, not a one-time file.',
+
+        // FAQ section
+        faqKicker: 'FAQ',
+        faqHeadline: 'Common questions about synthetic data.',
+        faqSubhead: 'Keep your answers short and confident. Offer a demo or a sample report for deeper details.',
+
+        // FAQ items
+        faqItem1Question: 'Is synthetic data the same as anonymized data?',
+        faqItem1Answer: 'Not exactly. Anonymization typically modifies real records, while synthetic data generates new records from learned patterns. In practice, you still need evaluation to quantify privacy risk and utility.',
+
+        faqItem2Question: 'Can synthetic data be used for machine learning training?',
+        faqItem2Answer: 'Often yes—especially for augmentation, class imbalance mitigation, and sharing data for validation. We recommend task-based utility tests to confirm performance for your specific model and target.',
+
+        faqItem3Question: 'How do you measure privacy risk?',
+        faqItem3Answer: 'We use practical risk checks such as nearest-neighbor similarity, leakage signals, and scenario-based tests (aligned to your threat model). The output is summarized in a decision-friendly report.',
+
+        faqItem4Question: 'What data types do you support?',
+        faqItem4Answer: 'We typically start with tabular data (most common in enterprises). Time-series and text can be supported depending on constraints, data size, and intended usage.',
+
+        // Demo section
+        demoKicker: 'Demo',
+        demoHeadline: 'See Our Solution in Action',
+        demoSubhead: 'Explore our interactive demo to see how our synthetic data solution works.',
+
+        // Contact section
+        contactKicker: 'Contact',
+        contactHeadline: 'Let us begin serve for you now.',
+        contactSubhead: 'Tell us your data type and intended usage. We’ll reply with a recommended approach and what artifacts you’ll receive.',
+
+        // Form
+        formNameLabel: 'Name',
+        formNamePlaceholder: 'Your name',
+        formEmailLabel: 'Work email',
+        formEmailPlaceholder: 'name@company.com',
+        formOrgLabel: 'Organization',
+        formOrgPlaceholder: 'Company / Lab / Team',
+        formNeedLabel: 'Share your data requirements with us, and we’ll tailor solutions for you.',
+        formNeedPlaceholder: 'e.g., safer sharing with vendors; model training; QA testing; research release...',
+        formSubmitButton: 'Submit Request',
+        formNote: 'By submitting, you agree we may contact you about this request. <a href="privacy-statement.html" target="_blank">Privacy Statement</a>',
+        formError: 'Please complete the required fields (Name, Email, Need).',
+        formSuccess: 'Thanks! Your request has been recorded (demo). Connect this to your backend to make it real.',
+
+        // Contact sidebar
+        contactSidebarTitle: 'What you’ll receive',
+        contactSidebarDesc: 'We usually respond with a Preliminary serve plan , a suggested evaluation approach and provide a quotation within 1-3 business days.',
+        contactSidebarBullet1: '<strong>Recommended approach:</strong> data type, constraints, and generation options.',
+        contactSidebarBullet2: '<strong>Evaluation plan:</strong> utility metrics and task-based benchmarks.',
+        contactSidebarBullet3: '<strong>After-Sales Support:</strong> Our dedicated technical team provides long-term support for all products, and you can obtain assistance through any channel of your choice.',
+        contactSidebarBullet4: '<strong>Delivery artifacts:</strong> datasets + report + usage guidance.',
+        contactSidebarTip: 'Tip: If you don’t have a dataset ready, we can start with a schema and sample.',
+
+        // Footer
+        footerBrand: 'ChuChiang Data',
+        footerDesc: 'Zhujiang Data is a synthetic data platform under Shanghai Zhushuijiangke Data Technology Co., Ltd.<br>Email: connect@chuchiangdata.cc<br>Address: 1-2 Floors, No. 51 Zhijiang Middle Road, Jing\'an District, Shanghai',
+        footerCopyright: '© {{year}} ChuChiang Data. All rights reserved.',
+        footerBackToTop: 'Back to Top',
+
+        // Back to top button
+        backToTop: '↑ Top'
+      },
+      zh: {
+        // Page metadata
+        pageTitle: '珠江数据—合成数据解决方案供应商',
+        pageDescription: '珠江数据，专业稳定的合成数据及解决方案供应商。工业级极高拟真的合成数据，革命性的节约您的生产研发成本。',
+
+        // Navigation
+        navCapabilities: '功能特性',
+        navUseCases: '应用场景',
+        navHowItWorks: '工作原理',
+        navTrust: '信任保障',
+        navAboutUs: '关于我们',
+        navSignIn: '登录',
+        navTalkToExpert: '立即开始服务',
+        navRequestDemo: '查看演示',
+        navMenu: '☰ 菜单',
+
+        // Hero section
+        heroPill: '合成数据 • 隐私保护 • 数据效用',
+        heroHeadline: '工业级极高拟真的合成数据<br>革命性的节约您的生产研发成本',
+        heroSubhead: '珠江数据，专业稳定的合成数据及解决方案供应商。',
+        heroCta1: '查看演示 →',
+        heroCta2: '探索功能',
+        heroBadge1: '隐私风险评估',
+        heroBadge2: '效用验证',
+        heroBadge3: '定制化流程',
+        heroBadge4: '企业级交付',
+        heroBullet1: '<strong>面向团队</strong>：需要与供应商、研究人员或内部单位安全共享数据的团队。',
+        heroBullet2: '<strong>面向AI构建者</strong>：需要可扩展的训练数据而不暴露真实个人信息的AI构建者。',
+        heroBullet3: '<strong>面向合规人员</strong>：需要可衡量的隐私保护和便于审计的文档的合规人员。',
+
+        // Hero panel
+        heroPanelKicker: '演示快照',
+        heroPanelTitle: '合成数据工作流程',
+        heroPanelTag: 'v1.0',
+        heroPanelPrivacyKicker: '隐私保护',
+        heroPanelPrivacyTitle: '低泄露风险',
+        heroPanelPrivacyDesc: '通过成员身份和最近邻检查量化风险。',
+        heroPanelUtilityKicker: '数据效用',
+        heroPanelUtilityTitle: '高保真度',
+        heroPanelUtilityDesc: '保留分布、相关性和下游性能。',
+        heroPanelDelivery: '典型交付物：表格/时间序列合成数据集 + 评估报告 + 使用建议。',
+        heroPanelCta: '获取样本报告',
+
+        // About Us section
+        aboutTitle: '关于我们',
+        aboutContent: '<span class="about-highlight">珠江数据</span>是上海珠水江科数据科技有限公司旗下的合成数据及其解决方案供应商。我们的团队致力于使用合成数据技术，为各个专业领域提供稳定、精确、一致的合成数据和专业全面的解决方案，降低数据的收集成本和使用门槛。',
+
+        // Value System section
+        valueSystemTitle: '合成数据的行业价值体系',
+        valueSystemSubtitle: '构建可扩展的数据生产能力，而不是简单的数据增强工具。',
+        valueSystemEngineCn: '合成数据生产引擎',
+        valueSystemEngineEn: 'Synthetic Data Engine',
+
+        // Featured Cases section
+        casesHeadline: '我们在各个领域的实践，覆盖各个行业、各种技术',
+        casesSubtitle: '精选案例',
+        casesMoreBtn: '查看更多 →',
+        case1Category: '冷链仓储',
+        case1Title: '温控与能耗优化',
+        case2Category: '航空航天',
+        case2Title: '航空发动机轴承健康监测',
+        case3Category: '金融',
+        case3Title: '银行交易数据隐私保护',
+
+        // Partners section
+        partnersKicker: '值得信赖',
+        partnersHeadline: '我们的合作伙伴',
+        partnersSubhead: '我们与领先的组织合作，提供推动创新和隐私保护的合成数据解决方案。',
+        partner1: '合作伙伴 1',
+        partner2: '合作伙伴 2',
+        partner3: '合作伙伴 3',
+        partner4: '合作伙伴 4',
+        partner5: '合作伙伴 5',
+        partner6: '合作伙伴 6',
+        partner1Alt: '合作伙伴1 Logo',
+        partner2Alt: '合作伙伴2 Logo',
+        partner3Alt: '合作伙伴3 Logo',
+        partner4Alt: '合作伙伴4 Logo',
+        partner5Alt: '合作伙伴5 Logo',
+        partner6Alt: '合作伙伴6 Logo',
+
+        // Value section
+        valueKicker: '核心价值',
+        valueHeadline: '让数据可用、可共享且合规。',
+        valueSubhead: '合成数据应降低隐私风险<em>并</em>保持对分析、建模和决策支持的有用性。我们专注于可衡量的结果而非模糊的承诺。',
+
+        // Value cards
+        valueCard1Title: '隐私与合规',
+        valueCard1Desc: '减少敏感记录的暴露，实现团队和合作伙伴之间更安全的协作。',
+        valueCard1Bullet1: '风险评分与泄露检查',
+        valueCard1Bullet2: '便于审计的文档',
+        valueCard1Bullet3: '符合政策的使用建议',
+
+        valueCard2Title: '高效数据效用',
+        valueCard2Desc: '保留分析和机器学习所需的统计特性和关系。',
+        valueCard2Bullet1: '分布与相关性匹配',
+        valueCard2Bullet2: '下游模型评估',
+        valueCard2Bullet3: '偏差/不平衡诊断',
+
+        valueCard3Title: '规模化速度',
+        valueCard3Desc: '缩短审批周期，比传统访问工作流更快地生成数据。',
+        valueCard3Bullet1: '可重复的流程',
+        valueCard3Bullet2: '大型数据集的批量生成',
+        valueCard3Bullet3: '易于集成的格式',
+
+        // Capabilities section
+        capabilitiesKicker: '全流程可用性保证',
+        capabilitiesHeadline: '从方案和生成再到评估和使用，我们对合成数据的可用性负责',
+        capabilitiesSubhead: '',
+        capabilitiesCta: '请求技术演示',
+
+        // Capability cards
+        capabilityCard1Title: '专业的解决方案',
+        capabilityCard1Desc: '通过前期的沟通和调查，我们的专业团队为您的项目提供专业稳定的数据合成解决方案。',
+        capabilityCard1Usage: '',
+
+        capabilityCard2Title: '合成数据生成',
+        capabilityCard2Desc: '对源数据强化、扩充、去隐私化或生成指定的数据',
+        capabilityCard2Usage: '',
+
+        capabilityCard3Title: '严格的评估和验收',
+        capabilityCard3Desc: '严格量化评估合成数据的效果，是否支持下游任务，确保合成数据绝对可用',
+        capabilityCard3Usage: '',
+
+        capabilityCard4Title: '数据可用性责任和售后技术支持',
+        capabilityCard4Desc: '通过具有法律意义的"合成数据可用性说明"，为合成数据产品提供详细的技术性使用说明和可用性的保证。我们还将提供长期的全天候咨询服务，确保客户项目的万无一失。',
+        capabilityCard4Usage: '',
+
+        // Capabilities operational details
+        capabilitiesOpKicker: '我们的最终交付',
+        capabilitiesOpTitle: '您可以期待的交付物',
+        capabilitiesOpDatasetTitle: '数据集',
+        capabilitiesOpDatasetDesc: '高质量的合成数据，我们的核心产物。',
+        capabilitiesOpReportTitle: '评估报告',
+        capabilitiesOpReportDesc: '效用指标、分布检查、相关性分析和基于任务的基准测试。',
+        capabilitiesOpRiskTitle: '可用性说明和咨询',
+        capabilitiesOpRiskDesc: '我们解释并为数据的可用性负责。除此之外，我们额外提供长期的数据咨询服务。',
+
+
+
+        // How It Works section
+        howItWorksKicker: '方法',
+        howItWorksHeadline: '严谨的工作流程，而不仅仅是数据集。',
+        howItWorksSubhead: '我们的标准服务结构设计为对技术和合规利益相关者可解释。',
+
+        // How It Works steps
+        howStep1Title: '理解与范围界定',
+        howStep1Desc: '定义您的数据集模式、敏感字段、使用目标和约束（例如，范围、关系）。',
+
+        howStep2Title: '生成',
+        howStep2Desc: '训练/选择生成方法，并使用可配置的控制和约束创建合成数据。',
+
+        howStep3Title: '验证效用',
+        howStep3Desc: '运行统计检查和基于任务的基准测试，确保合成数据支持您的用例。',
+
+        howStep4Title: '评估风险与交付',
+        howStep4Desc: '评估隐私泄露，并提供包含推荐使用和共享指导的报告。',
+
+        // How It Works callout
+        howCalloutTitle: '合成数据会复制真实记录吗？',
+        howCalloutDesc: '适当的合成生成旨在学习统计模式并采样新记录。我们额外评估最近邻相似性和泄露信号，以减少重现敏感个人的机会。',
+
+        // Trust section
+        trustKicker: '信任保障',
+        trustHeadline: '为认真的利益相关者构建。',
+        trustSubhead: '企业买家关心证据、治理和清晰度。我们将技术结果打包成便于决策的产物。',
+
+        // Trust logos (placeholders)
+        trustLogo1: '客户A',
+        trustLogo2: '客户B',
+        trustLogo3: '客户C',
+        trustLogo4: '合作伙伴D',
+        trustLogo5: '实验室E',
+        trustLogo6: '组织F',
+
+        // Trust cards
+        trustCard1Title: '证据而非炒作',
+        trustCard1Desc: '我们报告合成数据在您特定下游任务中的优势和局限性。',
+
+        trustCard2Title: '便于治理',
+        trustCard2Desc: '输出包括与您的治理需求一致的推荐使用指导和风险摘要。',
+
+        trustCard3Title: '可重复交付',
+        trustCard3Desc: '将一次性工作转变为可重复的流程，使合成数据成为一种能力，而不仅仅是一次性文件。',
+
+        // FAQ section
+        faqKicker: '常见问题',
+        faqHeadline: '关于合成数据的常见问题。',
+        faqSubhead: '保持答案简短而自信。提供演示或样本报告以获取更多详细信息。',
+
+        // FAQ items
+        faqItem1Question: '合成数据与匿名化数据相同吗？',
+        faqItem1Answer: '不完全相同。匿名化通常修改真实记录，而合成数据从学习的模式生成新记录。在实践中，您仍然需要评估来量化隐私风险和效用。',
+
+        faqItem2Question: '合成数据可用于机器学习训练吗？',
+        faqItem2Answer: '通常可以——特别是用于增强、类别不平衡缓解和共享数据进行验证。我们建议进行基于任务的效用测试，以确认其对您特定模型和目标的性能。',
+
+        faqItem3Question: '你们如何衡量隐私风险？',
+        faqItem3Answer: '我们使用实际风险检查，如最近邻相似性、泄露信号和基于场景的测试（与您的威胁模型一致）。输出在一份便于决策的报告中总结。',
+
+        faqItem4Question: '你们支持哪些数据类型？',
+        faqItem4Answer: '我们通常从表格数据开始（企业中最常见）。时间序列和文本可以根据约束、数据大小和预期用途提供支持。',
+
+        // Demo section
+        demoKicker: '演示',
+        demoHeadline: '查看我们的解决方案实际效果',
+        demoSubhead: '探索我们的交互式演示，了解我们的合成数据解决方案如何工作。',
+
+        // Contact section
+        contactKicker: '联系我们',
+        contactHeadline: '现在开始为您服务。',
+        contactSubhead: '告诉我们您的数据类型和预期用途。我们将回复推荐的方法和您将收到的产物。',
+
+        // Form
+        formNameLabel: '姓名',
+        formNamePlaceholder: '您的姓名',
+        formEmailLabel: '工作邮箱',
+        formEmailPlaceholder: 'name@company.com',
+        formOrgLabel: '组织',
+        formOrgPlaceholder: '公司 / 实验室 / 团队',
+        formNeedLabel: '与我们分享您的数据需求，我们将为您量身定制解决方案。',
+        formNeedPlaceholder: '例如，与供应商更安全地共享；模型训练；QA测试；研究发布...',
+        formSubmitButton: '提交请求',
+        formNote: '提交后，您同意我们可以就此请求与您联系。 <a href="privacy-statement.html" target="_blank">隐私声明</a>',
+        formError: '请完成必填字段（姓名、邮箱、需求）。',
+        formSuccess: '谢谢！您的请求已记录（演示）。将其连接到您的后端以使其真实有效。',
+
+        // Contact sidebar
+        contactSidebarTitle: '您将收到什么',
+        contactSidebarDesc: '我们通常会在1-3个工作日内回复初步服务计划、建议的评估方法并提供报价。',
+        contactSidebarBullet1: '<strong>推荐方法：</strong>数据类型、约束和生成选项。',
+        contactSidebarBullet2: '<strong>评估计划：</strong>效用指标和基于任务的基准测试。',
+        contactSidebarBullet3: '<strong>售后支持：</strong>我们专门的技术团队为所有产品提供长期支持，您可以通过任何您选择的渠道获得帮助。',
+        contactSidebarBullet4: '<strong>交付产物：</strong>数据集 + 报告 + 使用指导。',
+        contactSidebarTip: '提示：如果您还没有准备好数据集，我们可以从模式和样本开始。',
+
+        // Footer
+        footerBrand: 'ChuChiang Data',
+        footerDesc: '珠江数据是上海珠水江科数据科技有限公司旗下的合成数据平台<br>Email：connect@chuchiangdata.cc<br>地址：上海市静安区芷江中路51号1-2层',
+        footerCopyright: '© {{year}} ChuChiang Data。保留所有权利。',
+        footerBackToTop: '回到顶部',
+
+        // Back to top button
+        backToTop: '↑ 顶部'
+      }
+    };
+
+    // -------------------------
+    // 1) Mobile menu toggle
+    // -------------------------
+    const menuBtn = document.getElementById('menuBtn');
+    const mobilePanel = document.getElementById('mobilePanel');
+    const API_BASE = window.AppConfig ? window.AppConfig.API_BASE : '/api';
+
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        const isOpen = mobilePanel.style.display === 'block';
+        mobilePanel.style.display = isOpen ? 'none' : 'block';
+        menuBtn.setAttribute('aria-expanded', String(!isOpen));
+      });
+    }
+
+    // Close mobile menu when clicking a link (better UX)
+    if (mobilePanel) {
+      const links = mobilePanel.querySelectorAll('a');
+      if (links) {
+        links.forEach(a => {
+          a.addEventListener('click', () => {
+            mobilePanel.style.display = 'none';
+            if (menuBtn) {
+              menuBtn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        });
+      }
+    }
+
+    // -------------------------
+    // 2) Contact form submit - 连接到后端 API
+    // -------------------------
+    const demoForm = document.getElementById('demoForm');
+    const formNote = document.getElementById('formNote');
+    const submitBtn = demoForm ? demoForm.querySelector('button[type="submit"]') : null;
+
+    if (demoForm) {
+      demoForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // 获取表单数据
+        const nameEl = document.getElementById('name');
+        const emailEl = document.getElementById('email');
+        const orgEl = document.getElementById('org');
+        const needEl = document.getElementById('need');
+
+        const name = nameEl && nameEl.value ? nameEl.value.trim() : '';
+        const email = emailEl && emailEl.value ? emailEl.value.trim() : '';
+        const organization = orgEl && orgEl.value ? orgEl.value.trim() : '';
+        const need = needEl && needEl.value ? needEl.value.trim() : '';
+
+        // 前端验证
+        if (!name || !email || !need) {
+          formNote.textContent = (translations[currentLang] && translations[currentLang].formError) || '请完成必填字段(姓名、邮箱、需求)。';
+          formNote.style.color = 'var(--danger)';
+          return;
+        }
+
+        // 设置加载状态
+        let originalButtonText = '';
+        if (submitBtn) {
+          originalButtonText = submitBtn.textContent;
+          submitBtn.disabled = true;
+          submitBtn.textContent = currentLang === 'zh' ? '发送中...' : 'Sending...';
+        }
+        formNote.textContent = '';
+
+        try {
+          // 发送到后端 API
+          const response = await fetch(`${API_BASE}/contact/submit`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: name,
+              email: email,
+              organization: organization || '',
+              requirements: need
+            })
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            // 成功
+            formNote.textContent = data.message || ((translations[currentLang] && translations[currentLang].formSuccess) || '感谢您的咨询!我们已收到您的信息,将在 1-3 个工作日内回复您。');
+            formNote.style.color = '#2e7d32'; // 绿色
+            demoForm.reset();
+          } else {
+            // 服务器返回错误
+            formNote.textContent = data.message || (currentLang === 'zh' ? '提交失败,请稍后重试。' : 'Submission failed. Please try again later.');
+            formNote.style.color = 'var(--danger)';
+          }
+        } catch (error) {
+          // 网络错误
+          console.error('提交表单失败:', error);
+          formNote.textContent = currentLang === 'zh'
+            ? '网络错误,请检查您的连接后重试。'
+            : 'Network error. Please check your connection and try again.';
+          formNote.style.color = 'var(--danger)';
+        } finally {
+          // 恢复按钮状态
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalButtonText;
+          }
+        }
+      });
+    }
+
+    // -------------------------
+    // 3) Back-to-top visibility
+    // -------------------------
+    const toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', () => {
+      const show = window.scrollY > 800;
+      if (toTop) toTop.style.display = show ? 'block' : 'none';
+    });
+
+    // -------------------------
+    // 4) Footer year
+    // -------------------------
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // -------------------------
+    // 5) Language switching
+    // -------------------------
+    // Default to stored lang or 'zh'
+    let currentLang = localStorage.getItem('app_lang') || 'zh';
+
+    // Function to translate the entire page
+    function translatePage(lang) {
+      currentLang = lang;
+      localStorage.setItem('app_lang', lang); // Persist
+
+      // Update all elements with data-i18n attribute
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+          let translatedText = translations[lang][key];
+          if (typeof translatedText === 'string') {
+            translatedText = translatedText.replace('{{year}}', new Date().getFullYear());
+          }
+          // Handle HTML content (like heroHeadline)
+          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.placeholder = translatedText;
+          } else {
+            el.innerHTML = translatedText;
+          }
+        }
+      });
+
+      // Update language switcher active state
+      document.querySelectorAll('#langEn, #langZh').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      // Update HTML lang attribute
+      document.documentElement.lang = lang;
+      
+      // Update value system panel if it exists
+      if (typeof updatePanel === 'function' && currentIndex !== undefined) {
+        updatePanel(currentIndex);
+      }
+    }
+
+    // Initialize language switcher event listeners
+    const langEnBtn = document.getElementById('langEn');
+    if (langEnBtn) langEnBtn.addEventListener('click', () => translatePage('en'));
+    const langZhBtn = document.getElementById('langZh');
+    if (langZhBtn) langZhBtn.addEventListener('click', () => translatePage('zh'));
+
+    // Initialize page with stored language
+    translatePage(currentLang);
+
+    // -------------------------    
+    // 6) Smooth scrolling
+    // -------------------------    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80, // 80px offset for sticky header
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // -------------------------    
+    // 7) Micro-animations on scroll
+    // -------------------------    
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Apply animation to all sections, cards, and important elements
+    document.querySelectorAll('.section, .card, .hero-copy, .hero-panel, .feature-item, .testimonial').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+  <!-- Image Lightbox Modal -->
+  <div id="imageLightbox" class="lightbox-modal" aria-hidden="true" role="dialog">
+    <img id="lightboxImg" src="" alt="Enlarged view">
+  </div>
+
+  <script>
+    // -------------------------
+    // 9) Image Lightbox (Zoom)
+    // -------------------------
+    const lightbox = document.getElementById('imageLightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const demoWrappers = document.querySelectorAll('.demo-image-placeholder');
+
+    if (lightbox && lightboxImg && demoWrappers) {
+      demoWrappers.forEach(wrapper => {
+        wrapper.addEventListener('click', () => {
+          const img = wrapper.querySelector('img');
+          if (img) {
+            lightboxImg.src = img.src;
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+            lightbox.style.display = 'flex';
+            // Trigger reflow to play animation
+            void lightbox.offsetWidth;
+            lightbox.classList.add('active');
+          }
+        });
+      });
+
+      lightbox.addEventListener('click', () => {
+        lightbox.classList.remove('active');
+        // Restore body scroll
+        document.body.style.overflow = '';
+        setTimeout(() => {
+          lightbox.style.display = 'none';
+        }, 300); // Wait for transition
+      });
+    }
+  </script>
+
+  <!-- Login State Script -->
+  <!-- Login State Script Removed as per request -->
+  <script>
+    // Login state check and navigation update logic has been removed.
+    // User panel will be implemented separately in the future.
+  </script>
+
+
+</body>
