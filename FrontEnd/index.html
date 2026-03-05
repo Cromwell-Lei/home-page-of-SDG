@@ -2210,7 +2210,7 @@
             </p>
 
             <div class="panel-output">
-              <div class="output-label">典型输出物</div>
+              <div class="output-label" id="panelOutputTitle">典型输出物</div>
               <div class="output-value" id="panelOutput">
                 可用于模型训练与鲁棒性验证的合成交易数据集。
               </div>
@@ -2234,6 +2234,10 @@
         description: {
           zh: '通过对交易结构、风险标签与时间分布的联合建模，生成可控的替代数据环境，用于压力测试、欺诈识别与极端场景推演，而不触碰真实客户数据。',
           en: 'Generate controlled alternative data environments for stress testing, fraud detection, and extreme scenario simulation through joint modeling of transaction structures, risk labels, and temporal distributions, without touching real customer data.'
+        },
+        outputTitle: {
+          zh: '典型输出物',
+          en: 'Typical Output'
         },
         output: {
           zh: '可用于模型训练与鲁棒性验证的合成交易数据集。',
@@ -2353,6 +2357,7 @@
         panelTagline.textContent = data.tagline[lang] || data.tagline.zh;
         panelDescription.textContent = data.description[lang] || data.description.zh;
         panelOutput.textContent = data.output[lang] || data.output.zh;
+        panelOutputTitle.textContent = data.outputTitle[lang] || data.outputTitle.zh;
 
         panelContent.classList.remove('switching');
       }, 200);
