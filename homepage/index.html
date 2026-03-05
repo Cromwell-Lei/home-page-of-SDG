@@ -476,15 +476,19 @@
       0% {
         transform: translate(0, 0) rotate(0deg) scale(1);
       }
+
       25% {
         transform: translate(5%, 3%) rotate(90deg) scale(1.05);
       }
+
       50% {
         transform: translate(0, 6%) rotate(180deg) scale(1);
       }
+
       75% {
         transform: translate(-5%, 3%) rotate(270deg) scale(0.95);
       }
+
       100% {
         transform: translate(0, 0) rotate(360deg) scale(1);
       }
@@ -494,12 +498,15 @@
       0% {
         transform: translate(0, 0) rotate(0deg) scale(1);
       }
+
       33% {
         transform: translate(-4%, 5%) rotate(-120deg) scale(1.08);
       }
+
       66% {
         transform: translate(3%, -3%) rotate(-240deg) scale(0.92);
       }
+
       100% {
         transform: translate(0, 0) rotate(-360deg) scale(1);
       }
@@ -1264,7 +1271,7 @@
       font-weight: 600;
       color: #1a1a2e;
     }
-    
+
 
     /* -------------------------
        18) 响应式：小于 768px 时 featured cases 卡片内边距调整
@@ -1348,9 +1355,9 @@
         text-align: center;
       }
     }
-  
 
-/* ===== Value System Section Styles ===== */
+
+    /* ===== Value System Section Styles ===== */
 
     /* ===== CSS Reset & Base ===== */
     * {
@@ -1402,7 +1409,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-image: 
+      background-image:
         linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
       background-size: 60px 60px;
@@ -1424,7 +1431,9 @@
     }
 
     @keyframes fadeInGrid {
-      to { opacity: 1; }
+      to {
+        opacity: 1;
+      }
     }
 
     /* Container */
@@ -1515,8 +1524,13 @@
     }
 
     @keyframes rotateSlow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .connection-line {
@@ -1533,8 +1547,13 @@
     }
 
     @keyframes flowLight {
-      0% { stroke-dashoffset: 100; }
-      100% { stroke-dashoffset: 0; }
+      0% {
+        stroke-dashoffset: 100;
+      }
+
+      100% {
+        stroke-dashoffset: 0;
+      }
     }
 
     /* Core Engine */
@@ -1550,7 +1569,7 @@
       backdrop-filter: blur(20px);
       border-radius: 50%;
       border: 1px solid rgba(59, 130, 246, 0.2);
-      box-shadow: 
+      box-shadow:
         0 0 0 1px rgba(255, 255, 255, 0.5) inset,
         var(--shadow-medium);
       z-index: 10;
@@ -1562,8 +1581,15 @@
     }
 
     @keyframes corePulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.02);
+      }
     }
 
     .engine-label-cn {
@@ -1605,7 +1631,7 @@
     .node:hover {
       transform: translateY(-2px);
       border-color: var(--primary-light);
-      box-shadow: 
+      box-shadow:
         0 4px 20px rgba(59, 130, 246, 0.15),
         0 0 0 4px rgba(59, 130, 246, 0.05);
     }
@@ -1635,12 +1661,37 @@
     }
 
     /* Node Positions (Circular Layout) */
-    .node:nth-child(1) { top: 10%; left: 50%; transform: translateX(-50%); }
-    .node:nth-child(2) { top: 25%; right: 8%; }
-    .node:nth-child(3) { bottom: 25%; right: 8%; }
-    .node:nth-child(4) { bottom: 10%; left: 50%; transform: translateX(-50%); }
-    .node:nth-child(5) { bottom: 25%; left: 8%; }
-    .node:nth-child(6) { top: 25%; left: 8%; }
+    .node:nth-child(1) {
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .node:nth-child(2) {
+      top: 25%;
+      right: 8%;
+    }
+
+    .node:nth-child(3) {
+      bottom: 25%;
+      right: 8%;
+    }
+
+    .node:nth-child(4) {
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .node:nth-child(5) {
+      bottom: 25%;
+      left: 8%;
+    }
+
+    .node:nth-child(6) {
+      top: 25%;
+      left: 8%;
+    }
 
     /* Right: Details Panel */
     .details-panel {
@@ -1799,14 +1850,16 @@
 
     /* Reduced Motion */
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
+
+      *,
+      *::before,
+      *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
     }
-  
-</style>
+  </style>
 </head>
 
 <body>
@@ -1898,7 +1951,8 @@
         <h2 class="about-title" data-i18n="aboutTitle">关于我们</h2>
         <div class="about-content">
           <p data-i18n="aboutContent">
-            <span class="about-highlight">珠江数据</span>是上海珠水江科数据科技有限公司旗下的合成数据及其解决方案供应商。我们的团队致力于使用合成数据技术，为各个专业领域提供稳定、精确、一致的合成数据和专业全面的解决方案，降低数据的收集成本和使用门槛。
+            <span
+              class="about-highlight">珠江数据</span>是上海珠水江科数据科技有限公司旗下的合成数据及其解决方案供应商。我们的团队致力于使用合成数据技术，为各个专业领域提供稳定、精确、一致的合成数据和专业全面的解决方案，降低数据的收集成本和使用门槛。
           </p>
         </div>
       </div>
@@ -1939,6 +1993,20 @@
         </div>
         <div class="logo-tile">
           <img src="./images/partners-logo/00.-ASTAR-HQ-Corporate-Website.png" alt="astar" data-i18n="partner6Alt">
+        </div>
+        <div class="logo-tile">
+          <img src="./images/partners-logo/AirAsia_New_Logo.svg.png" alt="AirAsia" data-i18n="partner7Alt">
+        </div>
+        <div class="logo-tile">
+          <img src="./images/partners-logo/University_of_California,_Los_Angeles_logo.svg.png" alt="UCLA"
+            data-i18n="partner8Alt">
+        </div>
+        <div class="logo-tile">
+          <img src="./images/partners-logo/USydLogoBlack.svg.png" alt="The University of Sydney"
+            data-i18n="partner9Alt">
+        </div>
+        <div class="logo-tile">
+          <img src="./images/partners-logo/xtylogo.png" alt="xty" data-i18n="partner10Alt">
         </div>
       </div>
     </div>
@@ -2038,7 +2106,8 @@
     <div class="cases-container">
       <div class="cases-card">
         <div class="cases-header">
-          <h2 class="cases-title" data-i18n="casesHeadline">Gartner estimates that by 2030 synthetic data will overshadow real data in AI/ML training</h2>
+          <h2 class="cases-title" data-i18n="casesHeadline">Gartner estimates that by 2030 synthetic data will
+            overshadow real data in AI/ML training</h2>
         </div>
         <div class="cases-divider"></div>
         <div class="cases-subheader">
@@ -2072,7 +2141,7 @@
 
 
 
-<section class="value-system">
+  <section class="value-system">
     <div class="value-container">
       <!-- Header -->
       <header class="value-header">
@@ -2092,11 +2161,11 @@
                 <stop offset="100%" style="stop-color:#60A5FA;stop-opacity:1" />
               </linearGradient>
             </defs>
-            
+
             <!-- Orbit Rings -->
             <circle class="orbit-ring orbit-ring-1" cx="300" cy="300" r="180" />
             <circle class="orbit-ring orbit-ring-2" cx="300" cy="300" r="240" />
-            
+
             <!-- Connection Lines (will be updated by JS) -->
             <line id="conn-0" class="connection-line" x1="300" y1="300" x2="300" y2="60" />
             <line id="conn-1" class="connection-line" x1="300" y1="300" x2="552" y2="150" />
@@ -2148,15 +2217,15 @@
               <h3 class="panel-title-cn" id="panelTitleCn">金融</h3>
               <span class="panel-title-en" id="panelTitleEn">Financial Systems</span>
             </div>
-            
+
             <div class="panel-tagline" id="panelTagline">
               在合规框架下扩展风险建模能力。
             </div>
-            
+
             <p class="panel-description" id="panelDescription">
               通过对交易结构、风险标签与时间分布的联合建模，生成可控的替代数据环境，用于压力测试、欺诈识别与极端场景推演，而不触碰真实客户数据。
             </p>
-            
+
             <div class="panel-output">
               <div class="output-label">典型输出物</div>
               <div class="output-value" id="panelOutput">
@@ -2293,17 +2362,17 @@
     function updatePanel(index) {
       const data = sectorsData[index];
       const lang = currentLang || 'zh';
-      
+
       // Add switching animation
       panelContent.classList.add('switching');
-      
+
       setTimeout(() => {
         panelTitleCn.textContent = data.cn;
         panelTitleEn.textContent = data.en;
         panelTagline.textContent = data.tagline[lang] || data.tagline.zh;
         panelDescription.textContent = data.description[lang] || data.description.zh;
         panelOutput.textContent = data.output[lang] || data.output.zh;
-        
+
         panelContent.classList.remove('switching');
       }, 200);
     }
@@ -2311,20 +2380,20 @@
     // Handle node click
     function handleNodeClick(index) {
       if (index === currentIndex) return;
-      
+
       // Update active states
       nodes[currentIndex].classList.remove('active');
       connectionLines[currentIndex].classList.remove('active');
-      
+
       currentIndex = index;
-      
+
       nodes[currentIndex].classList.add('active');
       connectionLines[currentIndex].classList.add('active');
-      
+
       // Trigger core pulse
       engineCore.classList.add('pulse');
       setTimeout(() => engineCore.classList.remove('pulse'), 300);
-      
+
       // Update panel
       updatePanel(currentIndex);
     }
@@ -2579,7 +2648,7 @@
       en: {
         // Page metadata
         pageTitle: 'ChuChiang Data — Synthetic Data Solutions',
-        pageDescription: 'Zhujiang Data, a professional and stable synthetic data and solution provider. Industrial-grade highly realistic synthetic data, revolutionarily saving your production and R&D costs.',
+        pageDescription: 'ChuChiang Data, a professional and stable synthetic data and solution provider. Industrial-grade highly realistic synthetic data, revolutionarily saving your production and R&D costs.',
 
         // Navigation
         navCapabilities: 'Capabilities',
@@ -2595,7 +2664,7 @@
         // Hero section
         heroPill: 'Synthetic Data • Privacy • Utility',
         heroHeadline: 'Industrial-grade highly realistic synthetic data<br>Revolutionarily saving your production and R&D costs',
-        heroSubhead: 'Zhujiang Data, a professional and stable synthetic data and solution provider.',
+        heroSubhead: 'ChuChiang Data, a professional and stable synthetic data and solution provider.',
         heroCta1: 'Check Demo →',
         heroCta2: 'Explore Capabilities',
         heroBadge1: 'Privacy risk assessment',
@@ -2621,14 +2690,14 @@
 
         // About Us section
         aboutTitle: 'About Us',
-        aboutContent: '<span class="about-highlight">Zhujiang Data</span> is a synthetic data and solution provider under Shanghai Zhushuijiangke Data Technology Co., Ltd. Our team is dedicated to using synthetic data technology to provide stable, precise, and consistent synthetic data and comprehensive professional solutions for various professional fields, reducing data collection costs and lowering barriers to entry.',
+        aboutContent: '<span class="about-highlight">ChuChiang Data</span> is a synthetic data and solution provider under Shanghai Zhushuijiangke Data Technology Co., Ltd. Our team is dedicated to using synthetic data technology to provide stable, precise, and consistent synthetic data and comprehensive professional solutions for various professional fields, reducing data collection costs and lowering barriers to entry.',
 
         // Value System section
         valueSystemTitle: 'Industry Value System of Synthetic Data',
         valueSystemSubtitle: 'Building scalable data production capabilities, not just simple data augmentation tools.',
         valueSystemEngineCn: 'Synthetic Data Engine',
         valueSystemEngineEn: 'Synthetic Data Engine',
-        
+
         // Featured Cases section
         casesHeadline: 'Our practice across various fields, covering various industries and technologies',
         casesSubtitle: 'Featured Use Cases',
@@ -2814,7 +2883,7 @@
 
         // Footer
         footerBrand: 'ChuChiang Data',
-        footerDesc: 'Zhujiang Data is a synthetic data platform under Shanghai Zhushuijiangke Data Technology Co., Ltd.<br>Email: connect@chuchiangdata.cc<br>Address: 1-2 Floors, No. 51 Zhijiang Middle Road, Jing\'an District, Shanghai',
+        footerDesc: 'ChuChiang Data is a synthetic data platform under Shanghai Zhushuijiangke Data Technology Co., Ltd.<br>Email: connect@chuchiangdata.cc<br>Address: 1-2 Floors, No. 51 Zhijiang Middle Road, Jing\'an District, Shanghai',
         footerCopyright: '© {{year}} ChuChiang Data. All rights reserved.',
         footerBackToTop: 'Back to Top',
 
@@ -3229,7 +3298,7 @@
 
       // Update HTML lang attribute
       document.documentElement.lang = lang;
-      
+
       // Update value system panel if it exists
       if (typeof updatePanel === 'function' && currentIndex !== undefined) {
         updatePanel(currentIndex);
