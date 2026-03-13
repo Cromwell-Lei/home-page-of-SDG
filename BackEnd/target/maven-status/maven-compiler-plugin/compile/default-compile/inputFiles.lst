@@ -1,6 +1,7 @@
 /Users/bluegrass/Desktop/Code-Project/SDG/BackEnd/src/main/java/cc/chuchiangdata/backend/config/WebConfig.java
 /Users/bluegrass/Desktop/Code-Project/SDG/BackEnd/src/main/java/cc/chuchiangdata/backend/config/SecurityConfig.java
 /Users/bluegrass/Desktop/Code-Project/SDG/BackEnd/src/main/java/cc/chuchiangdata/backend/service/RsaKeyService.java
+/Users/bluegrass/Desktop/Code-Project/SDG/BackEnd/src/main/java/cc/chuchiangdata/backend/service/TurnstileService.java
 /Users/bluegrass/Desktop/Code-Project/SDG/BackEnd/src/main/java/cc/chuchiangdata/backend/SdgBackendApplication.java
 /Users/bluegrass/Desktop/Code-Project/SDG/BackEnd/src/main/java/cc/chuchiangdata/backend/dto/ContactFormDTO.java
 /Users/bluegrass/Desktop/Code-Project/SDG/BackEnd/src/main/java/cc/chuchiangdata/backend/config/RateLimitInterceptor.java

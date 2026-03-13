@@ -1,6 +1,7 @@
 cc/chuchiangdata/backend/config/SecurityConfig.class
 cc/chuchiangdata/backend/config/RateLimitInterceptor.class
 cc/chuchiangdata/backend/config/RateLimitInterceptor$RequestRecord.class
+cc/chuchiangdata/backend/service/TurnstileService.class
 cc/chuchiangdata/backend/dto/ContactFormDTO.class
 cc/chuchiangdata/backend/service/RsaKeyService.class
 cc/chuchiangdata/backend/service/EmailService.class
