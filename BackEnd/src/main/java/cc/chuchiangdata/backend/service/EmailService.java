@@ -11,8 +11,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
 
 /**
  * 邮件服务
@@ -21,6 +24,12 @@ import java.time.format.DateTimeFormatter;
 public class EmailService {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
+
+    /**
+     * 严格的邮箱正则，防止邮件头注入
+     */
+    private static final Pattern SAFE_EMAIL_PATTERN =
+            Pattern.compile("^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$");
 
     private final JavaMailSender mailSender;
 
@@ -48,23 +57,26 @@ public class EmailService {
             // 设置邮件基本信息
             helper.setFrom(fromEmail);
             helper.setTo(recipientEmail);
-            helper.setSubject("【联系我们】来自 " + HtmlUtils.htmlEscape(formData.getName()) + " 的咨询");
+
+            // #2 修复：过滤 Subject 中的 CRLF，防止邮件头注入
+            helper.setSubject("【联系我们】来自 " + sanitizeForHeader(formData.getName()) + " 的咨询");
 
             // 设置 HTML 格式的邮件内容
             String htmlContent = buildHtmlEmailContent(formData);
             helper.setText(htmlContent, true);
 
-            // 设置回复地址为提交者的邮箱
-            if (formData.getEmail() != null && !formData.getEmail().isEmpty()) {
-                helper.setReplyTo(formData.getEmail());
+            // #1 修复：严格校验邮箱格式后才设为 ReplyTo，防止邮件头注入
+            String email = formData.getEmail();
+            if (email != null && !email.isEmpty() && SAFE_EMAIL_PATTERN.matcher(email).matches()) {
+                helper.setReplyTo(email);
             }
 
             // 发送邮件
             mailSender.send(message);
-            logger.info("成功发送联系表单邮件: {}", formData.getEmail());
+            logger.info("成功发送联系表单邮件: {}", sanitizeForLog(formData.getEmail()));
 
         } catch (MessagingException e) {
-            logger.error("发送邮件失败: {}", formData.getEmail(), e);
+            logger.error("发送邮件失败: {}", sanitizeForLog(formData.getEmail()), e);
             throw e;
         }
     }
@@ -73,13 +85,18 @@ public class EmailService {
      * 构建 HTML 格式的邮件内容
      */
     private String buildHtmlEmailContent(ContactFormDTO formData) {
-        // 转义用户输入,防止 XSS
+        // 转义用户输入，防止 XSS
         String name = HtmlUtils.htmlEscape(formData.getName());
         String email = HtmlUtils.htmlEscape(formData.getEmail());
+        // #3 修复：mailto href 使用 URL 编码，防止协议参数注入
+        String emailForHref = URLEncoder.encode(formData.getEmail(), StandardCharsets.UTF_8);
         String organization = formData.getOrganization() != null ? HtmlUtils.htmlEscape(formData.getOrganization())
                 : "未填写";
+        // #4 修复：统一处理 \r\n、\r、\n 换行符
         String requirements = HtmlUtils.htmlEscape(formData.getRequirements())
-                .replace("\n", "<br>");
+                .replace("\r\n", "<br>")
+                .replace("\n", "<br>")
+                .replace("\r", "<br>");
 
         // 当前时间
         String submitTime = LocalDateTime.now()
@@ -207,6 +224,22 @@ public class EmailService {
                 </body>
                 </html>
                 """
-                .formatted(name, email, email, organization, requirements, submitTime);
+                .formatted(name, emailForHref, email, organization, requirements, submitTime);
+    }
+
+    /**
+     * 过滤邮件头值中的 CRLF 字符，防止邮件头注入
+     */
+    private String sanitizeForHeader(String input) {
+        if (input == null) return "";
+        return input.replaceAll("[\\r\\n\\t]", " ").trim();
+    }
+
+    /**
+     * 过滤日志中的控制字符，防止日志伪造
+     */
+    private String sanitizeForLog(String input) {
+        if (input == null) return "null";
+        return input.replaceAll("[\\r\\n\\t]", "_");
     }
 }

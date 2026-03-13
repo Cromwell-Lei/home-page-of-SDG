@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/contact")
-@CrossOrigin(originPatterns = "*", allowCredentials = "true")
+@CrossOrigin(origins = "${app.cors.allowed-origins:http://localhost}", allowCredentials = "true")
 public class ContactController {
 
     private static final Logger logger = LoggerFactory.getLogger(ContactController.class);
@@ -50,7 +50,7 @@ public class ContactController {
                     .map(error -> error.getField() + ": " + error.getDefaultMessage())
                     .collect(Collectors.joining("; "));
 
-            logger.warn("表单验证失败: {}", errorMessage);
+            logger.warn("表单验证失败: {}", sanitizeForLog(errorMessage));
             response.put("success", false);
             response.put("message", "表单验证失败: " + errorMessage);
             return ResponseEntity.badRequest().body(response);
@@ -58,7 +58,7 @@ public class ContactController {
 
         // Cloudflare Turnstile 人机验证
         if (!turnstileService.verifyToken(formData.getTurnstileToken())) {
-            logger.warn("Turnstile 验证失败: 邮箱={}", formData.getEmail());
+            logger.warn("Turnstile 验证失败: 邮箱={}", sanitizeForLog(formData.getEmail()));
             response.put("success", false);
             response.put("message", "人机验证失败，请重新验证后再提交。");
             return ResponseEntity.badRequest().body(response);
@@ -68,7 +68,7 @@ public class ContactController {
             // 发送邮件
             emailService.sendContactFormEmail(formData);
 
-            logger.info("成功处理联系表单: 姓名={}, 邮箱={}", formData.getName(), formData.getEmail());
+            logger.info("成功处理联系表单: 姓名={}, 邮箱={}", sanitizeForLog(formData.getName()), sanitizeForLog(formData.getEmail()));
 
             response.put("success", true);
             response.put("message", "感谢您的咨询!我们已收到您的信息,将在 1-3 个工作日内回复您。");
@@ -91,5 +91,13 @@ public class ContactController {
         response.put("status", "ok");
         response.put("service", "contact-form");
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 过滤日志中的控制字符，防止日志伪造
+     */
+    private String sanitizeForLog(String input) {
+        if (input == null) return "null";
+        return input.replaceAll("[\\r\\n\\t]", "_");
     }
 }
