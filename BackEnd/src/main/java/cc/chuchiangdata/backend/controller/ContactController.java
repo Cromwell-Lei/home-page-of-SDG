@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/contact")
-@CrossOrigin(origins = "${app.cors.allowed-origins:http://localhost}", allowCredentials = "true")
+@CrossOrigin(origins = "${app.cors.allowed-origins:http://127.0.0.1}", allowCredentials = "true")
 public class ContactController {
 
     private static final Logger logger = LoggerFactory.getLogger(ContactController.class);
@@ -68,7 +68,8 @@ public class ContactController {
             // 发送邮件
             emailService.sendContactFormEmail(formData);
 
-            logger.info("成功处理联系表单: 姓名={}, 邮箱={}", sanitizeForLog(formData.getName()), sanitizeForLog(formData.getEmail()));
+            logger.info("成功处理联系表单: 姓名={}, 邮箱={}", sanitizeForLog(formData.getName()),
+                    sanitizeForLog(formData.getEmail()));
 
             response.put("success", true);
             response.put("message", "感谢您的咨询!我们已收到您的信息,将在 1-3 个工作日内回复您。");
@@ -97,7 +98,8 @@ public class ContactController {
      * 过滤日志中的控制字符，防止日志伪造
      */
     private String sanitizeForLog(String input) {
-        if (input == null) return "null";
+        if (input == null)
+            return "null";
         return input.replaceAll("[\\r\\n\\t]", "_");
     }
 }
