@@ -1,0 +1,2307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!--
+    ===========================================================
+    SDG (Synthetic Data Generation) Landing Page Template
+    - Gretel-like structure (NOT copying their content)
+    - Single-file HTML/CSS/JS
+    - Replace text/links with your brand and services
+    ===========================================================
+  -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title data-i18n="pageTitle">ChuChiang Data — Synthetic Data Solutions</title>
+  <meta name="description" content="Enterprise-grade synthetic data solutions for privacy-safe analytics and AI." data-i18n="pageDescription" />
+
+  <!--
+    ===========================================================
+    STYLE SECTION
+    - Pure CSS, no frameworks
+    - Designed for clean, modern, enterprise feel
+    - Tip: If you later use Tailwind/Next.js, map these sections
+    ===========================================================
+  -->
+  <style>
+    /* -------------------------
+      0) CSS Reset (minimal)
+      ------------------------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; color: #0b1220; background: #ffffff; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button, input, textarea { font: inherit; }
+
+    /* -------------------------
+      1) Design Tokens
+      - Keep this section as your "theme control panel"
+      ------------------------- */
+    :root{
+      --bg: #ffffff;
+      --surface: #f7f8fb;
+      --surface-2: #eef1f7;
+      --text: #0b1220;
+      --muted: #5b6477;
+      --border: rgba(13, 20, 33, 0.10);
+
+      --primary: #2a5cff;          /* brand main */
+      --primary-2: #2dd4bf;        /* accent */
+      --danger: #ff3b30;
+
+      --shadow: 0 10px 30px rgba(16, 24, 40, 0.10);
+      --shadow-2: 0 8px 20px rgba(16, 24, 40, 0.08);
+
+      --radius: 18px;
+      --radius-sm: 12px;
+
+      --container: 1120px;
+      --pad: 24px;
+    }
+
+    /* -------------------------
+      2) Layout helpers
+      ------------------------- */
+    .container{
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    .grid{
+      display: grid;
+      gap: 18px;
+    }
+
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 20px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+      white-space: nowrap;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn::before{
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    .btn:hover::before{
+      width: 300px;
+      height: 300px;
+    }
+    .btn:active{ transform: translateY(1px); }
+
+    .btn-primary{
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(42, 92, 255, 0.3), 0 8px 20px rgba(42, 92, 255, 0.2);
+    }
+    .btn-primary:hover{
+      filter: brightness(1.05);
+      box-shadow: 0 8px 20px rgba(42, 92, 255, 0.4), 0 12px 30px rgba(42, 92, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost{
+      background: rgba(42, 92, 255, 0.08);
+      border-color: rgba(42, 92, 255, 0.18);
+      color: var(--primary);
+    }
+    .btn-ghost:hover{
+      background: rgba(42, 92, 255, 0.15);
+      border-color: rgba(42, 92, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+.btn-light-green{
+  background: rgba(76, 175, 80, 0.15);
+  border-color: rgba(76, 175, 80, 0.3);
+  color: #2e7d32;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15), 0 8px 20px rgba(76, 175, 80, 0.1);
+}
+.btn-light-green:hover{
+  background: rgba(76, 175, 80, 0.25);
+  border-color: rgba(76, 175, 80, 0.4);
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.2), 0 12px 30px rgba(76, 175, 80, 0.15);
+  transform: translateY(-2px);
+}
+.btn-light-green::before{
+  background: rgba(255, 255, 255, 0.5);
+}
+
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(45, 212, 191, 0.14);
+      border: 1px solid rgba(45, 212, 191, 0.28);
+      color: #0b5a52;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .card{
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(16, 24, 40, 0.06), 0 8px 20px rgba(16, 24, 40, 0.04);
+      padding: 18px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover{
+      box-shadow: 0 12px 28px rgba(16, 24, 40, 0.12), 0 20px 40px rgba(16, 24, 40, 0.08);
+      transform: translateY(-4px);
+      border-color: rgba(42, 92, 255, 0.2);
+    }
+
+    .card.soft{
+      background: var(--surface);
+      box-shadow: none;
+    }
+
+    .muted{ color: var(--muted); }
+    .kicker{
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    h1,h2,h3{ margin: 0; font-weight: 800; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; }
+    h1{ font-size: clamp(34px, 5vw, 52px); line-height: 1.05; letter-spacing: -0.02em; }
+    h2{ font-size: clamp(24px, 3.2vw, 34px); line-height: 1.15; letter-spacing: -0.01em; }
+    h3{ font-size: 18px; line-height: 1.2; }
+    h1:hover, h2:hover, h3:hover{ text-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); transform: translateY(-1px); }
+    p{ margin: 0; line-height: 1.6; }
+
+    .section{
+      padding: 72px 0;
+    }
+
+    .section-header{
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .divider{
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0;
+    }
+
+    /* -------------------------
+      3) Top navigation
+      ------------------------- */
+    .nav{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    .nav:hover{
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.08);
+    }
+    .nav-inner{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .logo{
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 30% 20%, var(--primary-2), var(--primary));
+      box-shadow: var(--shadow-2);
+    }
+
+    .nav-links{
+      display: none;
+      align-items: center;
+      gap: 16px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .nav-links a{ padding: 8px 10px; border-radius: 10px; }
+    .nav-links a:hover{ background: var(--surface); color: var(--text); }
+
+    .nav-cta{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Language switcher */
+    .language-switcher {
+      display: inline-flex;
+      gap: 6px;
+    }
+    .language-switcher .btn {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+    .language-switcher .btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Mobile menu */
+    .menu-btn{
+      display: inline-flex;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      padding: 10px 12px;
+    }
+    .mobile-panel{
+      display: none;
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(10px);
+    }
+    .mobile-panel a{
+      display: block;
+      padding: 14px var(--pad);
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 650;
+    }
+    .mobile-panel a:hover{ color: var(--text); background: var(--surface); }
+
+    /* -------------------------
+      4) Hero section
+      - Gretel-like: clear headline + value + CTA + trust chips
+      ------------------------- */
+    .hero{
+      padding: 54px 0 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-bg{
+      position: absolute;
+      inset: -200px -200px auto -200px;
+      height: 520px;
+      background:
+        radial-gradient(600px 280px at 12% 40%, rgba(42,92,255,0.20), transparent 60%),
+        radial-gradient(520px 260px at 60% 0%, rgba(45,212,191,0.18), transparent 55%),
+        radial-gradient(520px 260px at 92% 35%, rgba(42,92,255,0.15), transparent 55%);
+      pointer-events: none;
+      filter: blur(0px);
+    }
+
+    .hero-grid{
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .hero-copy{
+      padding: 16px 0;
+    }
+
+    .hero-actions{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .trust-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .hero-panel{
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--surface), #ffffff);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .panel-title{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .badge{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 750;
+      background: rgba(42,92,255,0.10);
+      border: 1px solid rgba(42,92,255,0.20);
+      color: var(--primary);
+    }
+
+    .mini-list{
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    /* -------------------------
+      5) Sections: value, capabilities, use cases
+      ------------------------- */
+    .cards-3{
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cards-4{
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .icon{
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .tag{
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    /* -------------------------
+      6) How it works (steps)
+      ------------------------- */
+    .steps{
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .step{
+      position: relative;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+    .step .num{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: rgba(45,212,191,0.16);
+      border: 1px solid rgba(45,212,191,0.30);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #0b5a52;
+      margin-bottom: 10px;
+    }
+
+    /* -------------------------
+      7) Trust section
+      ------------------------- */
+    .logo-wall{
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+    .logo-tile{
+      border: 1px dashed rgba(13,20,33,0.22);
+      border-radius: 14px;
+      padding: 14px 10px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 750;
+      background: #fff;
+    }
+
+    /* -------------------------
+      8) FAQ accordion
+      ------------------------- */
+    .faq{
+      display: grid;
+      gap: 10px;
+    }
+    details{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 14px 16px;
+      box-shadow: var(--shadow-2);
+    }
+    summary{
+      cursor: pointer;
+      font-weight: 800;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    summary::-webkit-details-marker{ display: none; }
+    .chev{
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      transition: transform .2s ease;
+    }
+    details[open] .chev{ transform: rotate(180deg); }
+    details p{ margin-top: 10px; color: var(--muted); }
+
+    /* -------------------------
+      9) Contact / demo form
+      - Keep form simple: it increases conversion
+      ------------------------- */
+    .form{
+      display: grid;
+      gap: 12px;
+    }
+    .field{
+      display: grid;
+      gap: 6px;
+    }
+    label{ font-size: 13px; font-weight: 750; color: var(--muted); }
+    input, textarea{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 12px;
+      outline: none;
+      background: #fff;
+    }
+    input:focus, textarea:focus{
+      border-color: rgba(42,92,255,0.40);
+      box-shadow: 0 0 0 4px rgba(42,92,255,0.10);
+    }
+
+    .form-note{
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* -------------------------
+      10) Footer
+      ------------------------- */
+    footer{
+      padding: 34px 0;
+      border-top: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+    }
+    .footer-grid{
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .footer-links{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      font-weight: 650;
+    }
+    .footer-links a{
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+    }
+    .footer-links a:hover{ border-color: var(--border); background: var(--surface); color: var(--text); }
+
+    /* -------------------------
+      11) Floating back-to-top button
+      ------------------------- */
+    .to-top{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      display: none;
+      z-index: 60;
+    }
+
+    /* -------------------------
+      12) Responsive
+      ------------------------- */
+    @media (min-width: 900px){
+      .nav-links{ display: flex; }
+      .menu-btn{ display: none; }
+      .mobile-panel{ display: none !important; }
+    }
+    @media (max-width: 980px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .cards-4{ grid-template-columns: repeat(2, 1fr); }
+      .steps{ grid-template-columns: repeat(2, 1fr); }
+      .logo-wall{ grid-template-columns: repeat(3, 1fr); }
+      .footer-grid{ grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px){
+      .cards-3{ grid-template-columns: 1fr; }
+      .cards-4{ grid-template-columns: 1fr; }
+      .steps{ grid-template-columns: 1fr; }
+      .logo-wall{ grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* -------------------------
+      10) Demo Section
+      - Purpose: Showcase product demo with slider functionality
+      ------------------------- */
+    .demo-section {
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+      padding: 90px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .demo-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(180deg, var(--bg) 0%, transparent 100%);
+    }
+    
+    .demo-section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(0deg, var(--bg) 0%, transparent 100%);
+    }
+    
+    .demo-header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .demo-slider-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .demo-slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      overflow: hidden;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    
+    .demo-slide {
+      min-width: 100%;
+      position: relative;
+    }
+    
+    .demo-image-placeholder {
+      width: 100%;
+      height: 500px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+    }
+    
+    .demo-image-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .demo-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .demo-control {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      background: var(--bg);
+      color: var(--primary);
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .demo-control:hover {
+      background: var(--primary);
+      color: white;
+      transform: scale(1.1);
+    }
+    
+    .demo-pagination {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .demo-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .demo-dot.active {
+      background: var(--primary);
+      transform: scale(1.3);
+    }
+    
+    /* 增强Demo分区的视觉效果 */
+    .demo-section {
+      padding: 90px 0;
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* 渐变蓝色文本 */
+    .gradient-text {
+      background: linear-gradient(90deg, #1a73e8, #0d47a1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 600;
+    }
+    
+    /* 确保带text-center的section-header真正居中 */
+    .section-header.text-center {
+      justify-content: center;
+      text-align: center;
+    }
+    
+    /* 放大"demo"一词 */
+    .demo-highlight {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .demo-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-2) 100%);
+      border-radius: 3px;
+    }
+    
+    .demo-control:active {
+      transform: scale(0.95);
+    }
+    
+    .demo-slide {
+      transition: opacity 0.3s ease;
+    }
+    
+    /* Responsive demo section */
+    @media (max-width: 768px) {
+      .demo-image-placeholder {
+        height: 350px;
+      }
+      
+      .demo-control {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+      
+      .demo-section {
+        padding: 70px 0;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .demo-image-placeholder {
+        height: 250px;
+      }
+      
+      .demo-section {
+        padding: 60px 0;
+      }
+      
+      .demo-section::before {
+        width: 80px;
+        height: 4px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =========================================================
+    TOP NAV
+    - Purpose: fast access to sections + conversion CTA
+    - How to use: replace Brand name, links, CTA action
+  ========================================================== -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Go to top">
+        <span class="logo" aria-hidden="true"></span>
+        <span>ChuChiang Data</span>
+      </a>
+
+      <!-- Desktop nav links -->
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#capabilities" data-i18n="navCapabilities">Capabilities</a>
+        <a href="#use-cases" data-i18n="navUseCases">Use Cases</a>
+        <a href="#how" data-i18n="navHowItWorks">Principle</a>
+        <a href="about-us.html" target="_blank" data-i18n="navAboutUs">About us</a>
+      </nav>
+
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="#" data-i18n="navSignIn">Sign in</a>
+        <!-- Mobile menu button -->
+        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobilePanel" data-i18n="navMenu">
+          ☰ Menu
+        </button>
+        <a class="btn btn-light-green" href="#contact" data-i18n="navTalkToExpert">Begin serve now</a>
+        <a class="btn btn-primary" href="#demo" data-i18n="navRequestDemo">Request a Demo</a>
+        <!-- Language switcher -->
+        <div class="language-switcher">
+          <button id="langEn" class="btn btn-ghost active" data-lang="en">EN</button>
+          <button id="langZh" class="btn btn-ghost" data-lang="zh">中文</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu panel -->
+      <div class="mobile-panel" id="mobilePanel" role="region" aria-label="Mobile menu">
+        <a href="#capabilities" data-i18n="navCapabilities">Capabilities</a>
+        <a href="#use-cases" data-i18n="navUseCases">Use Cases</a>
+        <a href="#how" data-i18n="navHowItWorks">Principle</a>
+        <a href="about-us.html" target="_blank" data-i18n="navAboutUs">About us</a>
+        <a href="#" data-i18n="navSignIn">Sign in</a>
+        <a href="#demo" data-i18n="navRequestDemo">Request a Demo</a>
+      </div>
+  </header>
+
+  <!-- =========================================================
+    HERO SECTION (Main first screen)
+    - Purpose: 10 seconds to understand
+      1) What you do
+      2) Why it matters (privacy + utility)
+      3) Next action (demo)
+    - How to use: replace headline/subheadline to your exact positioning
+  ========================================================== -->
+  <main id="top" class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+
+    <div class="container hero-grid">
+      <!-- Left: copy -->
+      <section class="hero-copy" aria-label="Hero">
+        <span class="pill" data-i18n="heroPill">Synthetic Data • Privacy • Utility</span>
+        <h1 style="margin-top: 14px;" data-i18n="heroHeadline">
+          Enterprise-grade synthetic data solutions for
+          <span style="color: var(--primary);">privacy-safe analytics</span> and AI.
+        </h1>
+
+        <p class="muted" style="margin-top: 14px; font-size: 16px; max-width: 58ch;" data-i18n="heroSubhead">
+          Replace sensitive datasets with high-utility synthetic data—designed to preserve statistical
+          characteristics while reducing re-identification risk and accelerating delivery.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contact" data-i18n="heroCta1">Request a Demo →</a>
+          <a class="btn btn-ghost" href="#capabilities" data-i18n="heroCta2">Explore Capabilities</a>
+        </div>
+
+        <!-- Trust chips: quick “proof” without heavy claims -->
+        <div class="trust-row" aria-label="Trust highlights">
+          <span class="badge" data-i18n="heroBadge1">Privacy risk assessment</span>
+          <span class="badge" data-i18n="heroBadge2">Utility validation</span>
+          <span class="badge" data-i18n="heroBadge3">Custom pipelines</span>
+          <span class="badge" data-i18n="heroBadge4">Enterprise-ready delivery</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Quick bullets: what visitors get -->
+        <ul class="mini-list">
+          <li data-i18n="heroBullet1"><strong>For teams</strong> who need to share data safely with vendors, researchers, or internal units.</li>
+          <li data-i18n="heroBullet2"><strong>For AI builders</strong> who need scalable training data without exposing real individuals.</li>
+          <li data-i18n="heroBullet3"><strong>For compliance</strong> who need measurable privacy and audit-friendly documentation.</li>
+        </ul>
+      </section>
+
+      <!-- Right: “product panel” / “mini dashboard”
+           Purpose: show you are a serious platform/solution
+           Tip: Replace this with your own screenshots later -->
+      <aside class="hero-panel" aria-label="Demo snapshot">
+        <div class="panel-title">
+            <div>
+              <div class="kicker" data-i18n="heroPanelKicker">Demo Snapshot</div>
+              <h3 style="margin-top: 6px;" data-i18n="heroPanelTitle">Synthetic Data Workflow</h3>
+            </div>
+            <span class="tag" data-i18n="heroPanelTag">v1.0</span>
+          </div>
+
+        <!-- Fake metrics block: demonstrates value pillars -->
+        <div class="grid" style="grid-template-columns: repeat(2,1fr); gap: 12px;">
+          <div class="card soft" style="padding: 14px;">
+            <div class="kicker" data-i18n="heroPanelPrivacyKicker">privacy</div>
+            <div style="font-weight: 900; font-size: 18px; margin-top: 6px;" data-i18n="heroPanelPrivacyTitle">Low leakage</div>
+            <p class="muted" style="margin-top: 6px; font-size: 13px;" data-i18n="heroPanelPrivacyDesc">
+              Quantify risk with membership & nearest-neighbor checks.
+            </p>
+          </div>
+          <div class="card soft" style="padding: 14px;">
+            <div class="kicker" data-i18n="heroPanelUtilityKicker">utility</div>
+            <div style="font-weight: 900; font-size: 18px; margin-top: 6px;" data-i18n="heroPanelUtilityTitle">High fidelity</div>
+            <p class="muted" style="margin-top: 6px; font-size: 13px;" data-i18n="heroPanelUtilityDesc">
+              Preserve distributions, correlations, and downstream performance.
+            </p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="muted" style="font-size: 14px;" data-i18n="heroPanelDelivery">
+          <strong>Typical delivery:</strong> tabular / time-series synthetic datasets + evaluation report + recommended usage.
+        </p>
+
+        <div style="margin-top: 14px;">
+          <a class="btn btn-ghost" href="#contact" style="width:100%;" data-i18n="heroPanelCta">Get a sample report</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- =========================================================
+    PARTNERS
+    - Purpose: Showcase trusted partners and build credibility
+    - How to use: Replace placeholder logos with your actual partner logos
+  ========================================================== -->
+  <section class="section" style="background: var(--surface);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker" data-i18n="partnersKicker">Trusted By</div>
+          <h2 style="margin-top: 8px;" data-i18n="partnersHeadline">Our Partners</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 70ch;" data-i18n="partnersSubhead">
+            We collaborate with leading organizations to deliver synthetic data solutions that drive innovation and privacy.
+          </p>
+        </div>
+      </div>
+
+      <div class="logo-wall">       
+        <!-- Partner Logo Placeholders - Replace src with actual logo paths -->
+        <div class="logo-tile">
+          <img src="" alt="Australia natinal university" data-i18n="partner1Alt" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+        </div>
+        <div class="logo-tile">
+          <img src="" alt="US Agricultural Department" data-i18n="partner2Alt" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+        </div>
+        <div class="logo-tile">
+          <img src="" alt="western securities" data-i18n="partner3Alt" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+        </div>
+        <div class="logo-tile">
+          <img src="" alt="The University of Melbourne" data-i18n="partner4Alt" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+        </div>
+        <div class="logo-tile">
+          <img src="" alt="Ohio state university" data-i18n="partner5Alt" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+        </div>
+        <div class="logo-tile">
+          <img src="https://www.a-star.edu.sg/images/librariesprovider1/default-album/00.-astar-hq-corporate-website.png?sfvrsn=470d170_9" alt="astar" data-i18n="partner6Alt" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    VALUE PROPOSITION (3 pillars)
+    - Purpose: answer "why now" + "why you"
+    - How to use: keep 3 cards; replace bullets with your value statement
+  ========================================================== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker" data-i18n="valueKicker">Value</div>
+          <h2 style="margin-top: 8px;" data-i18n="valueHeadline">Make data usable, shareable, and compliant.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 70ch;" data-i18n="valueSubhead">
+            Synthetic data should reduce privacy risk <em>and</em> remain useful for analytics, modeling, and decision support.
+            We focus on measurable results instead of vague promises.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid cards-3">
+        <!-- Card 1 -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">🔐</div>
+          <h3 style="margin-top: 12px;" data-i18n="valueCard1Title">Privacy & Compliance</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="valueCard1Desc">
+            Reduce exposure to sensitive records and enable safer collaboration across teams and partners.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li data-i18n="valueCard1Bullet1">Risk scoring & leakage checks</li>
+            <li data-i18n="valueCard1Bullet2">Audit-friendly documentation</li>
+            <li data-i18n="valueCard1Bullet3">Policy-aligned usage recommendations</li>
+          </ul>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">📊</div>
+          <h3 style="margin-top: 12px;" data-i18n="valueCard2Title">High Utility</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="valueCard2Desc">
+            Preserve statistical properties and relationships needed for analytics and ML.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li data-i18n="valueCard2Bullet1">Distribution & correlation matching</li>
+            <li data-i18n="valueCard2Bullet2">Downstream model evaluation</li>
+            <li data-i18n="valueCard2Bullet3">Bias / imbalance diagnostics</li>
+          </ul>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">⚡</div>
+          <h3 style="margin-top: 12px;" data-i18n="valueCard3Title">Speed at Scale</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="valueCard3Desc">
+            Shorten approval cycles and generate data faster than traditional access workflows.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li data-i18n="valueCard3Bullet1">Repeatable pipelines</li>
+            <li data-i18n="valueCard3Bullet2">Batch generation for large datasets</li>
+            <li data-i18n="valueCard3Bullet3">Integration-ready formats</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    CAPABILITIES (main "what we do" section)
+    - Purpose: show the complete solution, not just a service list
+    - How to use: 4 cards is a sweet spot; add links later to detail pages
+  ========================================================== -->
+  <section id="capabilities" class="section" style="background: var(--surface);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker" data-i18n="capabilitiesKicker">Capabilities</div>
+          <h2 style="margin-top: 8px;" data-i18n="capabilitiesHeadline">From generation to evaluation to delivery.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;" data-i18n="capabilitiesSubhead">
+            We don’t “just generate data.” We deliver a defensible workflow: generate → validate utility → assess privacy → provide usage guidance.
+          </p>
+        </div>
+        <a class="btn btn-ghost" href="#contact" data-i18n="capabilitiesCta">Ask for a technical walkthrough</a>
+      </div>
+
+      <div class="grid cards-4">
+        <!-- 1) Generation -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">🧬</div>
+          <h3 style="margin-top: 12px;" data-i18n="capabilityCard1Title">Synthetic Data Generation</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="capabilityCard1Desc">
+            Produce synthetic datasets that mirror structure and statistics of your source data while avoiding direct record copying.
+          </p>
+          <div class="divider"></div>
+          <p class="muted" style="font-size: 13px;" data-i18n="capabilityCard1Usage">
+            <strong>How it’s used:</strong> Replace raw data for internal analytics, external sharing, or ML training.
+          </p>
+        </div>
+
+        <!-- 2) Privacy -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">🛡️</div>
+          <h3 style="margin-top: 12px;" data-i18n="capabilityCard2Title">Privacy Risk Assessment</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="capabilityCard2Desc">
+            Measure re-identification risk using practical attack simulations and distance-based leakage checks.
+          </p>
+          <div class="divider"></div>
+          <p class="muted" style="font-size: 13px;" data-i18n="capabilityCard2Usage">
+            <strong>How it’s used:</strong> Give compliance teams evidence to approve safer data use.
+          </p>
+        </div>
+
+        <!-- 3) Utility -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">📈</div>
+          <h3 style="margin-top: 12px;" data-i18n="capabilityCard3Title">Utility Validation</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="capabilityCard3Desc">
+            Quantify whether synthetic data supports downstream tasks (reports, forecasting, classification, etc.).
+          </p>
+          <div class="divider"></div>
+          <p class="muted" style="font-size: 13px;" data-i18n="capabilityCard3Usage">
+            <strong>How it’s used:</strong> Ensure synthetic data is actually usable, not “pretty but useless.”
+          </p>
+        </div>
+
+        <!-- 4) Integration -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">🔧</div>
+          <h3 style="margin-top: 12px;" data-i18n="capabilityCard4Title">Custom Pipelines & Integration</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="capabilityCard4Desc">
+            Build repeatable workflows for your domain—data schema, constraints, formats, and governance.
+          </p>
+          <div class="divider"></div>
+          <p class="muted" style="font-size: 13px;" data-i18n="capabilityCard4Usage">
+            <strong>How it’s used:</strong> Turn one successful project into a scalable internal capability.
+          </p>
+        </div>
+      </div>
+
+      <!-- Optional: "feature list" - useful for enterprise buyers -->
+      <div class="card" style="margin-top: 18px;">
+        <div class="kicker" data-i18n="capabilitiesOpKicker">Operational details</div>
+        <h3 style="margin-top: 8px;" data-i18n="capabilitiesOpTitle">Delivery artifacts you can expect</h3>
+        <div class="grid" style="grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 12px;">
+          <div class="card soft">
+            <h3 data-i18n="capabilitiesOpDatasetTitle">Datasets</h3>
+            <p class="muted" style="margin-top: 6px; font-size: 14px;" data-i18n="capabilitiesOpDatasetDesc">
+              CSV/Parquet + schema + constraints (optional) + versioned outputs.
+            </p>
+          </div>
+          <div class="card soft">
+            <h3 data-i18n="capabilitiesOpReportTitle">Evaluation Report</h3>
+            <p class="muted" style="margin-top: 6px; font-size: 14px;" data-i18n="capabilitiesOpReportDesc">
+              Utility metrics, distribution checks, correlation analysis, and task-based benchmarks.
+            </p>
+          </div>
+          <div class="card soft">
+            <h3 data-i18n="capabilitiesOpRiskTitle">Risk & Guidance</h3>
+            <p class="muted" style="margin-top: 6px; font-size: 14px;" data-i18n="capabilitiesOpRiskDesc">
+              Privacy risk summary + recommended usage policy and sharing rules.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    USE CASES
+    - Purpose: help visitors self-identify “this is for my situation”
+    - How to use: keep 4 industries; adjust to your target market
+  ========================================================== -->
+  <section id="use-cases" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker" data-i18n="useCasesKicker">Use Cases</div>
+          <h2 style="margin-top: 8px;" data-i18n="useCasesHeadline">Where synthetic data creates immediate value.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;" data-i18n="useCasesSubhead">
+            Pick the scenario closest to your work. We tailor generation constraints, evaluation, and governance to match your domain.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid cards-4">
+        <div class="card">
+          <span class="tag" data-i18n="useCaseCard1Tag">Finance</span>
+          <h3 style="margin-top: 10px;" data-i18n="useCaseCard1Title">Risk & Modeling</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="useCaseCard1Desc">
+            Use synthetic data to develop and test models without exposing sensitive customer or transaction records.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li data-i18n="useCaseCard1Bullet1">Fraud model testing</li>
+            <li data-i18n="useCaseCard1Bullet2">Stress scenarios & simulation</li>
+            <li data-i18n="useCaseCard1Bullet3">Safer vendor collaboration</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <span class="tag" data-i18n="useCaseCard2Tag">AI / ML</span>
+          <h3 style="margin-top: 10px;" data-i18n="useCaseCard2Title">Training Data Augmentation</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="useCaseCard2Desc">
+            Expand training sets, address class imbalance, and support model validation with safer data alternatives.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li data-i18n="useCaseCard2Bullet1">Class imbalance mitigation</li>
+            <li data-i18n="useCaseCard2Bullet2">Data sharing for model review</li>
+            <li data-i18n="useCaseCard2Bullet3">Benchmark reproducibility</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <span class="tag" data-i18n="useCaseCard3Tag">Research</span>
+          <h3 style="margin-top: 10px;" data-i18n="useCaseCard3Title">Secure Data Release</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="useCaseCard3Desc">
+            Enable external collaboration while controlling privacy risk with documented evaluation and usage rules.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li data-i18n="useCaseCard3Bullet1">Academic collaborations</li>
+            <li data-i18n="useCaseCard3Bullet2">Public release (controlled)</li>
+            <li data-i18n="useCaseCard3Bullet3">Policy-aligned governance</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <span class="tag" data-i18n="useCaseCard4Tag">Engineering</span>
+          <h3 style="margin-top: 10px;" data-i18n="useCaseCard4Title">Dev & QA Testing</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="useCaseCard4Desc">
+            Replace production data in test environments with synthetic equivalents to speed up development safely.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li data-i18n="useCaseCard4Bullet1">Sandbox datasets</li>
+            <li data-i18n="useCaseCard4Bullet2">Integration tests</li>
+            <li data-i18n="useCaseCard4Bullet3">Reproducible test cases</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    HOW IT WORKS (Steps)
+    - Purpose: reduce perceived complexity
+    - How to use: keep 4 steps; use plain language
+  ========================================================== -->
+  <section id="how" class="section" style="background: var(--surface);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker" data-i18n="howItWorksKicker">Method</div>
+          <h2 style="margin-top: 8px;" data-i18n="howItWorksHeadline">A defensible workflow, not just a dataset.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;" data-i18n="howItWorksSubhead">
+            Our standard engagement is structured to be explainable to technical and compliance stakeholders.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3 data-i18n="howStep1Title">Understand & Scope</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="howStep1Desc">
+            Define your dataset schema, sensitive fields, usage goals, and constraints (e.g., ranges, relationships).
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="num">2</div>
+          <h3 data-i18n="howStep2Title">Generate</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="howStep2Desc">
+            Train/select generation methods and create synthetic data with configurable controls and constraints.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="num">3</div>
+          <h3 data-i18n="howStep3Title">Validate Utility</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="howStep3Desc">
+            Run statistical checks and task-based benchmarks to ensure the synthetic data supports your use case.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="num">4</div>
+          <h3 data-i18n="howStep4Title">Assess Risk & Deliver</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="howStep4Desc">
+            Evaluate privacy leakage and provide a report with recommended usage and sharing guidance.
+          </p>
+        </div>
+      </div>
+
+      <!-- Optional: a callout box to address “does it copy my records?” -->
+      <div class="card" style="margin-top: 18px;">
+        <h3 data-i18n="howCalloutTitle">Does synthetic data copy real records?</h3>
+        <p class="muted" style="margin-top: 8px;" data-i18n="howCalloutDesc">
+          Proper synthetic generation aims to learn statistical patterns and sample new records.
+          We additionally evaluate nearest-neighbor similarity and leakage signals to reduce the chance of reproducing sensitive individuals.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    TRUST SECTION
+    - Purpose: credibility without overclaiming
+    - How to use: replace placeholders with real logos/case numbers later
+  ========================================================== -->
+  <section id="trust" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker" data-i18n="trustKicker">Trust</div>
+          <h2 style="margin-top: 8px;" data-i18n="trustHeadline">Built for serious stakeholders.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;" data-i18n="trustSubhead">
+            Enterprise buyers care about evidence, governance, and clarity. We package technical results into decision-friendly artifacts.
+          </p>
+        </div>
+      </div>
+
+      <!-- Logo wall placeholders -->
+      <div class="logo-wall" aria-label="Customer/partner logos (placeholders)">
+        <div class="logo-tile" data-i18n="trustLogo1">Client A</div>
+        <div class="logo-tile" data-i18n="trustLogo2">Client B</div>
+        <div class="logo-tile" data-i18n="trustLogo3">Client C</div>
+        <div class="logo-tile" data-i18n="trustLogo4">Partner D</div>
+        <div class="logo-tile" data-i18n="trustLogo5">Lab E</div>
+        <div class="logo-tile" data-i18n="trustLogo6">Org F</div>
+      </div>
+
+      <div class="grid cards-3" style="margin-top: 18px;">
+        <div class="card soft">
+          <h3 data-i18n="trustCard1Title">Evidence over hype</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="trustCard1Desc">
+            We report both strengths and limitations of synthetic data for your specific downstream tasks.
+          </p>
+        </div>
+        <div class="card soft">
+          <h3 data-i18n="trustCard2Title">Governance-ready</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="trustCard2Desc">
+            Outputs include recommended usage guidance and risk summaries aligned to your governance needs.
+          </p>
+        </div>
+        <div class="card soft">
+          <h3 data-i18n="trustCard3Title">Repeatable delivery</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="trustCard3Desc">
+            Turn one-off work into a repeatable pipeline so synthetic data becomes a capability, not a one-time file.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    FAQ SECTION
+    - Purpose: remove common objections
+    - How to use: replace questions with your real sales objections
+  ========================================================== -->
+  <section id="faq" class="section" style="background: var(--surface);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker" data-i18n="faqKicker">FAQ</div>
+          <h2 style="margin-top: 8px;" data-i18n="faqHeadline">Common questions about synthetic data.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;" data-i18n="faqSubhead">
+            Keep your answers short and confident. Offer a demo or a sample report for deeper details.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary data-i18n="faqItem1Question">
+            Is synthetic data the same as anonymized data?
+            <span class="chev">⌄</span>
+          </summary>
+          <p data-i18n="faqItem1Answer">
+            Not exactly. Anonymization typically modifies real records, while synthetic data generates new records from learned patterns.
+            In practice, you still need evaluation to quantify privacy risk and utility.
+          </p>
+        </details>
+
+        <details>
+          <summary data-i18n="faqItem2Question">
+            Can synthetic data be used for machine learning training?
+            <span class="chev">⌄</span>
+          </summary>
+          <p data-i18n="faqItem2Answer">
+            Often yes—especially for augmentation, class imbalance mitigation, and sharing data for validation.
+            We recommend task-based utility tests to confirm performance for your specific model and target.
+          </p>
+        </details>
+
+        <details>
+          <summary data-i18n="faqItem3Question">
+            How do you measure privacy risk?
+            <span class="chev">⌄</span>
+          </summary>
+          <p data-i18n="faqItem3Answer">
+            We use practical risk checks such as nearest-neighbor similarity, leakage signals, and scenario-based tests
+            (aligned to your threat model). The output is summarized in a decision-friendly report.
+          </p>
+        </details>
+
+        <details>
+          <summary data-i18n="faqItem4Question">
+            What data types do you support?
+            <span class="chev">⌄</span>
+          </summary>
+          <p data-i18n="faqItem4Answer">
+            We typically start with tabular data (most common in enterprises). Time-series and text can be supported depending on
+            constraints, data size, and intended usage.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    DEMO SECTION
+    - Purpose: showcase product demo
+    - How to use: insert demo images in the placeholders
+  ========================================================== -->
+  <section id="demo" class="section demo-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="demo-header">
+          <div class="kicker" data-i18n="demoKicker"><span class="demo-highlight">Demo</span></div>
+          <h2 class="gradient-text" style="margin-top: 8px;" data-i18n="demoHeadline">See Our Solution in Action</h2>
+          <p class="muted gradient-text" style="margin-top: 10px; max-width: 72ch; margin-left: auto; margin-right: auto;" data-i18n="demoSubhead">
+            Explore our interactive demo to see how our synthetic data solution works.
+          </p>
+        </div>
+      </div>
+
+      <!-- Demo slider container -->
+      <div class="demo-slider-container">
+        <div class="demo-slider">
+          <div class="demo-slide active" data-slide="0">
+            <div class="demo-image-placeholder">
+              <img src="#" alt="Demo page 1" data-i18n="demoImage1Alt">
+            </div>
+          </div>
+          <div class="demo-slide" data-slide="1">
+            <div class="demo-image-placeholder">
+              <img src="#" alt="Demo page 2" data-i18n="demoImage2Alt">
+            </div>
+          </div>
+          <div class="demo-slide" data-slide="2">
+            <div class="demo-image-placeholder">
+              <img src="#" alt="Demo page 3" data-i18n="demoImage3Alt">
+            </div>
+          </div>
+          <div class="demo-slide" data-slide="3">
+            <div class="demo-image-placeholder">
+              <img src="#" alt="Demo page 4" data-i18n="demoImage4Alt">
+            </div>
+          </div>
+        </div>
+
+        <!-- Slider controls -->
+        <div class="demo-controls">
+          <button class="demo-control prev" data-control="prev" aria-label="Previous slide">
+            ←
+          </button>
+          <div class="demo-pagination">
+            <button class="demo-dot active" data-dot="0" aria-label="Go to slide 1"></button>
+            <button class="demo-dot" data-dot="1" aria-label="Go to slide 2"></button>
+            <button class="demo-dot" data-dot="2" aria-label="Go to slide 3"></button>
+            <button class="demo-dot" data-dot="3" aria-label="Go to slide 4"></button>
+          </div>
+          <button class="demo-control next" data-control="next" aria-label="Next slide">
+            →
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    CONTACT / DEMO SECTION
+    - Purpose: conversion
+    - How to use: replace form action with your backend/CRM later
+      For now it just “pretends to submit” with JS
+  ========================================================== -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker" data-i18n="contactKicker">Contact</div>
+          <h2 style="margin-top: 8px;" data-i18n="contactHeadline">Let us begin serve for you now.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;" data-i18n="contactSubhead">
+            Tell us your data type and intended usage. We’ll reply with a recommended approach and what artifacts you’ll receive.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid" style="grid-template-columns: 1.1fr 0.9fr; gap: 18px;">
+        <!-- Left: form -->
+        <form class="card" id="demoForm" novalidate>
+          <!--
+            IMPORTANT:
+            - In real production, connect this form to:
+              1) your email service (SendGrid/Mailgun)
+              2) your CRM (HubSpot)
+              3) or serverless function (Vercel)
+          -->
+          <div class="form">
+            <div class="field">
+              <label for="name" data-i18n="formNameLabel">Name</label>
+              <input id="name" name="name" placeholder="Your name" required data-i18n="formNamePlaceholder" />
+            </div>
+
+            <div class="field">
+              <label for="email" data-i18n="formEmailLabel">Work email</label>
+              <input id="email" name="email" type="email" placeholder="name@company.com" required data-i18n="formEmailPlaceholder" />
+            </div>
+
+            <div class="field">
+              <label for="org" data-i18n="formOrgLabel">Organization</label>
+              <input id="org" name="org" placeholder="Company / Lab / Team" data-i18n="formOrgPlaceholder" />
+            </div>
+
+            <div class="field">
+              <label for="need" data-i18n="formNeedLabel">Share your data requirements with us, and we’ll tailor solutions for you.</label>
+              <textarea id="need" name="need" rows="4" placeholder="e.g., safer sharing with vendors; model training; QA testing; research release..." required data-i18n="formNeedPlaceholder"></textarea>
+            </div>
+
+            <button class="btn btn-primary" type="submit" data-i18n="formSubmitButton">Submit Request</button>
+            <p class="form-note" id="formNote" data-i18n="formNote">
+              By submitting, you agree we may contact you about this request. <a href="privacy-statement.html" target="_blank">Privacy Statement</a>
+            </p>
+          </div>
+        </form>
+
+        <!-- Right: “What you’ll get” box -->
+        <aside class="card soft">
+          <h3 data-i18n="contactSidebarTitle">What you’ll receive</h3>
+          <p class="muted" style="margin-top: 8px;" data-i18n="contactSidebarDesc">
+            We usually respond with a Preliminary serve plan , a suggested evaluation approach and provide a quotation within 1-3 business days.
+          </p>
+          <div class="divider"></div>
+
+          <ul class="mini-list">
+            <li data-i18n="contactSidebarBullet1"><strong>Recommended approach:</strong> data type, constraints, and generation options.</li>
+            <li data-i18n="contactSidebarBullet2"><strong>Evaluation plan:</strong> utility metrics and task-based benchmarks.</li>
+            <li data-i18n="contactSidebarBullet3"><strong>After-Sales Support:</strong> Our dedicated technical team provides long-term support for all products, and you can obtain assistance through any channel of your choice.</li>
+            <li data-i18n="contactSidebarBullet4"><strong>Delivery artifacts:</strong> datasets + report + usage guidance.</li>
+          </ul>
+
+          <div class="divider"></div>
+
+          <p class="muted" style="font-size: 14px;" data-i18n="contactSidebarTip">
+            Tip: If you don’t have a dataset ready, we can start with a schema and sample.
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    FOOTER
+    - Purpose: basic credibility + simple navigation
+    - How to use: add your actual legal links and contact info
+  ========================================================== -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <div class="brand">
+          <span class="logo" aria-hidden="true"></span>
+          <span data-i18n="footerBrand">ChuChiang Data</span>
+        </div>
+        <p class="muted" style="margin-top: 10px; max-width: 70ch;" data-i18n="footerDesc">
+          Synthetic data solutions for privacy-safe analytics and AI training. Built for enterprise governance.
+        </p>
+        <p class="muted" style="margin-top: 12px; font-size: 13px;" data-i18n="footerCopyright">
+          © <span id="year"></span> ChuChiang Data. All rights reserved.
+        </p>
+      </div>
+
+      <div class="footer-links" aria-label="Footer links">
+        <a href="#capabilities" data-i18n="navCapabilities">Capabilities</a>
+        <a href="#use-cases" data-i18n="navUseCases">Use Cases</a>
+        <a href="#how" data-i18n="navHowItWorks">How It Works</a>
+        <a href="#faq" data-i18n="navFaq">FAQ</a>
+        <a href="#contact" data-i18n="navRequestDemo">Request a Demo</a>
+        <a href="#top" data-i18n="footerBackToTop">Back to Top</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back-to-top floating button -->
+  <div class="to-top" id="toTop">
+    <a class="btn btn-primary" href="#top" aria-label="Back to top" data-i18n="backToTop">↑ Top</a>
+  </div>
+
+  <!-- =========================================================
+    SCRIPT SECTION
+    - Purpose:
+      1) Mobile menu toggle
+      2) Form "fake submit" (demo)
+      3) Back-to-top visibility
+      4) Footer year
+    - How to use:
+      - Replace fake submit with real backend later
+  ========================================================== -->
+  <script>
+    // -------------------------
+    // 0) Internationalization
+    // -------------------------
+    const translations = {
+      en: {
+        // Page metadata
+        pageTitle: 'ChuChiang Data — Synthetic Data Solutions',
+        pageDescription: 'Enterprise-grade synthetic data solutions for privacy-safe analytics and AI.',
+        
+        // Navigation
+        navCapabilities: 'Capabilities',
+        navUseCases: 'Use Cases',
+        navHowItWorks: 'How It Works',
+        navTrust: 'Trust',
+        navAboutUs: 'About us',
+        navSignIn: 'Sign in',
+        navTalkToExpert: 'Begin serve now',
+        navRequestDemo: 'Check the Demo',
+        navMenu: '☰ Menu',
+        
+        // Hero section
+        heroPill: 'Synthetic Data • Privacy • Utility',
+        heroHeadline: 'Enterprise-grade synthetic data solutions for <span style="color: var(--primary);">privacy-safe analytics</span> and AI.',
+        heroSubhead: 'Replace sensitive datasets with high-utility synthetic data—designed to preserve statistical characteristics while reducing re-identification risk and accelerating delivery.',
+        heroCta1: 'Check the Demo →',
+        heroCta2: 'Explore Capabilities',
+        heroBadge1: 'Privacy risk assessment',
+        heroBadge2: 'Utility validation',
+        heroBadge3: 'Custom pipelines',
+        heroBadge4: 'Enterprise-ready delivery',
+        heroBullet1: '<strong>For teams</strong> who need to share data safely with vendors, researchers, or internal units.',
+        heroBullet2: '<strong>For AI builders</strong> who need scalable training data without exposing real individuals.',
+        heroBullet3: '<strong>For compliance</strong> who need measurable privacy and audit-friendly documentation.',
+        
+        // Hero panel
+        heroPanelKicker: 'Demo Snapshot',
+        heroPanelTitle: 'Synthetic Data Workflow',
+        heroPanelTag: 'v1.0',
+        heroPanelPrivacyKicker: 'privacy',
+        heroPanelPrivacyTitle: 'Low leakage',
+        heroPanelPrivacyDesc: 'Quantify risk with membership & nearest-neighbor checks.',
+        heroPanelUtilityKicker: 'utility',
+        heroPanelUtilityTitle: 'High fidelity',
+        heroPanelUtilityDesc: 'Preserve distributions, correlations, and downstream performance.',
+        heroPanelDelivery: 'Typical delivery: tabular / time-series synthetic datasets + evaluation report + recommended usage.',
+        heroPanelCta: 'Get a sample report',
+        
+        // Partners section
+        partnersKicker: 'Trusted By',
+        partnersHeadline: 'Our Partners',
+        partnersSubhead: 'We collaborate with leading organizations to deliver synthetic data solutions that drive innovation and privacy.',
+        partner1: 'Partner 1',
+        partner2: 'Partner 2',
+        partner3: 'Partner 3',
+        partner4: 'Partner 4',
+        partner5: 'Partner 5',
+        partner6: 'Partner 6',
+        partner1Alt: 'Partner 1 Logo',
+        partner2Alt: 'Partner 2 Logo',
+        partner3Alt: 'Partner 3 Logo',
+        partner4Alt: 'Partner 4 Logo',
+        partner5Alt: 'Partner 5 Logo',
+        partner6Alt: 'Partner 6 Logo',
+        
+        // Value section
+        valueKicker: 'Value',
+        valueHeadline: 'Make data usable, shareable, and compliant.',
+        valueSubhead: 'Synthetic data should reduce privacy risk <em>and</em> remain useful for analytics, modeling, and decision support. We focus on measurable results instead of vague promises.',
+        
+        // Value cards
+        valueCard1Title: 'Privacy & Compliance',
+        valueCard1Desc: 'Reduce exposure to sensitive records and enable safer collaboration across teams and partners.',
+        valueCard1Bullet1: 'Risk scoring & leakage checks',
+        valueCard1Bullet2: 'Audit-friendly documentation',
+        valueCard1Bullet3: 'Policy-aligned usage recommendations',
+        
+        valueCard2Title: 'High Utility',
+        valueCard2Desc: 'Preserve statistical properties and relationships needed for analytics and ML.',
+        valueCard2Bullet1: 'Distribution & correlation matching',
+        valueCard2Bullet2: 'Downstream model evaluation',
+        valueCard2Bullet3: 'Bias / imbalance diagnostics',
+        
+        valueCard3Title: 'Speed at Scale',
+        valueCard3Desc: 'Shorten approval cycles and generate data faster than traditional access workflows.',
+        valueCard3Bullet1: 'Repeatable pipelines',
+        valueCard3Bullet2: 'Batch generation for large datasets',
+        valueCard3Bullet3: 'Integration-ready formats',
+        
+        // Capabilities section
+        capabilitiesKicker: 'Capabilities',
+        capabilitiesHeadline: 'From generation to evaluation to delivery.',
+        capabilitiesSubhead: 'We don’t “just generate data.” We deliver a defensible workflow: generate → validate utility → assess privacy → provide usage guidance.',
+        capabilitiesCta: 'Ask for a technical walkthrough',
+        
+        // Capability cards
+        capabilityCard1Title: 'Synthetic Data Generation',
+        capabilityCard1Desc: 'Produce synthetic datasets that mirror structure and statistics of your source data while avoiding direct record copying.',
+        capabilityCard1Usage: '<strong>How it’s used:</strong> Replace raw data for internal analytics, external sharing, or ML training.',
+        
+        capabilityCard2Title: 'Privacy Risk Assessment',
+        capabilityCard2Desc: 'Measure re-identification risk using practical attack simulations and distance-based leakage checks.',
+        capabilityCard2Usage: '<strong>How it’s used:</strong> Give compliance teams evidence to approve safer data use.',
+        
+        capabilityCard3Title: 'Utility Validation',
+        capabilityCard3Desc: 'Quantify whether synthetic data supports downstream tasks (reports, forecasting, classification, etc.).',
+        capabilityCard3Usage: '<strong>How it’s used:</strong> Ensure synthetic data is actually usable, not “pretty but useless.”',
+        
+        capabilityCard4Title: 'Custom Pipelines & Integration',
+        capabilityCard4Desc: 'Build repeatable workflows for your domain—data schema, constraints, formats, and governance.',
+        capabilityCard4Usage: '<strong>How it’s used:</strong> Turn one successful project into a scalable internal capability.',
+        
+        // Capabilities operational details
+        capabilitiesOpKicker: 'Operational details',
+        capabilitiesOpTitle: 'Delivery artifacts you can expect',
+        capabilitiesOpDatasetTitle: 'Datasets',
+        capabilitiesOpDatasetDesc: 'CSV/Parquet + schema + constraints (optional) + versioned outputs.',
+        capabilitiesOpReportTitle: 'Evaluation Report',
+        capabilitiesOpReportDesc: 'Utility metrics, distribution checks, correlation analysis, and task-based benchmarks.',
+        capabilitiesOpRiskTitle: 'Risk & Guidance',
+        capabilitiesOpRiskDesc: 'Privacy risk summary + recommended usage policy and sharing rules.',
+        
+        // Use Cases section
+        useCasesKicker: 'Use Cases',
+        useCasesHeadline: 'Where synthetic data creates immediate value.',
+        useCasesSubhead: 'Pick the scenario closest to your work. We tailor generation constraints, evaluation, and governance to match your domain.',
+        
+        // Use Case cards
+        useCaseCard1Tag: 'Finance',
+        useCaseCard1Title: 'Risk & Modeling',
+        useCaseCard1Desc: 'Use synthetic data to develop and test models without exposing sensitive customer or transaction records.',
+        useCaseCard1Bullet1: 'Fraud model testing',
+        useCaseCard1Bullet2: 'Stress scenarios & simulation',
+        useCaseCard1Bullet3: 'Safer vendor collaboration',
+        
+        useCaseCard2Tag: 'AI / ML',
+        useCaseCard2Title: 'Training Data Augmentation',
+        useCaseCard2Desc: 'Expand training sets, address class imbalance, and support model validation with safer data alternatives.',
+        useCaseCard2Bullet1: 'Class imbalance mitigation',
+        useCaseCard2Bullet2: 'Data sharing for model review',
+        useCaseCard2Bullet3: 'Benchmark reproducibility',
+        
+        useCaseCard3Tag: 'Research',
+        useCaseCard3Title: 'Secure Data Release',
+        useCaseCard3Desc: 'Enable external collaboration while controlling privacy risk with documented evaluation and usage rules.',
+        useCaseCard3Bullet1: 'Academic collaborations',
+        useCaseCard3Bullet2: 'Public release (controlled)',
+        useCaseCard3Bullet3: 'Policy-aligned governance',
+        
+        useCaseCard4Tag: 'Engineering',
+        useCaseCard4Title: 'Dev & QA Testing',
+        useCaseCard4Desc: 'Replace production data in test environments with synthetic equivalents to speed up development safely.',
+        useCaseCard4Bullet1: 'Sandbox datasets',
+        useCaseCard4Bullet2: 'Integration tests',
+        useCaseCard4Bullet3: 'Reproducible test cases',
+        
+        // How It Works section
+        howItWorksKicker: 'Method',
+        howItWorksHeadline: 'A defensible workflow, not just a dataset.',
+        howItWorksSubhead: 'Our standard engagement is structured to be explainable to technical and compliance stakeholders.',
+        
+        // How It Works steps
+        howStep1Title: 'Understand & Scope',
+        howStep1Desc: 'Define your dataset schema, sensitive fields, usage goals, and constraints (e.g., ranges, relationships).',
+        
+        howStep2Title: 'Generate',
+        howStep2Desc: 'Train/select generation methods and create synthetic data with configurable controls and constraints.',
+        
+        howStep3Title: 'Validate Utility',
+        howStep3Desc: 'Run statistical checks and task-based benchmarks to ensure the synthetic data supports your use case.',
+        
+        howStep4Title: 'Assess Risk & Deliver',
+        howStep4Desc: 'Evaluate privacy leakage and provide a report with recommended usage and sharing guidance.',
+        
+        // How It Works callout
+        howCalloutTitle: 'Does synthetic data copy real records?',
+        howCalloutDesc: 'Proper synthetic generation aims to learn statistical patterns and sample new records. We additionally evaluate nearest-neighbor similarity and leakage signals to reduce the chance of reproducing sensitive individuals.',
+        
+        // Trust section
+        trustKicker: 'Trust',
+        trustHeadline: 'Built for serious stakeholders.',
+        trustSubhead: 'Enterprise buyers care about evidence, governance, and clarity. We package technical results into decision-friendly artifacts.',
+        
+        // Trust logos (placeholders)
+        trustLogo1: 'Client A',
+        trustLogo2: 'Client B',
+        trustLogo3: 'Client C',
+        trustLogo4: 'Partner D',
+        trustLogo5: 'Lab E',
+        trustLogo6: 'Org F',
+        
+        // Trust cards
+        trustCard1Title: 'Evidence over hype',
+        trustCard1Desc: 'We report both strengths and limitations of synthetic data for your specific downstream tasks.',
+        
+        trustCard2Title: 'Governance-ready',
+        trustCard2Desc: 'Outputs include recommended usage guidance and risk summaries aligned to your governance needs.',
+        
+        trustCard3Title: 'Repeatable delivery',
+        trustCard3Desc: 'Turn one-off work into a repeatable pipeline so synthetic data becomes a capability, not a one-time file.',
+        
+        // FAQ section
+        faqKicker: 'FAQ',
+        faqHeadline: 'Common questions about synthetic data.',
+        faqSubhead: 'Keep your answers short and confident. Offer a demo or a sample report for deeper details.',
+        
+        // FAQ items
+        faqItem1Question: 'Is synthetic data the same as anonymized data?',
+        faqItem1Answer: 'Not exactly. Anonymization typically modifies real records, while synthetic data generates new records from learned patterns. In practice, you still need evaluation to quantify privacy risk and utility.',
+        
+        faqItem2Question: 'Can synthetic data be used for machine learning training?',
+        faqItem2Answer: 'Often yes—especially for augmentation, class imbalance mitigation, and sharing data for validation. We recommend task-based utility tests to confirm performance for your specific model and target.',
+        
+        faqItem3Question: 'How do you measure privacy risk?',
+        faqItem3Answer: 'We use practical risk checks such as nearest-neighbor similarity, leakage signals, and scenario-based tests (aligned to your threat model). The output is summarized in a decision-friendly report.',
+        
+        faqItem4Question: 'What data types do you support?',
+        faqItem4Answer: 'We typically start with tabular data (most common in enterprises). Time-series and text can be supported depending on constraints, data size, and intended usage.',
+        
+        // Demo section
+        demoKicker: 'Demo',
+        demoHeadline: 'See Our Solution in Action',
+        demoSubhead: 'Explore our interactive demo to see how our synthetic data solution works.',
+        
+        // Contact section
+        contactKicker: 'Contact',
+        contactHeadline: 'Let us begin serve for you now.',
+        contactSubhead: 'Tell us your data type and intended usage. We’ll reply with a recommended approach and what artifacts you’ll receive.',
+        
+        // Form
+        formNameLabel: 'Name',
+        formNamePlaceholder: 'Your name',
+        formEmailLabel: 'Work email',
+        formEmailPlaceholder: 'name@company.com',
+        formOrgLabel: 'Organization',
+        formOrgPlaceholder: 'Company / Lab / Team',
+        formNeedLabel: 'Share your data requirements with us, and we’ll tailor solutions for you.',
+        formNeedPlaceholder: 'e.g., safer sharing with vendors; model training; QA testing; research release...',
+        formSubmitButton: 'Submit Request',
+        formNote: 'By submitting, you agree we may contact you about this request. <a href="privacy-statement.html" target="_blank">Privacy Statement</a>',
+        formError: 'Please complete the required fields (Name, Email, Need).',
+        formSuccess: 'Thanks! Your request has been recorded (demo). Connect this to your backend to make it real.',
+        
+        // Contact sidebar
+        contactSidebarTitle: 'What you’ll receive',
+        contactSidebarDesc: 'We usually respond with a Preliminary serve plan , a suggested evaluation approach and provide a quotation within 1-3 business days.',
+        contactSidebarBullet1: '<strong>Recommended approach:</strong> data type, constraints, and generation options.',
+        contactSidebarBullet2: '<strong>Evaluation plan:</strong> utility metrics and task-based benchmarks.',
+        contactSidebarBullet3: '<strong>After-Sales Support:</strong> Our dedicated technical team provides long-term support for all products, and you can obtain assistance through any channel of your choice.',
+        contactSidebarBullet4: '<strong>Delivery artifacts:</strong> datasets + report + usage guidance.',
+        contactSidebarTip: 'Tip: If you don’t have a dataset ready, we can start with a schema and sample.',
+        
+        // Footer
+        footerBrand: 'ChuChiang Data',
+        footerDesc: 'Synthetic data solutions for privacy-safe analytics and AI training. Built for enterprise governance.',
+        footerCopyright: '© {{year}} ChuChiang Data. All rights reserved.',
+        footerBackToTop: 'Back to Top',
+        
+        // Back to top button
+        backToTop: '↑ Top'
+      },
+      zh: {
+        // Page metadata
+        pageTitle: 'ChuChiang Data — 合成数据解决方案',
+        pageDescription: '企业级合成数据解决方案，用于隐私安全的分析和人工智能。',
+        
+        // Navigation
+        navCapabilities: '功能特性',
+        navUseCases: '应用场景',
+        navHowItWorks: '工作原理',
+        navTrust: '信任保障',
+        navAboutUs: '关于我们',
+        navSignIn: '登录',
+        navTalkToExpert: '立即开始服务',
+        navRequestDemo: '查看演示',
+        navMenu: '☰ 菜单',
+        
+        // Hero section
+        heroPill: '合成数据 • 隐私保护 • 数据效用',
+        heroHeadline: '企业级合成数据解决方案，用于<span style="color: var(--primary);">隐私安全的分析</span>和人工智能。',
+        heroSubhead: '使用高效用的合成数据替代敏感数据集——旨在保留统计特征的同时降低重新识别风险并加速交付。',
+        heroCta1: '查看演示 →',
+        heroCta2: '探索功能',
+        heroBadge1: '隐私风险评估',
+        heroBadge2: '效用验证',
+        heroBadge3: '定制化流程',
+        heroBadge4: '企业级交付',
+        heroBullet1: '<strong>面向团队</strong>：需要与供应商、研究人员或内部单位安全共享数据的团队。',
+        heroBullet2: '<strong>面向AI构建者</strong>：需要可扩展的训练数据而不暴露真实个人信息的AI构建者。',
+        heroBullet3: '<strong>面向合规人员</strong>：需要可衡量的隐私保护和便于审计的文档的合规人员。',
+        
+        // Hero panel
+        heroPanelKicker: '演示快照',
+        heroPanelTitle: '合成数据工作流程',
+        heroPanelTag: 'v1.0',
+        heroPanelPrivacyKicker: '隐私保护',
+        heroPanelPrivacyTitle: '低泄露风险',
+        heroPanelPrivacyDesc: '通过成员身份和最近邻检查量化风险。',
+        heroPanelUtilityKicker: '数据效用',
+        heroPanelUtilityTitle: '高保真度',
+        heroPanelUtilityDesc: '保留分布、相关性和下游性能。',
+        heroPanelDelivery: '典型交付物：表格/时间序列合成数据集 + 评估报告 + 使用建议。',
+        heroPanelCta: '获取样本报告',
+        
+        // Partners section
+        partnersKicker: '值得信赖',
+        partnersHeadline: '我们的合作伙伴',
+        partnersSubhead: '我们与领先的组织合作，提供推动创新和隐私保护的合成数据解决方案。',
+        partner1: '合作伙伴 1',
+        partner2: '合作伙伴 2',
+        partner3: '合作伙伴 3',
+        partner4: '合作伙伴 4',
+        partner5: '合作伙伴 5',
+        partner6: '合作伙伴 6',
+        partner1Alt: '合作伙伴1 Logo',
+        partner2Alt: '合作伙伴2 Logo',
+        partner3Alt: '合作伙伴3 Logo',
+        partner4Alt: '合作伙伴4 Logo',
+        partner5Alt: '合作伙伴5 Logo',
+        partner6Alt: '合作伙伴6 Logo',
+        
+        // Value section
+        valueKicker: '核心价值',
+        valueHeadline: '让数据可用、可共享且合规。',
+        valueSubhead: '合成数据应降低隐私风险<em>并</em>保持对分析、建模和决策支持的有用性。我们专注于可衡量的结果而非模糊的承诺。',
+        
+        // Value cards
+        valueCard1Title: '隐私与合规',
+        valueCard1Desc: '减少敏感记录的暴露，实现团队和合作伙伴之间更安全的协作。',
+        valueCard1Bullet1: '风险评分与泄露检查',
+        valueCard1Bullet2: '便于审计的文档',
+        valueCard1Bullet3: '符合政策的使用建议',
+        
+        valueCard2Title: '高效数据效用',
+        valueCard2Desc: '保留分析和机器学习所需的统计特性和关系。',
+        valueCard2Bullet1: '分布与相关性匹配',
+        valueCard2Bullet2: '下游模型评估',
+        valueCard2Bullet3: '偏差/不平衡诊断',
+        
+        valueCard3Title: '规模化速度',
+        valueCard3Desc: '缩短审批周期，比传统访问工作流更快地生成数据。',
+        valueCard3Bullet1: '可重复的流程',
+        valueCard3Bullet2: '大型数据集的批量生成',
+        valueCard3Bullet3: '易于集成的格式',
+        
+        // Capabilities section
+        capabilitiesKicker: '功能特性',
+        capabilitiesHeadline: '从生成到评估再到交付。',
+        capabilitiesSubhead: '我们不“只是生成数据”。我们提供可辩护的工作流程：生成 → 验证效用 → 评估隐私 → 提供使用指导。',
+        capabilitiesCta: '请求技术演示',
+        
+        // Capability cards
+        capabilityCard1Title: '合成数据生成',
+        capabilityCard1Desc: '生成与源数据结构和统计特征相似的合成数据集，同时避免直接复制记录。',
+        capabilityCard1Usage: '<strong>用途：</strong>替代原始数据用于内部分析、外部共享或机器学习训练。',
+        
+        capabilityCard2Title: '隐私风险评估',
+        capabilityCard2Desc: '使用实际攻击模拟和基于距离的泄露检查来衡量重新识别风险。',
+        capabilityCard2Usage: '<strong>用途：</strong>为合规团队提供证据，批准更安全的数据使用。',
+        
+        capabilityCard3Title: '效用验证',
+        capabilityCard3Desc: '量化合成数据是否支持下游任务（报告、预测、分类等）。',
+        capabilityCard3Usage: '<strong>用途：</strong>确保合成数据真正可用，而不是“好看但无用”。',
+        
+        capabilityCard4Title: '定制化流程与集成',
+        capabilityCard4Desc: '为您的领域构建可重复的工作流程——数据模式、约束、格式和治理。',
+        capabilityCard4Usage: '<strong>用途：</strong>将一个成功的项目转变为可扩展的内部能力。',
+        
+        // Capabilities operational details
+        capabilitiesOpKicker: '运营细节',
+        capabilitiesOpTitle: '您可以期待的交付物',
+        capabilitiesOpDatasetTitle: '数据集',
+        capabilitiesOpDatasetDesc: 'CSV/Parquet + 模式 + 约束（可选） + 版本化输出。',
+        capabilitiesOpReportTitle: '评估报告',
+        capabilitiesOpReportDesc: '效用指标、分布检查、相关性分析和基于任务的基准测试。',
+        capabilitiesOpRiskTitle: '风险与指导',
+        capabilitiesOpRiskDesc: '隐私风险摘要 + 推荐的使用政策和共享规则。',
+        
+        // Use Cases section
+        useCasesKicker: '应用场景',
+        useCasesHeadline: '合成数据创造即时价值的领域。',
+        useCasesSubhead: '选择最接近您工作的场景。我们根据您的领域定制生成约束、评估和治理。',
+        
+        // Use Case cards
+        useCaseCard1Tag: '金融',
+        useCaseCard1Title: '风险与建模',
+        useCaseCard1Desc: '使用合成数据开发和测试模型，而不暴露敏感的客户或交易记录。',
+        useCaseCard1Bullet1: '欺诈模型测试',
+        useCaseCard1Bullet2: '压力场景与模拟',
+        useCaseCard1Bullet3: '更安全的供应商协作',
+        
+        useCaseCard2Tag: '人工智能/机器学习',
+        useCaseCard2Title: '训练数据增强',
+        useCaseCard2Desc: '扩展训练集，解决类别不平衡问题，并使用更安全的数据替代方案支持模型验证。',
+        useCaseCard2Bullet1: '类别不平衡缓解',
+        useCaseCard2Bullet2: '模型审查的数据共享',
+        useCaseCard2Bullet3: '基准可重复性',
+        
+        useCaseCard3Tag: '研究',
+        useCaseCard3Title: '安全数据发布',
+        useCaseCard3Desc: '在控制隐私风险的同时实现外部协作，提供有文档记录的评估和使用规则。',
+        useCaseCard3Bullet1: '学术合作',
+        useCaseCard3Bullet2: '公开发布（受控）',
+        useCaseCard3Bullet3: '符合政策的治理',
+        
+        useCaseCard4Tag: '工程',
+        useCaseCard4Title: '开发与QA测试',
+        useCaseCard4Desc: '在测试环境中用合成等效数据替换生产数据，以安全地加速开发。',
+        useCaseCard4Bullet1: '沙箱数据集',
+        useCaseCard4Bullet2: '集成测试',
+        useCaseCard4Bullet3: '可重复的测试用例',
+        
+        // How It Works section
+        howItWorksKicker: '方法',
+        howItWorksHeadline: '严谨的工作流程，而不仅仅是数据集。',
+        howItWorksSubhead: '我们的标准服务结构设计为对技术和合规利益相关者可解释。',
+        
+        // How It Works steps
+        howStep1Title: '理解与范围界定',
+        howStep1Desc: '定义您的数据集模式、敏感字段、使用目标和约束（例如，范围、关系）。',
+        
+        howStep2Title: '生成',
+        howStep2Desc: '训练/选择生成方法，并使用可配置的控制和约束创建合成数据。',
+        
+        howStep3Title: '验证效用',
+        howStep3Desc: '运行统计检查和基于任务的基准测试，确保合成数据支持您的用例。',
+        
+        howStep4Title: '评估风险与交付',
+        howStep4Desc: '评估隐私泄露，并提供包含推荐使用和共享指导的报告。',
+        
+        // How It Works callout
+        howCalloutTitle: '合成数据会复制真实记录吗？',
+        howCalloutDesc: '适当的合成生成旨在学习统计模式并采样新记录。我们额外评估最近邻相似性和泄露信号，以减少重现敏感个人的机会。',
+        
+        // Trust section
+        trustKicker: '信任保障',
+        trustHeadline: '为认真的利益相关者构建。',
+        trustSubhead: '企业买家关心证据、治理和清晰度。我们将技术结果打包成便于决策的产物。',
+        
+        // Trust logos (placeholders)
+        trustLogo1: '客户A',
+        trustLogo2: '客户B',
+        trustLogo3: '客户C',
+        trustLogo4: '合作伙伴D',
+        trustLogo5: '实验室E',
+        trustLogo6: '组织F',
+        
+        // Trust cards
+        trustCard1Title: '证据而非炒作',
+        trustCard1Desc: '我们报告合成数据在您特定下游任务中的优势和局限性。',
+        
+        trustCard2Title: '便于治理',
+        trustCard2Desc: '输出包括与您的治理需求一致的推荐使用指导和风险摘要。',
+        
+        trustCard3Title: '可重复交付',
+        trustCard3Desc: '将一次性工作转变为可重复的流程，使合成数据成为一种能力，而不仅仅是一次性文件。',
+        
+        // FAQ section
+        faqKicker: '常见问题',
+        faqHeadline: '关于合成数据的常见问题。',
+        faqSubhead: '保持答案简短而自信。提供演示或样本报告以获取更多详细信息。',
+        
+        // FAQ items
+        faqItem1Question: '合成数据与匿名化数据相同吗？',
+        faqItem1Answer: '不完全相同。匿名化通常修改真实记录，而合成数据从学习的模式生成新记录。在实践中，您仍然需要评估来量化隐私风险和效用。',
+        
+        faqItem2Question: '合成数据可用于机器学习训练吗？',
+        faqItem2Answer: '通常可以——特别是用于增强、类别不平衡缓解和共享数据进行验证。我们建议进行基于任务的效用测试，以确认其对您特定模型和目标的性能。',
+        
+        faqItem3Question: '你们如何衡量隐私风险？',
+        faqItem3Answer: '我们使用实际风险检查，如最近邻相似性、泄露信号和基于场景的测试（与您的威胁模型一致）。输出在一份便于决策的报告中总结。',
+        
+        faqItem4Question: '你们支持哪些数据类型？',
+        faqItem4Answer: '我们通常从表格数据开始（企业中最常见）。时间序列和文本可以根据约束、数据大小和预期用途提供支持。',
+        
+        // Demo section
+        demoKicker: '演示',
+        demoHeadline: '查看我们的解决方案实际效果',
+        demoSubhead: '探索我们的交互式演示，了解我们的合成数据解决方案如何工作。',
+        
+        // Contact section
+        contactKicker: '联系我们',
+        contactHeadline: '现在开始为您服务。',
+        contactSubhead: '告诉我们您的数据类型和预期用途。我们将回复推荐的方法和您将收到的产物。',
+        
+        // Form
+        formNameLabel: '姓名',
+        formNamePlaceholder: '您的姓名',
+        formEmailLabel: '工作邮箱',
+        formEmailPlaceholder: 'name@company.com',
+        formOrgLabel: '组织',
+        formOrgPlaceholder: '公司 / 实验室 / 团队',
+        formNeedLabel: '与我们分享您的数据需求，我们将为您量身定制解决方案。',
+        formNeedPlaceholder: '例如，与供应商更安全地共享；模型训练；QA测试；研究发布...',
+        formSubmitButton: '提交请求',
+        formNote: '提交后，您同意我们可以就此请求与您联系。 <a href="privacy-statement.html" target="_blank">隐私声明</a>',
+        formError: '请完成必填字段（姓名、邮箱、需求）。',
+        formSuccess: '谢谢！您的请求已记录（演示）。将其连接到您的后端以使其真实有效。',
+        
+        // Contact sidebar
+        contactSidebarTitle: '您将收到什么',
+        contactSidebarDesc: '我们通常会在1-3个工作日内回复初步服务计划、建议的评估方法并提供报价。',
+        contactSidebarBullet1: '<strong>推荐方法：</strong>数据类型、约束和生成选项。',
+        contactSidebarBullet2: '<strong>评估计划：</strong>效用指标和基于任务的基准测试。',
+        contactSidebarBullet3: '<strong>售后支持：</strong>我们专门的技术团队为所有产品提供长期支持，您可以通过任何您选择的渠道获得帮助。',
+        contactSidebarBullet4: '<strong>交付产物：</strong>数据集 + 报告 + 使用指导。',
+        contactSidebarTip: '提示：如果您还没有准备好数据集，我们可以从模式和样本开始。',
+        
+        // Footer
+        footerBrand: 'ChuChiang Data',
+        footerDesc: '用于隐私安全的分析和人工智能训练的合成数据解决方案。为企业治理而构建。',
+        footerCopyright: '© {{year}} ChuChiang Data。保留所有权利。',
+        footerBackToTop: '回到顶部',
+        
+        // Back to top button
+        backToTop: '↑ 顶部'
+      }
+    };
+
+    // -------------------------
+    // 1) Mobile menu toggle
+    // -------------------------
+    const menuBtn = document.getElementById('menuBtn');
+    const mobilePanel = document.getElementById('mobilePanel');
+
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        const isOpen = mobilePanel.style.display === 'block';
+        mobilePanel.style.display = isOpen ? 'none' : 'block';
+        menuBtn.setAttribute('aria-expanded', String(!isOpen));
+      });
+    }
+
+    // Close mobile menu when clicking a link (better UX)
+    mobilePanel?.querySelectorAll('a')?.forEach(a => {
+      a.addEventListener('click', () => {
+        mobilePanel.style.display = 'none';
+        menuBtn?.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // -------------------------
+    // 2) Demo form submit (fake)
+    // - In production: POST to your API/CRM endpoint
+    // -------------------------
+    const demoForm = document.getElementById('demoForm');
+    const formNote = document.getElementById('formNote');
+
+    demoForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Simple validation (front-end only)
+      const name = document.getElementById('name')?.value?.trim();
+      const email = document.getElementById('email')?.value?.trim();
+      const need = document.getElementById('need')?.value?.trim();
+
+      if (!name || !email || !need) {
+        formNote.textContent = translations[currentLang]?.formError || 'Please complete the required fields (Name, Email, Need).';
+        formNote.style.color = 'var(--danger)';
+        return;
+      }
+
+      // Pretend successful
+      formNote.textContent = translations[currentLang]?.formSuccess || 'Thanks! Your request has been recorded (demo). Connect this to your backend to make it real.';
+      formNote.style.color = 'var(--muted)';
+      demoForm.reset();
+    });
+
+    // -------------------------
+    // 3) Back-to-top visibility
+    // -------------------------
+    const toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', () => {
+      const show = window.scrollY > 800;
+      if (toTop) toTop.style.display = show ? 'block' : 'none';
+    });
+
+    // -------------------------
+    // 4) Footer year
+    // -------------------------
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // -------------------------
+    // 5) Language switching
+    // -------------------------
+    let currentLang = 'en';
+
+    // Function to translate the entire page
+    function translatePage(lang) {
+      currentLang = lang;
+      
+      // Update all elements with data-i18n attribute
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+          // Handle HTML content (like heroHeadline)
+          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.placeholder = translations[lang][key];
+          } else {
+            el.innerHTML = translations[lang][key];
+          }
+        }
+      });
+
+      // Update language switcher active state
+      document.querySelectorAll('#langEn, #langZh').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      // Update HTML lang attribute
+      document.documentElement.lang = lang;
+    }
+
+    // Initialize language switcher event listeners
+    document.getElementById('langEn')?.addEventListener('click', () => translatePage('en'));
+    document.getElementById('langZh')?.addEventListener('click', () => translatePage('zh'));
+
+    // Initialize page with default language
+    translatePage(currentLang);
+    
+    // -------------------------  
+    // 6) Demo slider functionality
+    // -------------------------  
+    const demoSlider = document.querySelector('.demo-slider');
+    const demoSlides = document.querySelectorAll('.demo-slide');
+    const demoDots = document.querySelectorAll('.demo-dot');
+    const prevBtn = document.querySelector('.demo-control.prev');
+    const nextBtn = document.querySelector('.demo-control.next');
+    
+    let currentSlide = 0;
+    const totalSlides = demoSlides.length;
+    
+    // Function to go to a specific slide
+    function goToSlide(index) {
+      // Update current slide index
+      currentSlide = (index + totalSlides) % totalSlides;
+      
+      // Update slider position
+      demoSlider.style.transform = `translateX(-${currentSlide * 100}%)`;
+      
+      // Update active dot
+      demoDots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+      });
+      
+      // Update slide active class
+      demoSlides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === currentSlide);
+      });
+    }
+    
+    // Event listeners for next/prev buttons
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        goToSlide(currentSlide - 1);
+      });
+    }
+    
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        goToSlide(currentSlide + 1);
+      });
+    }
+    
+    // Event listeners for dots
+    demoDots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        goToSlide(i);
+      });
+    });
+    
+    // Initialize slider
+    goToSlide(0);
+
+    // -------------------------    
+    // 7) Smooth scrolling
+    // -------------------------    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80, // 80px offset for sticky header
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // -------------------------    
+    // 8) Micro-animations on scroll
+    // -------------------------    
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Apply animation to all sections, cards, and important elements
+    document.querySelectorAll('.section, .card, .hero-copy, .hero-panel, .feature-item, .testimonial').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

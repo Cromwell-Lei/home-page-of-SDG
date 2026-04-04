@@ -1,0 +1,1267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!--
+    ===========================================================
+    SDG (Synthetic Data Generation) Landing Page Template
+    - Gretel-like structure (NOT copying their content)
+    - Single-file HTML/CSS/JS
+    - Replace text/links with your brand and services
+    ===========================================================
+  -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SDG Studio — Synthetic Data Solutions</title>
+  <meta name="description" content="Enterprise-grade synthetic data solutions for privacy-safe analytics and AI." />
+
+  <!--
+    ===========================================================
+    STYLE SECTION
+    - Pure CSS, no frameworks
+    - Designed for clean, modern, enterprise feel
+    - Tip: If you later use Tailwind/Next.js, map these sections
+    ===========================================================
+  -->
+  <style>
+    /* -------------------------
+      0) CSS Reset (minimal)
+      ------------------------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; color: #0b1220; background: #ffffff; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button, input, textarea { font: inherit; }
+
+    /* -------------------------
+      1) Design Tokens
+      - Keep this section as your "theme control panel"
+      ------------------------- */
+    :root{
+      --bg: #ffffff;
+      --surface: #f7f8fb;
+      --surface-2: #eef1f7;
+      --text: #0b1220;
+      --muted: #5b6477;
+      --border: rgba(13, 20, 33, 0.10);
+
+      --primary: #2a5cff;          /* brand main */
+      --primary-2: #2dd4bf;        /* accent */
+      --danger: #ff3b30;
+
+      --shadow: 0 10px 30px rgba(16, 24, 40, 0.10);
+      --shadow-2: 0 8px 20px rgba(16, 24, 40, 0.08);
+
+      --radius: 18px;
+      --radius-sm: 12px;
+
+      --container: 1120px;
+      --pad: 24px;
+    }
+
+    /* -------------------------
+      2) Layout helpers
+      ------------------------- */
+    .container{
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    .grid{
+      display: grid;
+      gap: 18px;
+    }
+
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform .06s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .btn:active{ transform: translateY(1px); }
+
+    .btn-primary{
+      background: var(--primary);
+      color: #fff;
+      box-shadow: var(--shadow-2);
+    }
+    .btn-primary:hover{ filter: brightness(1.03); }
+
+    .btn-ghost{
+      background: rgba(42, 92, 255, 0.08);
+      border-color: rgba(42, 92, 255, 0.18);
+      color: var(--primary);
+    }
+    .btn-ghost:hover{ background: rgba(42, 92, 255, 0.12); }
+
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(45, 212, 191, 0.14);
+      border: 1px solid rgba(45, 212, 191, 0.28);
+      color: #0b5a52;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .card{
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-2);
+      padding: 18px;
+    }
+
+    .card.soft{
+      background: var(--surface);
+      box-shadow: none;
+    }
+
+    .muted{ color: var(--muted); }
+    .kicker{
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    h1,h2,h3{ margin: 0; }
+    h1{ font-size: clamp(34px, 5vw, 52px); line-height: 1.05; letter-spacing: -0.02em; }
+    h2{ font-size: clamp(24px, 3.2vw, 34px); line-height: 1.15; letter-spacing: -0.01em; }
+    h3{ font-size: 18px; line-height: 1.2; }
+    p{ margin: 0; line-height: 1.6; }
+
+    .section{
+      padding: 72px 0;
+    }
+
+    .section-header{
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .divider{
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0;
+    }
+
+    /* -------------------------
+      3) Top navigation
+      ------------------------- */
+    .nav{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .logo{
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 30% 20%, var(--primary-2), var(--primary));
+      box-shadow: var(--shadow-2);
+    }
+
+    .nav-links{
+      display: none;
+      align-items: center;
+      gap: 16px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .nav-links a{ padding: 8px 10px; border-radius: 10px; }
+    .nav-links a:hover{ background: var(--surface); color: var(--text); }
+
+    .nav-cta{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Mobile menu */
+    .menu-btn{
+      display: inline-flex;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      padding: 10px 12px;
+    }
+    .mobile-panel{
+      display: none;
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(10px);
+    }
+    .mobile-panel a{
+      display: block;
+      padding: 14px var(--pad);
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 650;
+    }
+    .mobile-panel a:hover{ color: var(--text); background: var(--surface); }
+
+    /* -------------------------
+      4) Hero section
+      - Gretel-like: clear headline + value + CTA + trust chips
+      ------------------------- */
+    .hero{
+      padding: 54px 0 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-bg{
+      position: absolute;
+      inset: -200px -200px auto -200px;
+      height: 520px;
+      background:
+        radial-gradient(600px 280px at 12% 40%, rgba(42,92,255,0.20), transparent 60%),
+        radial-gradient(520px 260px at 60% 0%, rgba(45,212,191,0.18), transparent 55%),
+        radial-gradient(520px 260px at 92% 35%, rgba(42,92,255,0.15), transparent 55%);
+      pointer-events: none;
+      filter: blur(0px);
+    }
+
+    .hero-grid{
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .hero-copy{
+      padding: 16px 0;
+    }
+
+    .hero-actions{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .trust-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .hero-panel{
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--surface), #ffffff);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .panel-title{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .badge{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 750;
+      background: rgba(42,92,255,0.10);
+      border: 1px solid rgba(42,92,255,0.20);
+      color: var(--primary);
+    }
+
+    .mini-list{
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    /* -------------------------
+      5) Sections: value, capabilities, use cases
+      ------------------------- */
+    .cards-3{
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cards-4{
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .icon{
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .tag{
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    /* -------------------------
+      6) How it works (steps)
+      ------------------------- */
+    .steps{
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .step{
+      position: relative;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+    .step .num{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: rgba(45,212,191,0.16);
+      border: 1px solid rgba(45,212,191,0.30);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #0b5a52;
+      margin-bottom: 10px;
+    }
+
+    /* -------------------------
+      7) Trust section
+      ------------------------- */
+    .logo-wall{
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+    .logo-tile{
+      border: 1px dashed rgba(13,20,33,0.22);
+      border-radius: 14px;
+      padding: 14px 10px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 750;
+      background: #fff;
+    }
+
+    /* -------------------------
+      8) FAQ accordion
+      ------------------------- */
+    .faq{
+      display: grid;
+      gap: 10px;
+    }
+    details{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 14px 16px;
+      box-shadow: var(--shadow-2);
+    }
+    summary{
+      cursor: pointer;
+      font-weight: 800;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    summary::-webkit-details-marker{ display: none; }
+    .chev{
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      transition: transform .2s ease;
+    }
+    details[open] .chev{ transform: rotate(180deg); }
+    details p{ margin-top: 10px; color: var(--muted); }
+
+    /* -------------------------
+      9) Contact / demo form
+      - Keep form simple: it increases conversion
+      ------------------------- */
+    .form{
+      display: grid;
+      gap: 12px;
+    }
+    .field{
+      display: grid;
+      gap: 6px;
+    }
+    label{ font-size: 13px; font-weight: 750; color: var(--muted); }
+    input, textarea{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 12px;
+      outline: none;
+      background: #fff;
+    }
+    input:focus, textarea:focus{
+      border-color: rgba(42,92,255,0.40);
+      box-shadow: 0 0 0 4px rgba(42,92,255,0.10);
+    }
+
+    .form-note{
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* -------------------------
+      10) Footer
+      ------------------------- */
+    footer{
+      padding: 34px 0;
+      border-top: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+    }
+    .footer-grid{
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .footer-links{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      font-weight: 650;
+    }
+    .footer-links a{
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+    }
+    .footer-links a:hover{ border-color: var(--border); background: var(--surface); color: var(--text); }
+
+    /* -------------------------
+      11) Floating back-to-top button
+      ------------------------- */
+    .to-top{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      display: none;
+      z-index: 60;
+    }
+
+    /* -------------------------
+      12) Responsive
+      ------------------------- */
+    @media (min-width: 900px){
+      .nav-links{ display: flex; }
+      .menu-btn{ display: none; }
+      .mobile-panel{ display: none !important; }
+    }
+    @media (max-width: 980px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .cards-4{ grid-template-columns: repeat(2, 1fr); }
+      .steps{ grid-template-columns: repeat(2, 1fr); }
+      .logo-wall{ grid-template-columns: repeat(3, 1fr); }
+      .footer-grid{ grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px){
+      .cards-3{ grid-template-columns: 1fr; }
+      .cards-4{ grid-template-columns: 1fr; }
+      .steps{ grid-template-columns: 1fr; }
+      .logo-wall{ grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =========================================================
+    TOP NAV
+    - Purpose: fast access to sections + conversion CTA
+    - How to use: replace Brand name, links, CTA action
+  ========================================================== -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Go to top">
+        <span class="logo" aria-hidden="true"></span>
+        <span>SDG Studio</span>
+      </a>
+
+      <!-- Desktop nav links -->
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#capabilities">Capabilities</a>
+        <a href="#use-cases">Use Cases</a>
+        <a href="#how">How It Works</a>
+        <a href="#trust">Trust</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="nav-cta">
+        <!-- Mobile menu button -->
+        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobilePanel">
+          ☰ Menu
+        </button>
+        <a class="btn btn-ghost" href="#contact">Talk to an Expert</a>
+        <a class="btn btn-primary" href="#contact">Request a Demo</a>
+      </div>
+    </div>
+
+    <!-- Mobile menu panel -->
+    <div class="mobile-panel" id="mobilePanel" role="region" aria-label="Mobile menu">
+      <a href="#capabilities">Capabilities</a>
+      <a href="#use-cases">Use Cases</a>
+      <a href="#how">How It Works</a>
+      <a href="#trust">Trust</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Request a Demo</a>
+    </div>
+  </header>
+
+  <!-- =========================================================
+    HERO SECTION (Main first screen)
+    - Purpose: 10 seconds to understand
+      1) What you do
+      2) Why it matters (privacy + utility)
+      3) Next action (demo)
+    - How to use: replace headline/subheadline to your exact positioning
+  ========================================================== -->
+  <main id="top" class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+
+    <div class="container hero-grid">
+      <!-- Left: copy -->
+      <section class="hero-copy" aria-label="Hero">
+        <span class="pill">Synthetic Data • Privacy • Utility</span>
+        <h1 style="margin-top: 14px;">
+          Enterprise-grade synthetic data solutions for
+          <span style="color: var(--primary);">privacy-safe analytics</span> and AI.
+        </h1>
+
+        <p class="muted" style="margin-top: 14px; font-size: 16px; max-width: 58ch;">
+          Replace sensitive datasets with high-utility synthetic data—designed to preserve statistical
+          characteristics while reducing re-identification risk and accelerating delivery.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contact">Request a Demo →</a>
+          <a class="btn btn-ghost" href="#capabilities">Explore Capabilities</a>
+        </div>
+
+        <!-- Trust chips: quick “proof” without heavy claims -->
+        <div class="trust-row" aria-label="Trust highlights">
+          <span class="badge">Privacy risk assessment</span>
+          <span class="badge">Utility validation</span>
+          <span class="badge">Custom pipelines</span>
+          <span class="badge">Enterprise-ready delivery</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Quick bullets: what visitors get -->
+        <ul class="mini-list">
+          <li><strong>For teams</strong> who need to share data safely with vendors, researchers, or internal units.</li>
+          <li><strong>For AI builders</strong> who need scalable training data without exposing real individuals.</li>
+          <li><strong>For compliance</strong> who need measurable privacy and audit-friendly documentation.</li>
+        </ul>
+      </section>
+
+      <!-- Right: “product panel” / “mini dashboard”
+           Purpose: show you are a serious platform/solution
+           Tip: Replace this with your own screenshots later -->
+      <aside class="hero-panel" aria-label="Demo snapshot">
+        <div class="panel-title">
+          <div>
+            <div class="kicker">Demo Snapshot</div>
+            <h3 style="margin-top: 6px;">Synthetic Data Workflow</h3>
+          </div>
+          <span class="tag">v1.0</span>
+        </div>
+
+        <!-- Fake metrics block: demonstrates value pillars -->
+        <div class="grid" style="grid-template-columns: repeat(2,1fr); gap: 12px;">
+          <div class="card soft" style="padding: 14px;">
+            <div class="kicker">privacy</div>
+            <div style="font-weight: 900; font-size: 18px; margin-top: 6px;">Low leakage</div>
+            <p class="muted" style="margin-top: 6px; font-size: 13px;">
+              Quantify risk with membership & nearest-neighbor checks.
+            </p>
+          </div>
+          <div class="card soft" style="padding: 14px;">
+            <div class="kicker">utility</div>
+            <div style="font-weight: 900; font-size: 18px; margin-top: 6px;">High fidelity</div>
+            <p class="muted" style="margin-top: 6px; font-size: 13px;">
+              Preserve distributions, correlations, and downstream performance.
+            </p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="muted" style="font-size: 14px;">
+          <strong>Typical delivery:</strong> tabular / time-series synthetic datasets + evaluation report + recommended usage.
+        </p>
+
+        <div style="margin-top: 14px;">
+          <a class="btn btn-ghost" href="#contact" style="width:100%;">Get a sample report</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- =========================================================
+    VALUE PROPOSITION (3 pillars)
+    - Purpose: answer “why now” + “why you”
+    - How to use: keep 3 cards; replace bullets with your value statement
+  ========================================================== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker">Value</div>
+          <h2 style="margin-top: 8px;">Make data usable, shareable, and compliant.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 70ch;">
+            Synthetic data should reduce privacy risk <em>and</em> remain useful for analytics, modeling, and decision support.
+            We focus on measurable results instead of vague promises.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid cards-3">
+        <!-- Card 1 -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">🔐</div>
+          <h3 style="margin-top: 12px;">Privacy & Compliance</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Reduce exposure to sensitive records and enable safer collaboration across teams and partners.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li>Risk scoring & leakage checks</li>
+            <li>Audit-friendly documentation</li>
+            <li>Policy-aligned usage recommendations</li>
+          </ul>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">📊</div>
+          <h3 style="margin-top: 12px;">High Utility</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Preserve statistical properties and relationships needed for analytics and ML.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li>Distribution & correlation matching</li>
+            <li>Downstream model evaluation</li>
+            <li>Bias / imbalance diagnostics</li>
+          </ul>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">⚡</div>
+          <h3 style="margin-top: 12px;">Speed at Scale</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Shorten approval cycles and generate data faster than traditional access workflows.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li>Repeatable pipelines</li>
+            <li>Batch generation for large datasets</li>
+            <li>Integration-ready formats</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    CAPABILITIES (main "what we do" section)
+    - Purpose: show the complete solution, not just a service list
+    - How to use: 4 cards is a sweet spot; add links later to detail pages
+  ========================================================== -->
+  <section id="capabilities" class="section" style="background: var(--surface);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker">Capabilities</div>
+          <h2 style="margin-top: 8px;">From generation to evaluation to delivery.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;">
+            We don’t “just generate data.” We deliver a defensible workflow: generate → validate utility → assess privacy → provide usage guidance.
+          </p>
+        </div>
+        <a class="btn btn-ghost" href="#contact">Ask for a technical walkthrough</a>
+      </div>
+
+      <div class="grid cards-4">
+        <!-- 1) Generation -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">🧬</div>
+          <h3 style="margin-top: 12px;">Synthetic Data Generation</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Produce synthetic datasets that mirror structure and statistics of your source data while avoiding direct record copying.
+          </p>
+          <div class="divider"></div>
+          <p class="muted" style="font-size: 13px;">
+            <strong>How it’s used:</strong> Replace raw data for internal analytics, external sharing, or ML training.
+          </p>
+        </div>
+
+        <!-- 2) Privacy -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">🛡️</div>
+          <h3 style="margin-top: 12px;">Privacy Risk Assessment</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Measure re-identification risk using practical attack simulations and distance-based leakage checks.
+          </p>
+          <div class="divider"></div>
+          <p class="muted" style="font-size: 13px;">
+            <strong>How it’s used:</strong> Give compliance teams evidence to approve safer data use.
+          </p>
+        </div>
+
+        <!-- 3) Utility -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">📈</div>
+          <h3 style="margin-top: 12px;">Utility Validation</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Quantify whether synthetic data supports downstream tasks (reports, forecasting, classification, etc.).
+          </p>
+          <div class="divider"></div>
+          <p class="muted" style="font-size: 13px;">
+            <strong>How it’s used:</strong> Ensure synthetic data is actually usable, not “pretty but useless.”
+          </p>
+        </div>
+
+        <!-- 4) Integration -->
+        <div class="card">
+          <div class="icon" aria-hidden="true">🔧</div>
+          <h3 style="margin-top: 12px;">Custom Pipelines & Integration</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Build repeatable workflows for your domain—data schema, constraints, formats, and governance.
+          </p>
+          <div class="divider"></div>
+          <p class="muted" style="font-size: 13px;">
+            <strong>How it’s used:</strong> Turn one successful project into a scalable internal capability.
+          </p>
+        </div>
+      </div>
+
+      <!-- Optional: "feature list" - useful for enterprise buyers -->
+      <div class="card" style="margin-top: 18px;">
+        <div class="kicker">Operational details</div>
+        <h3 style="margin-top: 8px;">Delivery artifacts you can expect</h3>
+        <div class="grid" style="grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 12px;">
+          <div class="card soft">
+            <h3>Datasets</h3>
+            <p class="muted" style="margin-top: 6px; font-size: 14px;">
+              CSV/Parquet + schema + constraints (optional) + versioned outputs.
+            </p>
+          </div>
+          <div class="card soft">
+            <h3>Evaluation Report</h3>
+            <p class="muted" style="margin-top: 6px; font-size: 14px;">
+              Utility metrics, distribution checks, correlation analysis, and task-based benchmarks.
+            </p>
+          </div>
+          <div class="card soft">
+            <h3>Risk & Guidance</h3>
+            <p class="muted" style="margin-top: 6px; font-size: 14px;">
+              Privacy risk summary + recommended usage policy and sharing rules.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    USE CASES
+    - Purpose: help visitors self-identify “this is for my situation”
+    - How to use: keep 4 industries; adjust to your target market
+  ========================================================== -->
+  <section id="use-cases" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker">Use Cases</div>
+          <h2 style="margin-top: 8px;">Where synthetic data creates immediate value.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;">
+            Pick the scenario closest to your work. We tailor generation constraints, evaluation, and governance to match your domain.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid cards-4">
+        <div class="card">
+          <span class="tag">Finance</span>
+          <h3 style="margin-top: 10px;">Risk & Modeling</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Use synthetic data to develop and test models without exposing sensitive customer or transaction records.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li>Fraud model testing</li>
+            <li>Stress scenarios & simulation</li>
+            <li>Safer vendor collaboration</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <span class="tag">AI / ML</span>
+          <h3 style="margin-top: 10px;">Training Data Augmentation</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Expand training sets, address class imbalance, and support model validation with safer data alternatives.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li>Class imbalance mitigation</li>
+            <li>Data sharing for model review</li>
+            <li>Benchmark reproducibility</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <span class="tag">Research</span>
+          <h3 style="margin-top: 10px;">Secure Data Release</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Enable external collaboration while controlling privacy risk with documented evaluation and usage rules.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li>Academic collaborations</li>
+            <li>Public release (controlled)</li>
+            <li>Policy-aligned governance</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <span class="tag">Engineering</span>
+          <h3 style="margin-top: 10px;">Dev & QA Testing</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Replace production data in test environments with synthetic equivalents to speed up development safely.
+          </p>
+          <ul class="mini-list" style="margin-top: 10px;">
+            <li>Sandbox datasets</li>
+            <li>Integration tests</li>
+            <li>Reproducible test cases</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    HOW IT WORKS (Steps)
+    - Purpose: reduce perceived complexity
+    - How to use: keep 4 steps; use plain language
+  ========================================================== -->
+  <section id="how" class="section" style="background: var(--surface);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker">Method</div>
+          <h2 style="margin-top: 8px;">A defensible workflow, not just a dataset.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;">
+            Our standard engagement is structured to be explainable to technical and compliance stakeholders.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>Understand & Scope</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Define your dataset schema, sensitive fields, usage goals, and constraints (e.g., ranges, relationships).
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="num">2</div>
+          <h3>Generate</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Train/select generation methods and create synthetic data with configurable controls and constraints.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="num">3</div>
+          <h3>Validate Utility</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Run statistical checks and task-based benchmarks to ensure the synthetic data supports your use case.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="num">4</div>
+          <h3>Assess Risk & Deliver</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Evaluate privacy leakage and provide a report with recommended usage and sharing guidance.
+          </p>
+        </div>
+      </div>
+
+      <!-- Optional: a callout box to address “does it copy my records?” -->
+      <div class="card" style="margin-top: 18px;">
+        <h3>Does synthetic data copy real records?</h3>
+        <p class="muted" style="margin-top: 8px;">
+          Proper synthetic generation aims to learn statistical patterns and sample new records.
+          We additionally evaluate nearest-neighbor similarity and leakage signals to reduce the chance of reproducing sensitive individuals.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    TRUST SECTION
+    - Purpose: credibility without overclaiming
+    - How to use: replace placeholders with real logos/case numbers later
+  ========================================================== -->
+  <section id="trust" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker">Trust</div>
+          <h2 style="margin-top: 8px;">Built for serious stakeholders.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;">
+            Enterprise buyers care about evidence, governance, and clarity. We package technical results into decision-friendly artifacts.
+          </p>
+        </div>
+      </div>
+
+      <!-- Logo wall placeholders -->
+      <div class="logo-wall" aria-label="Customer/partner logos (placeholders)">
+        <div class="logo-tile">Client A</div>
+        <div class="logo-tile">Client B</div>
+        <div class="logo-tile">Client C</div>
+        <div class="logo-tile">Partner D</div>
+        <div class="logo-tile">Lab E</div>
+        <div class="logo-tile">Org F</div>
+      </div>
+
+      <div class="grid cards-3" style="margin-top: 18px;">
+        <div class="card soft">
+          <h3>Evidence over hype</h3>
+          <p class="muted" style="margin-top: 8px;">
+            We report both strengths and limitations of synthetic data for your specific downstream tasks.
+          </p>
+        </div>
+        <div class="card soft">
+          <h3>Governance-ready</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Outputs include recommended usage guidance and risk summaries aligned to your governance needs.
+          </p>
+        </div>
+        <div class="card soft">
+          <h3>Repeatable delivery</h3>
+          <p class="muted" style="margin-top: 8px;">
+            Turn one-off work into a repeatable pipeline so synthetic data becomes a capability, not a one-time file.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    FAQ SECTION
+    - Purpose: remove common objections
+    - How to use: replace questions with your real sales objections
+  ========================================================== -->
+  <section id="faq" class="section" style="background: var(--surface);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker">FAQ</div>
+          <h2 style="margin-top: 8px;">Common questions about synthetic data.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;">
+            Keep your answers short and confident. Offer a demo or a sample report for deeper details.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary>
+            Is synthetic data the same as anonymized data?
+            <span class="chev">⌄</span>
+          </summary>
+          <p>
+            Not exactly. Anonymization typically modifies real records, while synthetic data generates new records from learned patterns.
+            In practice, you still need evaluation to quantify privacy risk and utility.
+          </p>
+        </details>
+
+        <details>
+          <summary>
+            Can synthetic data be used for machine learning training?
+            <span class="chev">⌄</span>
+          </summary>
+          <p>
+            Often yes—especially for augmentation, class imbalance mitigation, and sharing data for validation.
+            We recommend task-based utility tests to confirm performance for your specific model and target.
+          </p>
+        </details>
+
+        <details>
+          <summary>
+            How do you measure privacy risk?
+            <span class="chev">⌄</span>
+          </summary>
+          <p>
+            We use practical risk checks such as nearest-neighbor similarity, leakage signals, and scenario-based tests
+            (aligned to your threat model). The output is summarized in a decision-friendly report.
+          </p>
+        </details>
+
+        <details>
+          <summary>
+            What data types do you support?
+            <span class="chev">⌄</span>
+          </summary>
+          <p>
+            We typically start with tabular data (most common in enterprises). Time-series and text can be supported depending on
+            constraints, data size, and intended usage.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    CONTACT / DEMO SECTION
+    - Purpose: conversion
+    - How to use: replace form action with your backend/CRM later
+      For now it just “pretends to submit” with JS
+  ========================================================== -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="kicker">Contact</div>
+          <h2 style="margin-top: 8px;">Request a demo or a sample report.</h2>
+          <p class="muted" style="margin-top: 10px; max-width: 72ch;">
+            Tell us your data type and intended usage. We’ll reply with a recommended approach and what artifacts you’ll receive.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid" style="grid-template-columns: 1.1fr 0.9fr; gap: 18px;">
+        <!-- Left: form -->
+        <form class="card" id="demoForm" novalidate>
+          <!--
+            IMPORTANT:
+            - In real production, connect this form to:
+              1) your email service (SendGrid/Mailgun)
+              2) your CRM (HubSpot)
+              3) or serverless function (Vercel)
+          -->
+          <div class="form">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" placeholder="Your name" required />
+            </div>
+
+            <div class="field">
+              <label for="email">Work email</label>
+              <input id="email" name="email" type="email" placeholder="name@company.com" required />
+            </div>
+
+            <div class="field">
+              <label for="org">Organization</label>
+              <input id="org" name="org" placeholder="Company / Lab / Team" />
+            </div>
+
+            <div class="field">
+              <label for="need">What do you need synthetic data for?</label>
+              <textarea id="need" name="need" rows="4" placeholder="e.g., safer sharing with vendors; model training; QA testing; research release..." required></textarea>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Submit Request</button>
+            <p class="form-note" id="formNote">
+              By submitting, you agree we may contact you about this request. (Replace with your privacy notice later.)
+            </p>
+          </div>
+        </form>
+
+        <!-- Right: “What you’ll get” box -->
+        <aside class="card soft">
+          <h3>What you’ll receive</h3>
+          <p class="muted" style="margin-top: 8px;">
+            We usually respond with a short plan and a suggested evaluation approach within 1–2 business days.
+          </p>
+          <div class="divider"></div>
+
+          <ul class="mini-list">
+            <li><strong>Recommended approach:</strong> data type, constraints, and generation options.</li>
+            <li><strong>Evaluation plan:</strong> utility metrics and task-based benchmarks.</li>
+            <li><strong>Risk checks:</strong> leakage tests aligned to your threat model.</li>
+            <li><strong>Delivery artifacts:</strong> datasets + report + usage guidance.</li>
+          </ul>
+
+          <div class="divider"></div>
+
+          <p class="muted" style="font-size: 14px;">
+            Tip: If you don’t have a dataset ready, we can start with a schema and sample.
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    FOOTER
+    - Purpose: basic credibility + simple navigation
+    - How to use: add your actual legal links and contact info
+  ========================================================== -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <div class="brand">
+          <span class="logo" aria-hidden="true"></span>
+          <span>SDG Studio</span>
+        </div>
+        <p class="muted" style="margin-top: 10px; max-width: 70ch;">
+          Synthetic data solutions for privacy-safe analytics and AI training. Built for enterprise governance.
+        </p>
+        <p class="muted" style="margin-top: 12px; font-size: 13px;">
+          © <span id="year"></span> SDG Studio. All rights reserved.
+        </p>
+      </div>
+
+      <div class="footer-links" aria-label="Footer links">
+        <a href="#capabilities">Capabilities</a>
+        <a href="#use-cases">Use Cases</a>
+        <a href="#how">How It Works</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Request a Demo</a>
+        <a href="#top">Back to Top</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back-to-top floating button -->
+  <div class="to-top" id="toTop">
+    <a class="btn btn-primary" href="#top" aria-label="Back to top">↑ Top</a>
+  </div>
+
+  <!-- =========================================================
+    SCRIPT SECTION
+    - Purpose:
+      1) Mobile menu toggle
+      2) Form "fake submit" (demo)
+      3) Back-to-top visibility
+      4) Footer year
+    - How to use:
+      - Replace fake submit with real backend later
+  ========================================================== -->
+  <script>
+    // -------------------------
+    // 1) Mobile menu toggle
+    // -------------------------
+    const menuBtn = document.getElementById('menuBtn');
+    const mobilePanel = document.getElementById('mobilePanel');
+
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        const isOpen = mobilePanel.style.display === 'block';
+        mobilePanel.style.display = isOpen ? 'none' : 'block';
+        menuBtn.setAttribute('aria-expanded', String(!isOpen));
+      });
+    }
+
+    // Close mobile menu when clicking a link (better UX)
+    mobilePanel?.querySelectorAll('a')?.forEach(a => {
+      a.addEventListener('click', () => {
+        mobilePanel.style.display = 'none';
+        menuBtn?.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // -------------------------
+    // 2) Demo form submit (fake)
+    // - In production: POST to your API/CRM endpoint
+    // -------------------------
+    const demoForm = document.getElementById('demoForm');
+    const formNote = document.getElementById('formNote');
+
+    demoForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Simple validation (front-end only)
+      const name = document.getElementById('name')?.value?.trim();
+      const email = document.getElementById('email')?.value?.trim();
+      const need = document.getElementById('need')?.value?.trim();
+
+      if (!name || !email || !need) {
+        formNote.textContent = 'Please complete the required fields (Name, Email, Need).';
+        formNote.style.color = 'var(--danger)';
+        return;
+      }
+
+      // Pretend successful
+      formNote.textContent = 'Thanks! Your request has been recorded (demo). Connect this to your backend to make it real.';
+      formNote.style.color = 'var(--muted)';
+      demoForm.reset();
+    });
+
+    // -------------------------
+    // 3) Back-to-top visibility
+    // -------------------------
+    const toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', () => {
+      const show = window.scrollY > 800;
+      if (toTop) toTop.style.display = show ? 'block' : 'none';
+    });
+
+    // -------------------------
+    // 4) Footer year
+    // -------------------------
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

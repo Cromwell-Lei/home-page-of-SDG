@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Privacy Statement - ChuChiang Data</title>
+  <meta name="description" content="Privacy Statement for ChuChiang Data's services." />
+
+  <style>
+    /* ------------------------- */
+    /* CSS Reset (minimal) */
+    /* ------------------------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; color: #0b1220; background: #ffffff; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button, input, textarea { font: inherit; }
+
+    /* ------------------------- */
+    /* Design Tokens */
+    /* ------------------------- */
+    :root{
+      --bg: #ffffff;
+      --surface: #f7f8fb;
+      --surface-2: #eef1f7;
+      --text: #0b1220;
+      --muted: #5b6477;
+      --border: rgba(13, 20, 33, 0.10);
+
+      --primary: #2a5cff;          /* brand main */
+      --primary-2: #2dd4bf;        /* accent */
+      --danger: #ff3b30;
+
+      --shadow: 0 10px 30px rgba(16, 24, 40, 0.10);
+      --shadow-2: 0 8px 20px rgba(16, 24, 40, 0.08);
+
+      --radius: 18px;
+      --radius-sm: 12px;
+
+      --container: 1120px;
+      --pad: 24px;
+    }
+
+    /* ------------------------- */
+    /* Layout helpers */
+    /* ------------------------- */
+    .container{
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform .06s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .btn:active{ transform: translateY(1px); }
+
+    .btn-primary{
+      background: var(--primary);
+      color: #fff;
+      box-shadow: var(--shadow-2);
+    }
+    .btn-primary:hover{ filter: brightness(1.03); }
+
+    /* ------------------------- */
+    /* Header */
+    /* ------------------------- */
+    header{
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo{
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* ------------------------- */
+    /* Main Content */
+    /* ------------------------- */
+    main {
+      padding: 60px 0;
+    }
+
+    .privacy-section {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: var(--text);
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    ul {
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+
+    li {
+      line-height: 1.6;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    /* ------------------------- */
+    /* Language Switcher */
+    /* ------------------------- */
+    .language-switcher {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .language-switcher button {
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .language-switcher button.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Language content */
+    .lang-content {
+      display: none;
+    }
+
+    .lang-content.active {
+      display: block;
+    }
+
+    /* ------------------------- */
+    /* Footer */
+    /* ------------------------- */
+    footer {
+      background: var(--surface);
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-content {
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-container">
+      <a href="home page html-preview v.1.2.html" class="logo">ChuChiang Data</a>
+      <a href="home page html-preview v.1.2.html" class="btn btn-primary">Back to Home</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="privacy-section">
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+          <button id="langEn" class="active" onclick="switchLanguage('en')">English</button>
+          <button id="langZh" onclick="switchLanguage('zh')">中文</button>
+        </div>
+        
+        <!-- English Version -->
+        <div id="contentEn" class="lang-content active">
+          <h1>Privacy Statement (English)</h1>
+          
+          <p>Thank you for your interest in our services. This Privacy Statement explains how we collect, use, and protect the personal information you provide through this form.</p>
+          
+          <h2>Information We Collect</h2>
+          <p>We will collect the personal information you voluntarily submit, including your name, work email address, and organization name (as filled in the form).</p>
+          
+          <h2>How We Use Your Information</h2>
+          <ul>
+            <li>To respond to your request (e.g., share demo materials, sample reports, or recommend solutions based on your data needs);</li>
+            <li>To communicate with you regarding follow-up services (e.g., confirming your requirements, providing technical support);</li>
+            <li>To improve our services (by analyzing legitimate, aggregated needs without identifying individual users).</li>
+          </ul>
+          
+          <h2>Data Protection</h2>
+          <ul>
+            <li>We will take reasonable technical and organizational measures (e.g., encryption, access control) to protect your information from unauthorized access, disclosure, or loss.</li>
+            <li>We will not share, sell, or transfer your personal information to third parties unless required by law or with your explicit consent.</li>
+          </ul>
+          
+          <h2>Your Rights</h2>
+          <p>You have the right to access, correct, or request deletion of your personal information held by us. To exercise these rights, please contact us via the email provided in subsequent communications.</p>
+          
+          <h2>Changes to This Statement</h2>
+          <p>We may update this Privacy Statement as needed. Any changes will be notified to you through appropriate channels.</p>
+          
+          <p>By submitting this form, you acknowledge that you have read and understood this Privacy Statement and consent to the collection and use of your information as described above.</p>
+        </div>
+        
+        <!-- Chinese Version -->
+        <div id="contentZh" class="lang-content">
+          <h1>隐私声明（中文）</h1>
+          
+          <p>感谢您对我们服务的关注。本隐私声明说明了我们如何收集、使用和保护您通过此表单提供的个人信息。</p>
+          
+          <h2>我们收集的信息</h2>
+          <p>我们将收集您自愿提交的个人信息，包括您的姓名、工作电子邮箱和组织名称（如您在表单中填写的内容）。</p>
+          
+          <h2>我们如何使用您的信息</h2>
+          <ul>
+            <li>回应用您的请求（例如，分享演示材料、样本报告或根据您的数据需求推荐解决方案）；</li>
+            <li>就后续服务与您沟通（例如，确认您的需求、提供技术支持）；</li>
+            <li>改进我们的服务（通过分析合法的、汇总的需求，而不识别个别用户）。</li>
+          </ul>
+          
+          <h2>数据保护</h2>
+          <ul>
+            <li>我们将采取合理的技术和组织措施（例如，加密、访问控制）保护您的信息，防止未授权访问、披露或丢失。</li>
+            <li>除非法律要求或获得您的明确同意，否则我们不会分享、出售或向第三方转移您的个人信息。</li>
+          </ul>
+          
+          <h2>您的权利</h2>
+          <p>您有权访问、更正或请求删除我们持有的您的个人信息。如需行使这些权利，请通过后续沟通中提供的电子邮箱与我们联系。</p>
+          
+          <h2>声明变更</h2>
+          <p>我们可能会根据需要更新本隐私声明。任何变更将通过适当渠道通知您。</p>
+          
+          <p>提交此表单即表示您已阅读并理解本隐私声明，并同意按照上述规定收集和使用您的信息。</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <p>&copy; 2025 ChuChiang Data. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <script>
+    function switchLanguage(lang) {
+      // Hide all language contents
+      document.querySelectorAll('.lang-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      // Remove active class from all buttons
+      document.querySelectorAll('.language-switcher button').forEach(button => {
+        button.classList.remove('active');
+      });
+      
+      // Show selected language content
+      document.getElementById('content' + lang.charAt(0).toUpperCase() + lang.slice(1)).classList.add('active');
+      
+      // Activate selected language button
+      document.getElementById('lang' + lang.charAt(0).toUpperCase() + lang.slice(1)).classList.add('active');
+    }
+  </script>
+</body>
+</html>
